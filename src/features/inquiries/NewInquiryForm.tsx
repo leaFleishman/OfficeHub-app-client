@@ -1,0 +1,1 @@
+// פנייה חדשה - POST /inquiries
