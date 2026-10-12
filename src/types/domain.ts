@@ -6,9 +6,9 @@ export type InquiryStatus = 'Open' | 'InProgress' | 'Closed';
 
 export type BookingStatus = 'Active' | 'Cancelled';
 
-export interface loginModel{
-     email: string;
-     password:string
+export interface loginModel {
+    email: string;
+    password: string
 }
 
 export interface User {
@@ -74,3 +74,10 @@ export type PageParams = { page: number; pageSize: number };
 
 export type Page<T> = { items: T[]; total: number; page: number; pageSize: number };
 
+export type UserContextType = {
+    user: User | null;
+    userLogin:(user:loginModel)=> Promise<void>
+    logout: () =>void
+    isLoading:boolean
+    
+}
