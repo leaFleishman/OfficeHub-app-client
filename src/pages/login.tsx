@@ -1,18 +1,52 @@
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useAuth } from "../auth/useAuth";
+import { useNavigate } from "react-router-dom";
 
 
-const Login=()=>{
-    const login=(e:)=>{
-    }
+const schema = z.object({
+    email: z.string().email("מייל לא תקין"),
+    password: z.string().min(4, "לפחות 4 תווים"),
+});
 
-return(
-    <div>
-<label htmlFor="email">מייל</label>
-<input type="email"   />
-<label htmlFor="password">סיסמה</label>
-<input type="password"  />
-<button onSubmit={login}>שליחה</button>
-    </div>
-)
+type FormData = z.infer<typeof schema>;
+
+export default function LoginForm() {
+    const navigate = useNavigate();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<FormData>({
+        resolver: zodResolver(schema),
+    });
+
+    const { userLogin } = useAuth();
+
+    const onSubmit = async (data: FormData) => {
+        try {
+            await userLogin(data);
+            navigate("/dashboard")
+        }
+        catch (error) {
+            console.error("Login failed:", error);
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <input placeholder="מייל" {...register("email")} />
+            <p>{errors.email?.message}</p>
+
+            <input
+                type="password"
+                placeholder="סיסמה"
+                {...register("password")}
+            />
+            <p>{errors.password?.message}</p>
+
+            <button type="submit">התחברות</button>
+        </form>
+    );
 }
-export default Login

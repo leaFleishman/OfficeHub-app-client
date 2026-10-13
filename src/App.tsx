@@ -1,12 +1,12 @@
-import Profile from "./pages/profile"
+import { Outlet } from "react-router-dom"
 
 function App() {
 
   return (
     <>
-     
-<Profile password="123" phone="054854" adress="jhkl" name="lea" email="ghjkg"></Profile>
-      
+
+      <Outlet>
+      </Outlet>
     </>
   )
 }
