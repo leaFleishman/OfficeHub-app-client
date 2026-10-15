@@ -13,7 +13,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <RouterProvider router={router}   future={{ v7_startTransition: true }}/>
+        <RouterProvider router={router}  future={{ v7_startTransition: true }}/>
 
       </AuthProvider>
     </QueryClientProvider>

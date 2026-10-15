@@ -3,13 +3,13 @@
 import { createBrowserRouter } from "react-router-dom"
 import App from "../App"
 import Login from "../pages/login"
-import Dashboard from "../features/dashboard/Dashboard"
+import Home from "../pages/home"
 
 
 export const router = createBrowserRouter([{
     path: "/", element: <App></App>, children: [
 
-        { index: true, element: <Dashboard></Dashboard> }
+        { index: true, path: "/home", element: <Home></Home> }
     ]
 }, {
     path: "/login", element: <Login></Login>

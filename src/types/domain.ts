@@ -1,5 +1,6 @@
 // הטיפוסים    - להעתיק מהשרת (src/types/domain.ts + src/constants.ts)
 
+
 export type Role = 'Employee' | 'Manager' | 'Admin';
 
 export type InquiryStatus = 'Open' | 'InProgress' | 'Closed';
@@ -44,19 +45,19 @@ export interface Room {
     createdAt: string;
 }
 
-export interface Booking {
+export type Booking = {
     id: number;
     roomId: number;
     roomName: string;
     userId: number;
     userName: string | null;
     subject: string | null;
-    start: string;
-    end: string;
+    date: string;
+    startTime: string;
+    endTime: string;
     status: BookingStatus;
-    createdAt: string;
-}
-
+    createdAt: Date;
+};
 export interface Inquiry {
     id: number;
     userId: number;
@@ -76,8 +77,9 @@ export type Page<T> = { items: T[]; total: number; page: number; pageSize: numbe
 
 export type UserContextType = {
     user: User | null;
-    userLogin:(user:loginModel)=> Promise<void>
-    logout: () =>void
-    isLoading:boolean
-    
+    userLogin: (user: loginModel) => Promise<void>
+    logout: () => void
+    isLoading: boolean
+
 }
+

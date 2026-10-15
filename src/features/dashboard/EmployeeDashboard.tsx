@@ -18,9 +18,9 @@ const EmployeeDashboard = () => {
          <div>
       <h1>לוח עובד משרד</h1>
       <div>
-        <StatCard title="ההזמנה הקרובה " value={data} />
-        <StatCard title="פניות פתוחות" value={data.openInquiries} />
-        <StatCard title="פגישות" value={`${data.occupancyRate}%`} />
+        <StatCard title=" פגישות " value={data.meetupcomingMeetings } />
+        <StatCard title="פניות פתוחות" value={data.openInquiries } />
+        <StatCard title="הפגישה הקרובה" value={data.nextMeeting} />
       </div>
       {/* להוסיף טבלאות/גרפים לפי צורך */}
     </div>

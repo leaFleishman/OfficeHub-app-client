@@ -46,7 +46,7 @@ export default function LoginForm() {
             />
             <p>{errors.password?.message}</p>
 
-            <button type="submit">התחברות</button>
+            <button type="submit" className="">התחברות</button>
         </form>
     );
 }

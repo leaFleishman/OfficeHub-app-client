@@ -1,4 +1,6 @@
 import { useAuth } from "../../auth/useAuth";
+import DashboardNavigation from "../../components/DashboardNavigation";
+import Message from "../../components/Message";
 import AdminDashboard from "./AdminDashboard";
 import EmployeeDashboard from "./EmployeeDashboard";
 import ManagerDashboard from "./ManagerDashboard";
@@ -8,22 +10,27 @@ const Dashboard = () => {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
-        return <p>טוען...</p>;
+        return <Message message="טוען..."></Message>
     }
 
     if (!user) {
-        return <p>יש להתחבר כדי להציג את לוח הבקרה.</p>;
+        return <Message message="יש להתחבר כדי להציג את לוח הבקרה."></Message>
     }
 
     if (user.role === "Admin") {
-        return <AdminDashboard />;
+
+        return(<><AdminDashboard /><DashboardNavigation></DashboardNavigation>;</>) 
     }
 
     if (user.role === "Manager") {
-        return <ManagerDashboard />;
+        return(<><ManagerDashboard />;
+        <DashboardNavigation></DashboardNavigation>
+        </>) 
     }
 
-    return <EmployeeDashboard />;
+    return(<><EmployeeDashboard></EmployeeDashboard>
+    <DashboardNavigation></DashboardNavigation>
+    </>) 
 };
 
 export default Dashboard;
