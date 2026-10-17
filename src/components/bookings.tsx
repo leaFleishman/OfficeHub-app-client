@@ -1,37 +1,61 @@
-import { useCancelMeeting, useMyBookings } from "../hooks/useBookings";
+import { useApiMutation } from "../hooks/useApiMutation";
+import { cancelBooking, getMyBookings } from "../api/bookings";
 import type { Booking } from "../types/domain";
-
-
+import Message from "./message";
+import { useApiQuery } from "../hooks/useApiQuery";
 
 const Bookings = () => {
-    const cancelMutation = useCancelMeeting();
-    const {
-        data: bookings,
-    } = useMyBookings();
+    const { data: bookings = [], isLoading,isError } = useApiQuery(['bookings'],getMyBookings);
 
-    return (<div>
-        <h1>הזמנות </h1>
+    // אחרי ביטול מוצלח, רענון הרשימה ["bookings"]
+    const cancelMutation = useApiMutation(cancelBooking, [["bookings"]]);
 
-        {bookings.map((booking: Booking) => (
-            <div key={booking.id}>
-                {<p>נקבעה פגישה עבור: {booking.userName} בתאריך: {booking.date}</p>}
-                {<p>בנושא: {booking.subject}</p>}
-                {<p>הפגישה תתקיים בחדר {booking.roomName} ,  {booking.roomId}</p>}
-                {<p>החל משעה {booking.startTime} ועד השעה{booking.endTime}</p>}
-                <button
-                    disabled={cancelMutation.isPending}
-                    onClick={() => {
-                        const confirmed = confirm("האם את מאשרת ביטול הפגישה?");
+    if (isLoading) {
+        return <Message message="טוען הזמנה..."></Message>;
+    }
+    if (isError) {
+        <Message message="שגיאת העלאת הקבצים"></Message>
+    }
 
-                        if (confirmed) {
-                            cancelMutation.mutate(booking);
-                        }
-                    }}
-                >
-                    {cancelMutation.isPending ? "מבטל..." : "ביטול הפגישה"}
-                </button>
-            </div>
-        ))}
-    </div>)
-}
-export default Bookings
+    return (
+        <div>
+            <h1>הזמנות</h1>
+
+            {cancelMutation.isError && (
+                <p>שגיאה: {cancelMutation.error.message}</p>
+            )}
+
+            {bookings.map((booking: Booking) => {
+                
+
+                return (
+                    <div key={booking.id}>
+                        <p>
+                            נקבעה פגישה עבור: {booking.userName}
+                            בתאריך: {booking.date}
+                        </p>
+
+                        <p>בנושא: {booking.subject}</p>
+
+                        <p>
+                            הפגישה תתקיים בחדר {booking.roomName},
+                            {booking.roomId}
+                        </p>
+
+                        <p>
+                            החל משעה {booking.startTime}
+                            ועד השעה {booking.endTime}
+                        </p>
+
+                        <button
+                            onClick={() => cancelMutation.mutate(booking)}>
+                        
+                        </button>
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+
+export default Bookings;

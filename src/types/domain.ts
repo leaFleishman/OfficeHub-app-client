@@ -3,7 +3,7 @@
 
 export type Role = 'Employee' | 'Manager' | 'Admin';
 
-export type InquiryStatus = 'Open' | 'InProgress' | 'Closed';
+export type InquiryStatus = 'Open' | 'InProgress' | 'Closed'|'All';
 
 export type BookingStatus = 'Active' | 'Cancelled';
 

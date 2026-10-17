@@ -1,15 +1,14 @@
+import { getMyBookings } from "../../api/bookings";
 import Bookings from "../../components/bookings";
-import Message from "../../components/Message";
-import { useMyBookings } from "../../hooks/useBookings";
+import Message from "../../components/message";
+import { useApiQuery } from "../../hooks/useApiQuery";
 
 // הפגישות שלי - GET /bookings/mine, ביטול פגישה
-const {
-    isPending,
-    isError,
-} = useMyBookings();
 
 
 export const NyBookings = () => {
+    const{isError,isPending}=useApiQuery(["bookings"],getMyBookings)
+
     if (isPending) {
         return <Message message="טוען הזמנות..."></Message>
     }

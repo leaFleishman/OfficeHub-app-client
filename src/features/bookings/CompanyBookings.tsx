@@ -1,5 +1,5 @@
 import Bookings from "../../components/bookings";
-import Message from "../../components/Message";
+import Message from "../../components/message";
 import { useCompanyBookings } from "../../hooks/useBookings";
 
 // הפגישות שלי - GET /bookings/mine, ביטול פגישה
@@ -17,7 +17,6 @@ export const AllBookings = () => {
     }
     if (isError) {
         return <Message message="טעינת ההזמנות נכשלה"></Message>;
-
     }
 
     return (<>

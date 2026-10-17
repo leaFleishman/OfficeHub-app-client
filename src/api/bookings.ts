@@ -5,7 +5,7 @@ import { api } from "./client"
 
 export const getMyBookings = async () => {
     const res = await api.get("bookings/mine")
-    return res.data
+    return res.data.items
 }
 
 export const getCompanyBookings = async () => {
@@ -13,7 +13,7 @@ export const getCompanyBookings = async () => {
     return res.data
 }
 
-export const cancelMeeting = async (booking: Booking) => {
+export const cancelBooking = async (booking: Booking) => {
 
     const res = await api.delete(`bookings/${booking.id}`)
     return res.data
