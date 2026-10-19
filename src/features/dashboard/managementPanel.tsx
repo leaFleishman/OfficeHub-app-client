@@ -9,8 +9,8 @@ const ManagermentPanel = () => {
             <h2>פאנל הניהול</h2>
 
             <button onClick={() => navigate("/dashboard")}>לוח בקרה </button>
-            <button onClick={() => navigate("/")}>פגישות</button>
-            <button onClick={() => navigate("/")}>פניות</button>
+            <button onClick={() => navigate("/bookings")}>פגישות</button>
+            <button onClick={() => navigate("/inquiries")}>פניות</button>
             {user?.role === "Admin" && (
                 <button onClick={() => navigate("/")}>ניהול</button>
             )}

@@ -1,6 +1,5 @@
 // getCompanies, getMyCompany, createCompany, updateCompany
 
-import type { Company } from "../types/domain"
 import { api } from "./client"
 
 export const getCompanies = async () => {

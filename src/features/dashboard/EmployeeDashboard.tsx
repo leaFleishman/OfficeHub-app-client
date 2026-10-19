@@ -1,10 +1,11 @@
 // לוח בקרה לעובד - GET /dashboard/employee
 
+import { getEmployeeDashboard } from "../../api/dashboard";
 import StatCard from "../../components/StatCard";
-import { useEmployeeDashboard } from "../../hooks/useDashboard";
+import { useApiQuery } from "../../hooks/useApiQuery";
 
 const EmployeeDashboard = () => {
-    const { data, isLoading, isError, error } = useEmployeeDashboard();
+    const { data, isLoading, isError, error } = useApiQuery([["employees","inquiries","bookings"]],getEmployeeDashboard);
 
     if (isLoading) {
         return <div><p>בטעינה...</p></div>;
@@ -17,7 +18,8 @@ const EmployeeDashboard = () => {
     return (
          <div>
       <h1>לוח עובד משרד</h1>
-      <div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
         <StatCard title=" פגישות " value={data.meetupcomingMeetings } />
         <StatCard title="פניות פתוחות" value={data.openInquiries } />
         <StatCard title="הפגישה הקרובה" value={data.nextMeeting} />

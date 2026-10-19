@@ -1,8 +1,9 @@
+import { getBuildingDashboard } from "../../api/dashboard";
 import StatCard from "../../components/StatCard";
-import { useBuildingDashboard } from "../../hooks/useDashboard";
+import { useApiQuery } from "../../hooks/useApiQuery";
 
 const AdminDashboard = () => {
-    const { data, isLoading, isError, error } = useBuildingDashboard();
+    const { data, isLoading, isError, error } = useApiQuery([["companies","rooms","inquiries","employees"]],getBuildingDashboard);
 
     if (isLoading) {
         return <div><p>בטעינה...</p></div>;
@@ -15,7 +16,7 @@ const AdminDashboard = () => {
     return (
          <div>
       <h1>לוח מנהל בניין</h1>
-      <div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard title="חברות" value={data.companies} />
         <StatCard title="עובדים" value={data.employees} />
         <StatCard title="חדרים בתפוסה" value={data.rooms} />
@@ -27,3 +28,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+

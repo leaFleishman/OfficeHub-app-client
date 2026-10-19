@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuth } from "../auth/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 
 const schema = z.object({
@@ -13,6 +14,9 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function LoginForm() {
+
+    const [isError, setIsError] = useState<boolean>(false);
+
     const navigate = useNavigate();
     const {
         register,
@@ -30,7 +34,9 @@ export default function LoginForm() {
             navigate("/home")
         }
         catch (error) {
-            console.error("Login failed:", error);
+            if (isError)
+                setIsError(false)
+            else setIsError(true)
         }
     };
 
@@ -47,6 +53,7 @@ export default function LoginForm() {
             <p>{errors.password?.message}</p>
 
             <button type="submit" className="">התחברות</button>
+            {isError && (<div><div>ההתחברות נכשלה. בדקי את כתובת המייל והסיסמה ונסי שוב.</div></div>)}
         </form>
     );
 }

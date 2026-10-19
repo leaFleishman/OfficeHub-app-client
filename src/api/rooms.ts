@@ -1,4 +1,3 @@
-import type { Room } from "../types/domain"
 import { api } from "./client"
 
 // , , , , , , 
@@ -20,11 +19,21 @@ export const getRoomBookings = async (id: number) => {
     return res.data
 }
 
-export const createRoom = async (name: string, copacity: number, floor: number, equipment: []) => {
-    const res = await api.post(`rooms`, { name, copacity, floor, equipment })
-    return res.data
-}
+export const createRoom = async (
+    name: string,
+    capacity: number,
+    floor: number,
+    equipment: string[]
+) => {
+    const res = await api.post("rooms", {
+        name,
+        capacity,
+        floor,
+        equipment,
+    });
 
+    return res.data;
+};
 export const updateRoom = async (id: number) => {
     const res = await api.put(`rooms/${id}`)
     return res.data

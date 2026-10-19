@@ -3,7 +3,7 @@ import { api } from "./client";
 
 export const getEmployees = async () => {
     const res = await api.get("employees")
-    return res.data
+    return res.data.items
 }
 
 export const getEmployeeById = async (id: number) => {
@@ -16,8 +16,8 @@ export const createEmployee = async (emp: User) => {
     return res.data
 }
 
-export const updateEmployee = async (emp: User) => {
-    const res = api.put(`employees/${emp.id}`)
+export const updateEmployee = async (id: number,name:string,email:string,phone:string) => {
+    const res = api.put(`employees/${id}`,{name,phone,email})
     return (await res).data
 }
 

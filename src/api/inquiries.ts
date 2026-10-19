@@ -1,14 +1,14 @@
-// , ,  (אדמין), , 
+// -----(אדמין)--------
 import type { InquiryStatus } from "../types/domain";
 import { api } from "./client";
 
 
 export const getAllInquiries = async () => {
     const res = await api.get("inquiries");
-    return res.data
+    return res.data.items
 }
 
-export const getMyInquiries = async (status:InquiryStatus,page:number,pageSize:number) => {
+export const getMyInquiries = async (status: InquiryStatus, page: number, pageSize: number) => {
     const res = await api.get("inquiries/mine", {
         params: {
             status,
@@ -16,12 +16,11 @@ export const getMyInquiries = async (status:InquiryStatus,page:number,pageSize:n
             pageSize,
         },
     });
-    return res.data
+    return res.data.items
 }
 
-export const getInquiriesById = async () => {
-
-    const res = await api.get(`inquiries/${user?.id}`);
+export const getInquiriesById = async (id: number) => {
+    const res = await api.get(`inquiries/${id}`);
     return res.data
 }
 

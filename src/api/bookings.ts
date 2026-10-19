@@ -8,8 +8,10 @@ export const getMyBookings = async () => {
     return res.data.items
 }
 
-export const getCompanyBookings = async () => {
-    const res = await api.get("bookings")
+export const getCompanyBookings = async (empId: number, roomIs: number, compId: number, from: string, to: string, page = 1, pageSize = 20) => {
+    const res = await api.get("bookings", {
+        params: { empId, roomIs, compId, from, to, page, pageSize },
+    })
     return res.data
 }
 
@@ -29,4 +31,3 @@ export const createBookings = async (booking: Booking) => {
     const res = await api.post("bookings", booking)
     return res.data
 }
-

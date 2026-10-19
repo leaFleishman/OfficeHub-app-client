@@ -18,6 +18,7 @@ export interface User {
     name: string;
     email: string;
     phone: string | null;
+    address: string | null;
     role: Role;
     isBlocked: boolean;
     createdAt: string;
@@ -79,6 +80,7 @@ export type UserContextType = {
     user: User | null;
     userLogin: (user: loginModel) => Promise<void>
     logout: () => void
+    updateUser: (user: User) => void
     isLoading: boolean
 
 }

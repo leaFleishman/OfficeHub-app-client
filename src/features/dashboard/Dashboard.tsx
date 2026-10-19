@@ -1,6 +1,6 @@
 import { useAuth } from "../../auth/useAuth";
-import DashboardNavigation from "../../components/DashboardNavigation";
-import Message from "../../components/Message";
+import Navbar from "../../components/Navbar";
+import Message from "../../components/message";
 import AdminDashboard from "./AdminDashboard";
 import EmployeeDashboard from "./EmployeeDashboard";
 import ManagerDashboard from "./ManagerDashboard";
@@ -19,17 +19,17 @@ const Dashboard = () => {
 
     if (user.role === "Admin") {
 
-        return(<><AdminDashboard /><DashboardNavigation></DashboardNavigation>;</>) 
+        return(<><AdminDashboard /><Navbar></Navbar></>) 
     }
 
     if (user.role === "Manager") {
-        return(<><ManagerDashboard />;
-        <DashboardNavigation></DashboardNavigation>
+        return(<><ManagerDashboard />
+        <Navbar></Navbar>
         </>) 
     }
 
     return(<><EmployeeDashboard></EmployeeDashboard>
-    <DashboardNavigation></DashboardNavigation>
+    <Navbar></Navbar>
     </>) 
 };
 
