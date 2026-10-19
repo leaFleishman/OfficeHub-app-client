@@ -1,6 +1,6 @@
 // getMyBookings, createBooking, cancelBooking, getBookings (מנהל/אדמין)
 
-import type { Booking } from "../types/domain"
+import type { Booking, CreateBookingInput } from "../types/domain"
 import { api } from "./client"
 
 export const getMyBookings = async () => {
@@ -27,7 +27,7 @@ export const getBookingsForRoom = async (id: number) => {
     return res.data
 }
 
-export const createBookings = async (booking: Booking) => {
+export const createBookings = async (booking: CreateBookingInput) => {
     const res = await api.post("bookings", booking)
     return res.data
 }

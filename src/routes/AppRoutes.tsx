@@ -8,6 +8,7 @@ import { CreateRoom } from "../features/rooms/createRoom";
 import EmployeeManagement from "../features/employees/EmployeeManagement";
 import Dashboard from "../features/dashboard/Dashboard";
 import Profile from "../pages/profile";
+import CreateBooking from "../features/bookings/createBooking";
 
 export const router = createBrowserRouter([
     {
@@ -17,10 +18,11 @@ export const router = createBrowserRouter([
             { path: "home", element: <Home />, },
             { path: "inquiries", element: <Inquiries></Inquiries> },
             { path: "bookings", element: <Bookings></Bookings> },
-            { path: "NewBookingForm", element: <CreateRoom></CreateRoom> },
+            { path: "NewBookingForm", element: <CreateBooking ></CreateBooking> },
             { path: "EmployeeManagement", element: <EmployeeManagement></EmployeeManagement> },
             { path: "dashboard", element: <Dashboard></Dashboard> },
-            { path: "profile", element: <Profile ></Profile> }
+            { path: "profile", element: <Profile ></Profile> },
+            { path: "CreateRoom", element: <CreateRoom /> }
 
         ],
     },

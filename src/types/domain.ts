@@ -3,7 +3,7 @@
 
 export type Role = 'Employee' | 'Manager' | 'Admin';
 
-export type InquiryStatus = 'Open' | 'InProgress' | 'Closed'|'All';
+export type InquiryStatus = 'Open' | 'InProgress' | 'Closed' | 'All';
 
 export type BookingStatus = 'Active' | 'Cancelled';
 
@@ -58,7 +58,20 @@ export type Booking = {
     endTime: string;
     status: BookingStatus;
     createdAt: Date;
+    participants?: {
+  id: number;
+  name: string;
+}[];
 };
+
+export type CreateBookingInput = {
+    roomId: number;
+    subject: string;
+    start: string;
+    end: string;
+    participantIds: number[];
+}
+
 export interface Inquiry {
     id: number;
     userId: number;
