@@ -27,16 +27,14 @@ export default function LoginForm() {
     });
 
     const { userLogin } = useAuth();
-
     const onSubmit = async (data: FormData) => {
+        setIsError(false);
+
         try {
             await userLogin(data);
-            navigate("/home")
-        }
-        catch (error) {
-            if (isError)
-                setIsError(false)
-            else setIsError(true)
+            navigate("/home");
+        } catch {
+            setIsError(true);
         }
     };
 
