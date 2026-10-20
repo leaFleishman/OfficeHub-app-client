@@ -1,6 +1,7 @@
 // הפניות שלי - GET /inquiries/mine
 
 import { getMyInquiries } from "../../api/inquiries";
+import InquiryCard from "../../components/InqueryCard";
 import Message from "../../components/message";
 import { useApiQuery } from "../../hooks/useApiQuery";
 import type { Inquiry } from "../../types/domain";
@@ -34,31 +35,12 @@ const MyInquiries = () => {
     <main dir="rtl">
       <h1>הפניות שלי</h1>
 
-      <ul>
-        {inquiries.map((inquiry) => (
-          <li key={inquiry.id}>
-            <p>נושא הפנייה: {inquiry.subject}</p>
-            <p>תוכן הפנייה: {inquiry.content}</p>
-            <p>סטטוס: {inquiry.status}</p>
 
-            <details name="inquiries">
-              <summary>פרטים נוספים</summary>
+      <div>
+        {inquiries.map((i: Inquiry) => (
+          <InquiryCard key={i.id} inquery={i} />
 
-              <p>נוצרה בתאריך: {inquiry.createdAt}</p>
-
-              <p>
-                תגובת המערכת: {inquiry.reply ?? "אין תגובה"}
-              </p>
-
-              {inquiry.status === "Closed" && (
-                <p>
-                  טופלה על ידי: {inquiry.handledBy ?? "לא צוין"}
-                </p>
-              )}
-            </details>
-          </li>
-        ))}
-      </ul>
+        ))}</div>
     </main>
   );
 };

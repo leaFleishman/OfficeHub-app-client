@@ -30,7 +30,6 @@ export const AddInquiries = async (sub: string, con: string) => {
 }
 
 export const updateInquiry = async (id: number, status: string, reply: string) => {
-    const res = await api.put(`inquiries/${id}`, { status, reply })
+    const res = await api.patch(`inquiries/${id}`, { status, reply })
     return res.data
 }
-

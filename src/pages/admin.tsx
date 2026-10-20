@@ -15,7 +15,12 @@ return(<>
     <button type="button" onClick={() => navigate("/employees/new")}>
         הוסף עובד
     </button>
+    
+
+    
 )}
+
+<button onClick={()=>navigate("/CreateBooking")}>הוסף הזמנה</button>
 
 
 

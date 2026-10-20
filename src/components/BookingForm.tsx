@@ -1,5 +1,7 @@
 
+import { Controller } from "react-hook-form";
 import type {
+    Control,
     FieldErrors,
     UseFormRegister,
     UseFormSetValue,
@@ -13,6 +15,7 @@ import Message from "./message";
 
 type Props = {
     register: UseFormRegister<BookingFormValues>;
+    control: Control<BookingFormValues>;
     errors: FieldErrors<BookingFormValues>;
     setValue: UseFormSetValue<BookingFormValues>;
     employees: User[];
@@ -34,6 +37,7 @@ type Props = {
 
 const BookingForm = ({
     register,
+    control,
     errors,
     setValue,
     employees,
@@ -52,6 +56,12 @@ const BookingForm = ({
     isError,
     onSubmit,
 }: Props) => {
+    const participantIdsError =
+        errors.participantIds?.message ??
+        (Array.isArray(errors.participantIds)
+            ? errors.participantIds.find((error) => error?.message)?.message
+            : undefined);
+
     return (
         <form onSubmit={onSubmit} className="space-y-4">
             <FormField
@@ -77,6 +87,48 @@ const BookingForm = ({
                 error={errors.endTime?.message}
                 {...register("endTime")}
             />
+
+            <FormField
+                id="participantIds"
+                label="משתתפים"
+                error={participantIdsError}
+            >
+                <Controller
+                    name="participantIds"
+                    control={control}
+                    render={({ field }) => (
+                        <select
+                            id="participantIds"
+                            multiple
+                            className="min-h-24 rounded-lg border border-slate-300 px-3 py-2"
+                            aria-invalid={Boolean(errors.participantIds)}
+                            name={field.name}
+                            ref={field.ref}
+                            onBlur={field.onBlur}
+                            value={field.value.map(String)}
+                            onChange={(e) =>
+                                field.onChange(
+                                    Array.from(e.target.selectedOptions, (option) =>
+                                        Number(option.value)
+                                    )
+                                )
+                            }
+                        >
+                            {employees.map((employee) => (
+                                <option key={employee.id} value={employee.id}>
+                                    {employee.name}
+                                </option>
+                            ))}
+                        </select>
+                    )}
+                />
+            </FormField>
+
+            {employeesLoading && <p>טוען רשימת עובדים...</p>}
+
+            {employeesFailed && (
+                <Message message="טעינת רשימת העובדים נכשלה." />
+            )}
 
             {hasValidSchedule && (
                 <section className="space-y-2">
@@ -132,37 +184,6 @@ const BookingForm = ({
                 {...register("subject")}
             />
 
-            <FormField
-                id="participantIds"
-                label="משתתפים"
-                error={errors.participantIds?.message}
-            >
-                <select
-                    id="participantIds"
-                    multiple
-                    className="min-h-24 rounded-lg border border-slate-300 px-3 py-2"
-                    aria-invalid={Boolean(errors.participantIds)}
-                    {...register("participantIds", {
-                        setValueAs: (values: unknown) =>
-                            Array.isArray(values)
-                                ? values.map(Number)
-                                : [],
-                    })}
-                >
-                    {employees.map((employee) => (
-                        <option key={employee.id} value={employee.id}>
-                            {employee.name}
-                        </option>
-                    ))}
-                </select>
-            </FormField>
-
-            {employeesLoading && <p>טוען רשימת עובדים...</p>}
-
-            {employeesFailed && (
-                <Message message="טעינת רשימת העובדים נכשלה." />
-            )}
-
             {isError && (
                 <Message message="שמירת ההזמנה נכשלה. בדקי את הפרטים ונסי שוב." />
             )}
@@ -171,7 +192,7 @@ const BookingForm = ({
                 <p role="status">ההזמנה נשמרה בהצלחה.</p>
             )}
 
-            <button
+            <button 
                 type="submit"
                 disabled={isPending || !hasValidSchedule}
                 className="rounded-lg bg-blue-600 px-4 py-2 text-white disabled:opacity-50"

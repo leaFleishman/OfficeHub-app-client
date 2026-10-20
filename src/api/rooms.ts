@@ -6,9 +6,9 @@ export const getRooms = async () => {
     return res.data
 }
 
-export const getAvailableRooms = async (start: string, end: string, minCopacity: number, page: number, pageSize: number) => {
-    const res = await api.get("rooms/available", { params: { start, end, minCopacity, page, pageSize } })
-    return res.data
+export const getAvailableRooms = async (start: string, end: string, minCapacity: number, page: number, pageSize: number) => {
+    const res = await api.get("rooms/available", { params: { start, end, minCapacity, page, pageSize } })
+    return res.data.items
 }
 export const getRoom = async (id: number) => {
     const res = await api.get(`rooms/${id}`)
@@ -42,5 +42,4 @@ export const deleteRoom = async (id: number) => {
     const res = await api.delete(`rooms/${id}`)
     return res.data
 }
-
 

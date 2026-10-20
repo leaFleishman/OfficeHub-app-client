@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { createBookings } from "../../api/bookings";
@@ -15,6 +16,8 @@ const PAGE = 1;
 const PAGE_SIZE = 20;
 
 const CreateBooking = () => {
+    const navigate = useNavigate();
+
     const {
         data: employees = [],
         isLoading: employeesLoading,
@@ -23,6 +26,7 @@ const CreateBooking = () => {
 
     const {
         register,
+        control,
         handleSubmit,
         setValue,
         watch,
@@ -48,7 +52,7 @@ const CreateBooking = () => {
         roomId,
     } = watch();
 
-    const minCopacity = participantIds.length;
+    const minCapacity = participantIds.length + 1;
 
     const hasValidSchedule =
         /^\d{4}-\d{2}-\d{2}$/.test(date) &&
@@ -56,21 +60,21 @@ const CreateBooking = () => {
         /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(endTime) &&
         endTime > startTime;
 
-    const start = hasValidSchedule
-        ? `${date}T${startTime}:00`
-        : "";
+const start = hasValidSchedule
+    ? new Date(`${date}T${startTime}:00`).toISOString()
+    : "";
 
-    const end = hasValidSchedule
-        ? `${date}T${endTime}:00`
-        : "";
-
+const end = hasValidSchedule
+    ? new Date(`${date}T${endTime}:00`).toISOString()
+    : "";
     const {
         data: rooms = [],
         isLoading: roomsLoading,
         isError: roomsFailed,
     } = useApiQuery<Room[]>(
-        ["availableRooms", start, end, minCopacity, PAGE, PAGE_SIZE],
-        () => getAvailableRooms(start, end, minCopacity, PAGE, PAGE_SIZE)
+        ["availableRooms", start, end, minCapacity, PAGE, PAGE_SIZE],
+        () => getAvailableRooms(start, end, minCapacity, PAGE, PAGE_SIZE),
+        { enabled: hasValidSchedule }
     );
 
     const mutation = useApiMutation(
@@ -89,23 +93,29 @@ const CreateBooking = () => {
             });
 
             setValue("selectedSchedule", "");
-
             alert("פרטי הזמן השתנו. יש לבחור חדר מחדש.");
             return;
         }
 
-        const payload = {
-            ...booking,
-            start: `${booking.date}T${booking.startTime}:00`,
-            end: `${booking.date}T${booking.endTime}:00`,
-        } as CreateBookingInput;
+       
+const payload: CreateBookingInput = {
+    roomId: booking.roomId,
+    subject: booking.subject,
+    date: booking.date,
+    startTime: booking.startTime,
+    endTime: booking.endTime,
+    participantIds: booking.participantIds,
+};
 
-        mutation.mutate(payload);
+        mutation.mutate(payload, {
+            onSuccess: () => navigate("/home"),
+        });
     };
 
     return (
         <BookingForm
             register={register}
+            control={control}
             errors={errors}
             setValue={setValue}
             employees={employees}
