@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { Inquiry } from "../../types/domain";
 import { getInquiriesById, updateInquiry } from "../../api/inquiries";
 import { useApiMutation } from "../../hooks/useApiMutation";
@@ -12,6 +12,7 @@ type InquiryEditorProps = {
 
 const InquiryEditor = ({ inquiry }: InquiryEditorProps) => {
     const [reply, setReply] = useState(inquiry.reply ?? "");
+    const navigate = useNavigate();
 
     const updateInquiryMutation = useApiMutation(
         ({ id, status, reply }: { id: number; status: string; reply: string }) =>
@@ -31,14 +32,15 @@ const InquiryEditor = ({ inquiry }: InquiryEditorProps) => {
             />
             <button
                 type="button"
-                onClick={() =>{
+                onClick={() => {
                     updateInquiryMutation.mutate({
                         id: inquiry.id,
                         status: inquiry.status === "Open" ? "InProgress" : "Closed",
                         reply,
-                    }) 
-                    navigation.navigate("/home") }
-                }
+                    }, {
+                        onSuccess: () => navigate("/home"),
+                    });
+                }}
                 disabled={updateInquiryMutation.isPending}
             >
                 עדכון פנייה

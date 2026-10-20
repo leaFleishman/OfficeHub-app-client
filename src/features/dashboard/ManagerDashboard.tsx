@@ -19,7 +19,6 @@ const ManagerDashboard = () => {
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
-            <h1 className=" text-red-600">לוח מנהל בניין</h1>
             <div className="flex flex-nowrap gap-4">
                 <StatCard title=" עובדים פעילים" value={data.employees.active} />
                 <StatCard title="עובדים חסומים" value={data.employees.blocked} />

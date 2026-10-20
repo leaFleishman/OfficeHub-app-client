@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import z from "zod";
 import { useApiMutation } from "../../hooks/useApiMutation";
 import { AddInquiries } from "../../api/inquiries";
@@ -8,13 +9,14 @@ import FormField from "../../components/FormField";
 // פנייה חדשה - POST /inquiries
 
 const schema = z.object({
-    sub: z.string().min(3, "נושא חייב להכיל לפחות 3 תווים"),
-    con: z.string().min(4, "לפחות 4 תווים"),
+    subject: z.string().min(3, "נושא חייב להכיל לפחות 3 תווים"),
+    content: z.string().min(4, "לפחות 4 תווים"),
 });
 
 type FormData = z.infer<typeof schema>;
 
 const NewInquiryForm = () => {
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -24,13 +26,14 @@ const NewInquiryForm = () => {
     });
 
     const mutation = useApiMutation(
-        (data: FormData) => AddInquiries(data.sub, data.con),
+        (data: FormData) => AddInquiries(data.subject, data.content),
         [["inquiries"]]
     );
 
     const onSubmit = (data: FormData) => {
-        mutation.mutate(data);
-        navigation.navigate("/home")
+        mutation.mutate(data, {
+            onSuccess: () => navigate("/home"),
+        });
     };
 
     return (
@@ -38,15 +41,15 @@ const NewInquiryForm = () => {
             <FormField
                 id="sub"
                 label="נושא"
-                error={errors.sub?.message ?? ""}
-                {...register("sub")}
+                error={errors.subject?.message ?? ""}
+                {...register("subject")}
             />
 
             <FormField
                 id="con"
                 label="תוכן הפנייה"
-                error={errors.con?.message ?? ""}
-                {...register("con")}
+                error={errors.content?.message ?? ""}
+                {...register("content")}
             />
 
             <button

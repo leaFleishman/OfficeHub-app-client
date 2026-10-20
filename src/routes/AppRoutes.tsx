@@ -15,6 +15,9 @@ import MyInquiries from "../features/inquiries/MyInquiries";
 import AllInquiries from "../features/inquiries/allInquires";
 import { InquiryManagement } from "../features/inquiries/InquiryManagement";
 import NewInquiryForm from "../features/inquiries/NewInquiryForm";
+import { MyBookings } from "../features/bookings/MyBookings";
+import Meetings from "../pages/meetings";
+import InquiriesPage from "../pages/InquiriesPage";
 
 export const router = createBrowserRouter([
     {
@@ -35,7 +38,10 @@ export const router = createBrowserRouter([
             { path: "CreateBooking", element: <CreateBooking></CreateBooking> },
             {path:"AllInquires" ,element:<AllInquiries></AllInquiries>},
             {path:"InquiryManagement/:id",element:<InquiryManagement></InquiryManagement>},
-            {path:"NewInquiryForm",element:<NewInquiryForm></NewInquiryForm>}
+            {path:"NewInquiryForm",element:<NewInquiryForm></NewInquiryForm>},
+            { path: "MyBookings", element: <MyBookings /> },
+            {path:"Meetings",element:<Meetings></Meetings>},
+            {path:"InquiriesPage",element:<InquiriesPage></InquiriesPage>}
         ],
     },
     { path: "/login", element: <Login />, },

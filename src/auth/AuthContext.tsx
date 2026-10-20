@@ -7,7 +7,6 @@ export const AuthContext = createContext<UserContextType | null>(null);
 
 
 
-
 export const AuthProvider = ({
     children,
 }: {
@@ -17,6 +16,12 @@ export const AuthProvider = ({
 
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
+
+    const logout = (): void => {
+        localStorage.removeItem("token");
+        setUser(null);
+        navigation.navigate("/login")
+    };
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
@@ -38,10 +43,6 @@ export const AuthProvider = ({
         }
     }
 
-    const logout = (): void => {
-        localStorage.removeItem('token')
-        setUser(null)
-    }
 
     return (
         <AuthContext.Provider value={{ user, userLogin, logout, updateUser: setUser, isLoading }}>
@@ -49,4 +50,3 @@ export const AuthProvider = ({
         </AuthContext.Provider>
     );
 };
-

@@ -108,7 +108,7 @@ const payload: CreateBookingInput = {
 };
 
         mutation.mutate(payload, {
-            onSuccess: () => navigate("/home"),
+            onSuccess: () => navigate("/Meetings"),
         });
     };
 

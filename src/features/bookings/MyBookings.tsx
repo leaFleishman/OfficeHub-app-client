@@ -6,7 +6,7 @@ import { useApiQuery } from "../../hooks/useApiQuery";
 // הפגישות שלי - GET /bookings/mine, ביטול פגישה
 
 
-export const NyBookings = () => {
+export const MyBookings = () => {
     const{isError,isPending}=useApiQuery(["bookings"],getMyBookings)
 
     if (isPending) {
@@ -20,7 +20,6 @@ export const NyBookings = () => {
         <Bookings></Bookings>
     </>)
 }
-
 
 
 

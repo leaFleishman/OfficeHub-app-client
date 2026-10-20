@@ -15,7 +15,7 @@ type CompanyBookingsResponse = {
     items: Booking[];
 };
 
-export const AllBookings = ({
+export const CompanyBookings = ({
     empId,
     roomId,
     companyId,

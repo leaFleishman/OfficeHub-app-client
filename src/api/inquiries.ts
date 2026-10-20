@@ -24,8 +24,8 @@ export const getInquiriesById = async (id: number) => {
     return res.data
 }
 
-export const AddInquiries = async (sub: string, con: string) => {
-    const res = await api.post("inquiries", { sub, con })
+export const AddInquiries = async (subject: string, content: string) => {
+    const res = await api.post("inquiries", { subject, content })
     return res.data
 }
 
