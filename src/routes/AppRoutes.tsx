@@ -10,6 +10,8 @@ import Dashboard from "../features/dashboard/Dashboard";
 import Profile from "../pages/profile";
 import CreateBooking from "../features/bookings/createBooking";
 import Admin from "../pages/admin";
+import EmployeeForm from "../components/EmployeeForm";
+import CompanyForm from "../components/CompanyForm";
 
 export const router = createBrowserRouter([
     {
@@ -24,7 +26,9 @@ export const router = createBrowserRouter([
             { path: "dashboard", element: <Dashboard></Dashboard> },
             { path: "profile", element: <Profile ></Profile> },
             { path: "CreateRoom", element: <CreateRoom /> }
-            , { path: "admin", element: <Admin></Admin> }
+            , { path: "admin", element: <Admin></Admin> },
+            { path: "employees/new", element: <EmployeeForm /> },
+            {path:"CompanyForm",element:<CompanyForm></CompanyForm>}
         ],
     },
     { path: "/login", element: <Login />, },

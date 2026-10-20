@@ -4,7 +4,7 @@ type messageProps = {
 }
 
 const Message = ({ message }: messageProps) =>
-    <div><p>{message}</p></div>
+    <div><p role="alert">{message}</p></div>
 
 
 export default Message

@@ -1,12 +1,18 @@
 import { useState } from "react";
-
-import { getEmployeeById } from "../api/employees";
+import { blockUser, getEmployeeById } from "../api/employees";
 import { useApiQuery } from "../hooks/useApiQuery";
 import type { User } from "../types/domain";
+import { useApiMutation } from "../hooks/useApiMutation";
+import ConfirmDialog from "./ConfirmDialog";
 
 const Employee = (user: User) => {
-    const { id, isBlocked, phone, email } = user;
+    const { id, isBlocked, phone, email, name } = user;
     const [showDetails, setShowDetails] = useState(false);
+    const [isBlockDialogOpen, setIsBlockDialogOpen] = useState(false);
+    const mutation = useApiMutation(
+        (employeeId: number) => blockUser(employeeId),
+        [["employees"]]
+    );
 
     const {
         isLoading,
@@ -58,6 +64,34 @@ const Employee = (user: User) => {
                     </div>
                 </div>
             )}
+            {!isBlocked && (
+                <button
+                    type="button"
+                    onClick={() => setIsBlockDialogOpen(true)}
+                    disabled={mutation.isPending}
+                >
+                    חסימת עובד
+                </button>
+            )}
+
+            {mutation.isError && (
+                <p role="alert">חסימת העובד נכשלה: {mutation.error.message}</p>
+            )}
+
+            <ConfirmDialog
+                isOpen={isBlockDialogOpen}
+                title="חסימת עובד"
+                message={`האם לחסום את ${name}?`}
+                confirmText="כן, לחסום"
+                cancelText="ביטול"
+                onConfirm={() =>
+                    mutation.mutate(id, {
+                        onSuccess: () => setIsBlockDialogOpen(false),
+                    })
+                }
+                onCancel={() => setIsBlockDialogOpen(false)}
+                isLoading={mutation.isPending}
+            />
         </div>
     );
 };

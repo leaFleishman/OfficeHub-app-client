@@ -1,4 +1,4 @@
-import type { Role, User } from "../types/domain";
+import type { CreateEmployeeInput, Role } from "../types/domain";
 import { api } from "./client";
 
 export const getEmployees = async () => {
@@ -11,7 +11,7 @@ export const getEmployeeById = async (id: number) => {
     return res.data
 }
 
-export const createEmployee = async (emp: User) => {
+export const createEmployee = async (emp: CreateEmployeeInput) => {
     const res = await api.post("employees", emp)
     return res.data
 }

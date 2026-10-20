@@ -24,6 +24,11 @@ export interface User {
     createdAt: string;
 }
 
+export type CreateEmployeeInput = Pick<
+    User,
+    "name" | "email" | "phone" | "address" | "role"
+>;
+
 export interface LoginResponse {
     token: string;
     user: User;
@@ -59,18 +64,19 @@ export type Booking = {
     status: BookingStatus;
     createdAt: Date;
     participants?: {
-  id: number;
-  name: string;
-}[];
+        id: number;
+        name: string;
+    }[];
 };
 
 export type CreateBookingInput = {
     roomId: number;
     subject: string;
-    start: string;
-    end: string;
+    date: string;
+    startTime: string;
+    endTime: string;
     participantIds: number[];
-}
+};
 
 export interface Inquiry {
     id: number;
@@ -97,4 +103,3 @@ export type UserContextType = {
     isLoading: boolean
 
 }
-

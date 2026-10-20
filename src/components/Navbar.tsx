@@ -11,7 +11,7 @@ const navigate=useNavigate()
             <div> <button onClick={()=>navigate("/inquiries")}>פניות</button></div>
             <div> <button onClick={()=>navigate("")}>הזמנת חדר לפגישה</button></div>
             <div> <button onClick={()=>navigate("/profile")}>עריכת פרופיל</button></div>
-            { user?.role!== "Employee" && <div><button onClick={()=>navigate("")}>ניהול</button></div>}
+            { user?.role!== "Employee" && <div><button onClick={()=>navigate("/admin")}>ניהול</button></div>}
 
         </div>
 
