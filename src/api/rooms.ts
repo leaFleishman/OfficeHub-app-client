@@ -1,9 +1,11 @@
+import type { Room } from "../types/domain"
 import { api } from "./client"
 
-// , , , , , , 
+export type RoomInput = Pick<Room, "name" | "capacity" | "floor" | "equipment">
+
 export const getRooms = async () => {
     const res = await api.get("rooms")
-    return res.data
+    return res.data.items
 }
 
 export const getAvailableRooms = async (start: string, end: string, minCapacity: number, page: number, pageSize: number) => {
@@ -19,27 +21,16 @@ export const getRoomBookings = async (id: number) => {
     return res.data
 }
 
-export const createRoom = async (
-    name: string,
-    capacity: number,
-    floor: number,
-    equipment: string[]
-) => {
-    const res = await api.post("rooms", {
-        name,
-        capacity,
-        floor,
-        equipment,
-    });
+export const createRoom = async (room: RoomInput) => {
+    const res = await api.post("rooms", room);
 
     return res.data;
 };
-export const updateRoom = async (id: number) => {
-    const res = await api.put(`rooms/${id}`)
+export const updateRoom = async (id: number, room: RoomInput) => {
+    const res = await api.put(`rooms/${id}`,room)
     return res.data
 }
 export const deleteRoom = async (id: number) => {
     const res = await api.delete(`rooms/${id}`)
     return res.data
 }
-

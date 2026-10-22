@@ -1,17 +1,14 @@
 import { getBuildingDashboard } from "../../api/dashboard";
+import QueryMessage from "../../components/QueryMessage ";
 import StatCard from "../../components/StatCard";
 import { useApiQuery } from "../../hooks/useApiQuery";
 
 const AdminDashboard = () => {
-    const { data, isLoading, isError, error } = useApiQuery([["companies","rooms","inquiries","employees"]],getBuildingDashboard);
+    const { data, isPending, isError } = useApiQuery([["companies","rooms","inquiries","employees"]],getBuildingDashboard);
+const queryMessage =(<QueryMessage errorMessage="שגיאה בטעינה" loadingMessage="טוען חדרים..."  isError={isError} isPending={isPending}></QueryMessage>)
 
-    if (isLoading) {
-        return <div><p>בטעינה...</p></div>;
-    }
-
-    if (isError) {
-        return <div>שגיאה: {String(error)}</div>;
-    }
+   if (isPending || isError)
+    return queryMessage
 
     return (
          <div>
@@ -27,4 +24,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-

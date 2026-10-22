@@ -3,16 +3,19 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import type { loginModel, User, UserContextType } from "../types/domain";
 import { getMe, login } from "../api/auth";
+import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext<UserContextType | null>(null);
 
 
 
 export const AuthProvider = ({
+
     children,
 }: {
     children: ReactNode;
 }) => {
 
+        const navigate = useNavigate()
 
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -20,7 +23,7 @@ export const AuthProvider = ({
     const logout = (): void => {
         localStorage.removeItem("token");
         setUser(null);
-        navigation.navigate("/login")
+        navigate("/login")
     };
 
     useEffect(() => {

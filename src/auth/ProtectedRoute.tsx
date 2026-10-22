@@ -1,26 +1,26 @@
-// עוטף נתיב: אם לא מחובר -> /login, אם התפקיד לא מתאים -> הפניה
-// import { useAuth } from "../auth/useAuth";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../auth/useAuth";
 
-// type ProtectedRouteProps = {
-//     allowedRoles: string[];
-// };
+type ProtectedRouteProps = {
+    allowedRoles: string[];
+};
 
-// const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
-//     const { user, isLoading } = useAuth();
+const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
+    const { user, isLoading } = useAuth();
 
-//     if (isLoading) {
-//         return <div>Loading...</div>;
-//     }
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
-//     if (!user) {
-//         return <Navigate to="/login" replace />;
-//     }
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
 
-//     if (!allowedRoles.includes(user.role)) {
-//         return <Navigate to="/unauthorized" replace />;
-//     }
+    if (!allowedRoles.includes(user.role)) {
+        return <Navigate to="/login" replace />;
+    }
 
-//     return <Outlet />;
-// };
+    return <Outlet />;
+};
 
-// export default ProtectedRoute;
+export default ProtectedRoute;

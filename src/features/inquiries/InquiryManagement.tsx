@@ -5,6 +5,8 @@ import { getInquiriesById, updateInquiry } from "../../api/inquiries";
 import { useApiMutation } from "../../hooks/useApiMutation";
 import { useApiQuery } from "../../hooks/useApiQuery";
 import Message from "../../components/message";
+import { useAuth } from "../../auth/useAuth";
+import QueryMessage from "../../components/QueryMessage ";
 
 type InquiryEditorProps = {
     inquiry: Inquiry;
@@ -51,30 +53,37 @@ const InquiryEditor = ({ inquiry }: InquiryEditorProps) => {
 
 export const InquiryManagement = () => {
     const { id } = useParams<{ id: string }>();
+    const { user } = useAuth()
+    const navigate = useNavigate()
     const inquiryId = Number(id);
     const hasValidId = Number.isInteger(inquiryId) && inquiryId > 0;
     const {
         data: inquiry,
-        isLoading,
+        isPending,
         isError,
-        error,
     } = useApiQuery<Inquiry>(
         ["inquiries", inquiryId],
         () => getInquiriesById(inquiryId),
         { enabled: hasValidId }
     );
 
+    if (user?.role !== "Admin" && user?.id !== inquiry?.userId) {
+        setTimeout(() => {
+            navigate("/home");
+        }, 2000);
+
+        return <Message message="אין לך הרשאה!" />;
+
+    }
+
     if (!hasValidId) {
         return <Message message="מזהה הפנייה אינו תקין." />;
     }
 
-    if (isLoading) {
-        return <Message message="טוען את הפנייה..." />;
-    }
+    const queryMessage =(<QueryMessage errorMessage="טעינת הפניות נכשלה" loadingMessage="טוען פניות..."  isError={isError} isPending={isPending}></QueryMessage>)
 
-    if (isError) {
-        return <Message message={`טעינת הפנייה נכשלה: ${error.message}`} />;
-    }
+   if (isPending || isError)
+    return queryMessage
 
     if (!inquiry) {
         return <Message message="הפנייה לא נמצאה." />;

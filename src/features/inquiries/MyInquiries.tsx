@@ -3,30 +3,23 @@
 import { getMyInquiries } from "../../api/inquiries";
 import InquiryCard from "../../components/InqueryCard";
 import Message from "../../components/message";
+import QueryMessage from "../../components/QueryMessage ";
 import { useApiQuery } from "../../hooks/useApiQuery";
 import type { Inquiry } from "../../types/domain";
 
 const MyInquiries = () => {
   const {
     data: inquiries = [],
-    error,
     isError,
-    isLoading,
+    isPending,
   } = useApiQuery<Inquiry[]>(
     ["inquiries"],
     () => getMyInquiries("All", 1, 20)
   );
+const queryMessage =(<QueryMessage errorMessage="טעינת פניות נכשלה" loadingMessage="טוען פניות..."  isError={isError} isPending={isPending}></QueryMessage>)
 
-  if (isLoading) {
-    return <Message message="טוען פניות..." />;
-  }
-
-  if (isError) {
-    return (
-      <Message message={`טעינת פניות נכשלה: ${error.message}`} />
-    );
-  }
-
+   if (isPending || isError)
+    return queryMessage
   if (inquiries.length === 0) {
     return <Message message="לא נמצאו פניות." />;
   }

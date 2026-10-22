@@ -23,13 +23,11 @@ const Dashboard = () => {
     }
 
     if (user.role === "Manager") {
-        return(<><ManagerDashboard />
-        <Navbar></Navbar>
+        return(<><ManagerDashboard /><Navbar></Navbar>
         </>) 
     }
 
     return(<><EmployeeDashboard></EmployeeDashboard>
-    <Navbar></Navbar>
     </>) 
 };
 

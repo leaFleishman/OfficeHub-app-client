@@ -1,9 +1,14 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { createRoom } from "../../api/rooms";
+import { createRoom, getRoom, updateRoom, type RoomInput } from "../../api/rooms";
 import { useApiMutation } from "../../hooks/useApiMutation";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useApiQuery } from "../../hooks/useApiQuery";
+import Message from "../../components/message";
+import type { Room } from "../../types/domain";
+import QueryMessage from "../../components/QueryMessage ";
 
 const schema = z.object({
   name: z.string().trim().min(3, "השם חייב להכיל לפחות 3 תווים"),
@@ -14,21 +19,17 @@ const schema = z.object({
 
 type RoomFormData = z.infer<typeof schema>;
 
-export const CreateRoom = () => {
-  const createRoomMutation = useApiMutation(
-    (data: RoomFormData) =>
-      createRoom(
-        data.name,
-        data.capacity,
-        data.floor,
-        data.equipment
-      ),
+const RoomForm = ({ room }: { room?: Room }) => {
+  const navigate = useNavigate();
+  const roomMutation = useApiMutation(
+    (data: RoomInput) =>
+      room ? updateRoom(room.id, data) : createRoom(data),
     [["rooms"]]
   );
-
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<RoomFormData>({
     resolver: zodResolver(schema),
@@ -40,8 +41,21 @@ export const CreateRoom = () => {
     },
   });
 
+  useEffect(() => {
+    if (room) {
+      reset({
+        name: room.name,
+        capacity: room.capacity,
+        floor: room.floor,
+        equipment: room.equipment,
+      });
+    }
+  }, [room, reset]);
+
   const onSubmit = (data: RoomFormData) => {
-    createRoomMutation.mutate(data);
+    roomMutation.mutate(data, {
+      onSuccess: () => navigate("/RoomManagement"),
+    });
   };
 
   return (
@@ -99,17 +113,51 @@ export const CreateRoom = () => {
         {errors.equipment && <p>{errors.equipment.message}</p>}
       </fieldset>
 
-      <button type="submit" disabled={createRoomMutation.isPending}>
-        {createRoomMutation.isPending ? "יוצר חדר..." : "יצירת חדר"}
+      <button type="submit" disabled={roomMutation.isPending}>
+        {roomMutation.isPending
+          ? room ? "מעדכן חדר..." : "יוצר חדר..."
+          : room ? "שמירת שינויים" : "יצירת חדר"}
       </button>
 
-      {createRoomMutation.isError && (
-        <p>שגיאה: {createRoomMutation.error.message}</p>
+      {roomMutation.isError && (
+        <p role="alert">שמירת החדר נכשלה: {roomMutation.error.message}</p>
       )}
 
-      {createRoomMutation.isSuccess && (
-        <p>החדר נוצר בהצלחה!</p>
+      {roomMutation.isSuccess && (
+        <p role="status">{room ? "החדר עודכן בהצלחה!" : "החדר נוצר בהצלחה!"}</p>
       )}
     </form>
   );
+};
+
+export const CreateRoom = () => <RoomForm />;
+
+
+export const EditRoom = () => {
+  const { id } = useParams();
+  const roomId = Number(id);
+  const isValidRoomId = Number.isInteger(roomId) && roomId > 0;
+  const {
+    data: room,
+    isError,
+    isPending,
+    
+  } = useApiQuery<Room>(
+    ["rooms", roomId],
+    () => getRoom(roomId),
+    { enabled: isValidRoomId }
+  );
+
+  if (!isValidRoomId) {
+    return <Message message="מזהה החדר אינו תקין" />;
+  }
+ const queryMessage =(<QueryMessage errorMessage="טעינת החדר נכשלה" loadingMessage="טוען חדר..."  isError={isError} isPending={isPending}></QueryMessage>)
+
+   if (isPending || isError)
+    return queryMessage
+  if (!room) {
+    return <Message message="לא נמצאו פרטי חדר לעריכה" />;
+  }
+
+  return <RoomForm room={room} />;
 };

@@ -4,7 +4,7 @@ import { api } from "./client"
 
 export const getCompanies = async () => {
     const res = await api.get("/companies")
-    return res.data
+    return res.data.items
 }
 
 export const getMyCompany = async () => {

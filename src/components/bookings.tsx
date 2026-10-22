@@ -6,17 +6,32 @@ import type { Booking } from "../types/domain";
 import Message from "./message";
 import { useApiQuery } from "../hooks/useApiQuery";
 import ConfirmDialog from "./ConfirmDialog";
+import { useAuth } from "../auth/useAuth";
+import QueryMessage from "./QueryMessage ";
 
-const Bookings = () => {
+type BookingsProps = {
+    bookings?: Booking[];
+    title?: string;
+};
+
+const Bookings = ({
+    bookings: providedBookings,
+    title = "הפגישות שלי",
+}: BookingsProps) => {
+    const { user } = useAuth();
+
     const [bookingToCancel, setBookingToCancel] =
         useState<Booking | null>(null);
 
     const {
-        data: bookings = [],
-        isLoading,
+        data: myBookings = [],
+        isPending,
         isError,
         error,
-    } = useApiQuery<Booking[]>(["bookings"], getMyBookings);
+    } = useApiQuery<Booking[]>(["bookings"], getMyBookings, {
+        enabled: providedBookings === undefined,
+    });
+    const bookings = providedBookings ?? myBookings;
 
     const cancelMutation = useApiMutation(
         cancelBooking,
@@ -31,17 +46,10 @@ const Bookings = () => {
         });
     };
 
-    if (isLoading) {
-        return <Message message="טוען הזמנות..." />;
-    }
+    const queryMessage =(<QueryMessage errorMessage="טעינת הזמנות נכשלה" loadingMessage="טוען הזמנות..."  isError={isError} isPending={isPending}></QueryMessage>)
 
-    if (isError) {
-        return (
-            <Message
-                message={`טעינת ההזמנות נכשלה: ${error.message}`}
-            />
-        );
-    }
+   if (isPending || isError)
+    return queryMessage
 
     return (
         <main
@@ -50,10 +58,12 @@ const Bookings = () => {
         >
             <header className="mb-8 border-b border-slate-200 pb-5">
                 <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                    הפגישות שלי
+                    {title}
                 </h1>
                 <p className="mt-2 text-sm text-slate-500">
-                    צפייה בפרטי הפגישות וניהול ההזמנות שלך
+                    {title === "הפגישות שלי"
+                        ? "צפייה בפרטי הפגישות וניהול ההזמנות שלך"
+                        : "צפייה בפרטי כל ההזמנות במערכת"}
                 </p>
             </header>
 
@@ -69,10 +79,14 @@ const Bookings = () => {
             {bookings.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center">
                     <p className="text-lg font-semibold text-slate-700">
-                        אין לך פגישות להצגה
+                        {title === "הפגישות שלי"
+                            ? "אין לך פגישות להצגה"
+                            : "לא נמצאו הזמנות."}
                     </p>
                     <p className="mt-2 text-sm text-slate-500">
-                        ההזמנות שלך יופיעו כאן לאחר יצירתן.
+                        {title === "הפגישות שלי"
+                            ? "ההזמנות שלך יופיעו כאן לאחר יצירתן."
+                            : "ההזמנות יופיעו כאן לאחר יצירתן."}
                     </p>
                 </div>
             ) : (
@@ -177,7 +191,7 @@ const Bookings = () => {
                                     </div>
                                 </div>
 
-                                {isActive && (
+                                {isActive&&user?.role!=="Employee"&& (
                                     <button
                                         type="button"
                                         className="mt-5 w-full rounded-xl border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-300 disabled:cursor-not-allowed disabled:opacity-50"

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createCompany } from "../api/companies";
 import { useApiMutation } from "../hooks/useApiMutation";
+import FormField from "./FormField";
 
 const schema = z.object({
     name: z.string().trim().min(3, "שם החברה חייב להכיל לפחות 3 תווים"),
@@ -39,30 +40,30 @@ const CompanyForm = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} dir="rtl">
-            <label htmlFor="company-name">שם החברה</label>
-            <input
+            <FormField
                 id="company-name"
+                label="שם החברה"
                 autoComplete="organization"
+                error={errors.name?.message}
                 {...register("name")}
             />
-            {errors.name && <p role="alert">{errors.name.message}</p>}
 
-            <label htmlFor="company-floor">קומה</label>
-            <input
+            <FormField
                 id="company-floor"
+                label="קומה"
                 type="number"
+                error={errors.floor?.message}
                 {...register("floor", { valueAsNumber: true })}
             />
-            {errors.floor && <p role="alert">{errors.floor.message}</p>}
 
-            <label htmlFor="company-phone">מספר טלפון</label>
-            <input
+            <FormField
                 id="company-phone"
+                label="מספר טלפון"
                 type="tel"
                 autoComplete="tel"
+                error={errors.phone?.message}
                 {...register("phone")}
             />
-            {errors.phone && <p role="alert">{errors.phone.message}</p>}
 
             <button type="submit" disabled={mutation.isPending}>
                 {mutation.isPending ? "מוסיף חברה..." : "הוספת חברה"}

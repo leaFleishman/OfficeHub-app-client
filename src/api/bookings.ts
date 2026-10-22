@@ -31,3 +31,11 @@ export const createBookings = async (booking: CreateBookingInput) => {
     const res = await api.post("bookings", booking)
     return res.data
 }
+
+export const getAllBookings = async ( page = 1, pageSize = 20) => {
+    const res = await api.get("bookings", {
+        params: {page, pageSize },
+    })
+    return res.data
+}
+

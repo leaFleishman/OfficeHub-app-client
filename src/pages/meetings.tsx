@@ -7,7 +7,7 @@ const Meetings = () => {
 
     return (<>
         {user?.role !== "Employee" && (<CreateBooking></CreateBooking>)}
-        <MyBookings></MyBookings>
+      <MyBookings></MyBookings>
     </>)
 
 }

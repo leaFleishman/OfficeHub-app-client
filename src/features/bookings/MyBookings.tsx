@@ -1,6 +1,7 @@
 import { getMyBookings } from "../../api/bookings";
 import Bookings from "../../components/bookings";
 import Message from "../../components/message";
+import QueryMessage from "../../components/QueryMessage ";
 import { useApiQuery } from "../../hooks/useApiQuery";
 
 // הפגישות שלי - GET /bookings/mine, ביטול פגישה
@@ -9,18 +10,15 @@ import { useApiQuery } from "../../hooks/useApiQuery";
 export const MyBookings = () => {
     const{isError,isPending}=useApiQuery(["bookings"],getMyBookings)
 
-    if (isPending) {
-        return <Message message="טוען הזמנות..."></Message>
-    }
-    if (isError) {
-        return <Message message=">טעינת ההזמנות נכשלה"></Message>;
-    }
+const queryMessage =(<QueryMessage errorMessage="טעינת הזמנות נכשלה" loadingMessage="טוען הזמנות..."  isError={isError} isPending={isPending}></QueryMessage>)
+
+   if (isPending || isError)
+    return queryMessage
 
     return (<>
         <Bookings></Bookings>
     </>)
 }
-
 
 
 

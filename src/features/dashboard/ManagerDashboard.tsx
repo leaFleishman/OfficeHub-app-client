@@ -2,20 +2,28 @@
 
 
 import { getCompanyDashboard } from "../../api/dashboard";
+import Message from "../../components/message";
 import StatCard from "../../components/StatCard";
 import { useApiQuery } from "../../hooks/useApiQuery";
 
 const ManagerDashboard = () => {
-    const { data, isLoading, isError, error } = useApiQuery([["employees", "bookings", "inquiries"]], getCompanyDashboard);
+    const { data, isLoading, isError } = useApiQuery([["employees", "bookings", "inquiries"]], getCompanyDashboard);
 
+   
+   
+
+    {
+    }
     if (isLoading) {
-        return <div><p>בטעינה...</p></div>;
+        return <Message message=">בטעינה..."></Message>
     }
 
-    if (isError) {
-        return <div>שגיאה: {String(error)}</div>;
+    if (isError||!data) {
+        return <Message message="שגיאה"></Message>
     }
-
+    const details = data.nextMeeting
+  ? `${data.nextMeeting.subject} - ${data.nextMeeting.roomName} - ${data.nextMeeting.date}`
+  : "אין פגישות קרובות";
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
@@ -23,7 +31,8 @@ const ManagerDashboard = () => {
                 <StatCard title=" עובדים פעילים" value={data.employees.active} />
                 <StatCard title="עובדים חסומים" value={data.employees.blocked} />
                 <StatCard title="מספר פגישות השבוע" value={data.meetingsThisWeek} />
-                <StatCard title="הפגישה הקרובה" value={data.topRooms.length} />
+                <StatCard title="הפגישה הקרובה" value={details }
+                />
             </div>
             {/* להוסיף טבלאות/גרפים לפי צורך */}
         </div>

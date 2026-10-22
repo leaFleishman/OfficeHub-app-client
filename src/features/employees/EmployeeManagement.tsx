@@ -5,31 +5,26 @@ import EmployeeCard from "../../components/EmployeeCard";
 import Message from "../../components/message";
 import type { User } from "../../types/domain";
 import { useApiQuery } from "../../hooks/useApiQuery";
+import QueryMessage from "../../components/QueryMessage ";
 
 const EmployeeManagement = () => {
     const {
         data: employees = [],
         isError,
-        isLoading,
+        isPending,
         error,
     } = useApiQuery<User[]>(["employees"], getEmployees);
 
-    if (isLoading) {
-        return <Message message="טוען עובדים..." />;
-    }
+   const queryMessage =(<QueryMessage errorMessage="טעינת עובדים נכשלה" loadingMessage="טוען הזמנות..."  isError={isError} isPending={isPending}></QueryMessage>)
 
-    if (isError) {
-        return <Message message={`טעינת העובדים נכשלה: ${error.message}`} />;
-    }
+   if (isPending || isError)
+    return queryMessage
 
-    const addEmp = () => {
-
-    }
+  
 
     return (
         <main dir="rtl" className="mx-auto w-full max-w-6xl p-4">
             <h1>ניהול עובדים</h1>
-            <button onClick={addEmp}>הוסף עובד</button>
             {employees.length === 0 ? (
                 <Message message="לא נמצאו עובדים." />
             ) : (
