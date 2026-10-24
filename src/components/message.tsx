@@ -4,7 +4,7 @@ type messageProps = {
 }
 
 const Message = ({ message }: messageProps) =>
-    <div><p role="alert">{message}</p></div>
+    <div className="notice"><span className="notice-dot" aria-hidden="true"></span><p role="alert">{message}</p></div>
 
 
 export default Message

@@ -63,7 +63,12 @@ const BookingForm = ({
             : undefined);
 
     return (
-        <form onSubmit={onSubmit} className="space-y-4">
+        <div className="card form-card">
+        <div className="page-head" style={{ marginBottom: "1.5rem" }}>
+            <span className="eyebrow">NEW BOOKING</span>
+            <h1 className="page-title">הזמנת חדר לפגישה</h1>
+        </div>
+        <form onSubmit={onSubmit} className="form-stack" dir="rtl">
             <FormField
                 id="date"
                 label="תאריך הפגישה"
@@ -100,7 +105,7 @@ const BookingForm = ({
                         <select
                             id="participantIds"
                             multiple
-                            className="min-h-24 rounded-lg border border-slate-300 px-3 py-2"
+                            className="input"
                             aria-invalid={Boolean(errors.participantIds)}
                             name={field.name}
                             ref={field.ref}
@@ -124,15 +129,15 @@ const BookingForm = ({
                 />
             </FormField>
 
-            {employeesLoading && <p>טוען רשימת עובדים...</p>}
+            {employeesLoading && <p className="card-caption">טוען רשימת עובדים...</p>}
 
             {employeesFailed && (
                 <Message message="טעינת רשימת העובדים נכשלה." />
             )}
 
             {hasValidSchedule && (
-                <section className="space-y-2">
-                    {roomsLoading && <p>טוען חדרים פנויים...</p>}
+                <section className="stack-y" style={{ gap: "0.6rem" }}>
+                    {roomsLoading && <p className="card-caption">טוען חדרים פנויים...</p>}
 
                     {roomsFailed && (
                         <Message message="טעינת החדרים הפנויים נכשלה." />
@@ -149,11 +154,7 @@ const BookingForm = ({
                                 key={room.id}
                                 type="button"
                                 aria-pressed={roomId === room.id}
-                                className={`block w-full rounded-lg border p-3 text-right ${
-                                    roomId === room.id
-                                        ? "border-blue-600 bg-blue-50"
-                                        : "border-slate-300"
-                                }`}
+                                className="room-option"
                                 onClick={() => {
                                     setValue("roomId", room.id, {
                                         shouldValidate: true,
@@ -167,14 +168,15 @@ const BookingForm = ({
                                     );
                                 }}
                             >
-                                {room.name} — קיבולת: {room.capacity}
+                                <span>{room.name}</span>
+                                <span className="badge badge-info">קיבולת: {room.capacity}</span>
                             </button>
                         ))}
                 </section>
             )}
 
             {errors.roomId && (
-                <p role="alert">{errors.roomId.message}</p>
+                <p role="alert" className="field-error">{errors.roomId.message}</p>
             )}
 
             <FormField
@@ -189,17 +191,18 @@ const BookingForm = ({
             )}
 
             {isSuccess && (
-                <p role="status">ההזמנה נשמרה בהצלחה.</p>
+                <p role="status" className="alert-success">ההזמנה נשמרה בהצלחה.</p>
             )}
 
             <button 
                 type="submit"
                 disabled={isPending || !hasValidSchedule}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-white disabled:opacity-50"
+                className="btn btn-primary btn-lg btn-block"
             >
                 {isPending ? "שולח הזמנה..." : "סיום הזמנה"}
             </button>
         </form>
+        </div>
     );
 };
 

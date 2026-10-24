@@ -8,7 +8,7 @@ const Home = () => {
             <Dashboard />
 
 
-            <h2>הזמנות חדרי הישיבות שלי החודש</h2>
+            <h2 className="section-title">הזמנות חדרי הישיבות שלי החודש</h2>
             <MyBookings></MyBookings>
 
         </>

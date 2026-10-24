@@ -34,3 +34,11 @@ export const changeRole = async (id: number,r:Role) => {
     const res = await api.patch(`employees/${id}/role`,r)
     return res.data
 }
+
+export const changePassword=async(currentPassword:string,newPassword:string)=>{
+    const res =await  api.put("",{currentPassword,newPassword})
+    return res.data
+}
+ 
+
+

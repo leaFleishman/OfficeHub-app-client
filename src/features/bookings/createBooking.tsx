@@ -60,13 +60,13 @@ const CreateBooking = () => {
         /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(endTime) &&
         endTime > startTime;
 
-const start = hasValidSchedule
-    ? new Date(`${date}T${startTime}:00`).toISOString()
-    : "";
+    const start = hasValidSchedule
+        ? new Date(`${date}T${startTime}:00`).toISOString()
+        : "";
 
-const end = hasValidSchedule
-    ? new Date(`${date}T${endTime}:00`).toISOString()
-    : "";
+    const end = hasValidSchedule
+        ? new Date(`${date}T${endTime}:00`).toISOString()
+        : "";
     const {
         data: rooms = [],
         isLoading: roomsLoading,
@@ -97,15 +97,15 @@ const end = hasValidSchedule
             return;
         }
 
-       
-const payload: CreateBookingInput = {
-    roomId: booking.roomId,
-    subject: booking.subject,
-    date: booking.date,
-    startTime: booking.startTime,
-    endTime: booking.endTime,
-    participantIds: booking.participantIds,
-};
+
+        const payload: CreateBookingInput = {
+            roomId: booking.roomId,
+            subject: booking.subject,
+            date: booking.date,
+            startTime: booking.startTime,
+            endTime: booking.endTime,
+            participantIds: booking.participantIds,
+        };
 
         mutation.mutate(payload, {
             onSuccess: () => navigate("/Meetings"),

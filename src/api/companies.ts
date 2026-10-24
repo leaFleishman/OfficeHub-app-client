@@ -18,7 +18,12 @@ export const createCompany = async (name:string,floor:number,phone:string) => {
 }
 
 
-export const updateCompany = async (id: number) => {
-    const res = await api.put(`/companies/${id}`,{id})
+export const updateCompany = async (name: string, floor: number, phone: string) => {
+    const res = await api.put("/companies/mine", { name, floor, phone })
+    return res.data
+}
+
+export const deleteCompany=async(id:number)=>{
+ const res = await api.delete(`/companies/${id}`)
     return res.data
 }

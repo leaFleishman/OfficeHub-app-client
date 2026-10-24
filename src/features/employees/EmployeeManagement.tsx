@@ -23,12 +23,15 @@ const EmployeeManagement = () => {
   
 
     return (
-        <main dir="rtl" className="mx-auto w-full max-w-6xl p-4">
-            <h1>ניהול עובדים</h1>
+        <main dir="rtl" className="stack-y">
+            <div className="page-head">
+                <span className="eyebrow">TEAM</span>
+                <h1 className="page-title">ניהול עובדים</h1>
+            </div>
             {employees.length === 0 ? (
                 <Message message="לא נמצאו עובדים." />
             ) : (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="card-grid">
                     {employees.map((employee: User) => (
                         <EmployeeCard key={employee.id} {...employee} />
                     ))}

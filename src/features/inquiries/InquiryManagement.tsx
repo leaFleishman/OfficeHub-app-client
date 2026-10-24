@@ -23,8 +23,12 @@ const InquiryEditor = ({ inquiry }: InquiryEditorProps) => {
     );
 
     return (
-        <>
-            <label htmlFor="reply">הוסף תגובה</label>
+        <div className="card form-card form-stack" dir="rtl">
+            <div className="page-head">
+                <span className="eyebrow">INQUIRY</span>
+                <h1 className="page-title">טיפול בפנייה</h1>
+            </div>
+            <label htmlFor="reply" className="field-label">הוסף תגובה</label>
 
             <textarea
                 name="reply"
@@ -44,10 +48,11 @@ const InquiryEditor = ({ inquiry }: InquiryEditorProps) => {
                     });
                 }}
                 disabled={updateInquiryMutation.isPending}
+                className="btn btn-primary btn-lg btn-block"
             >
                 עדכון פנייה
             </button>
-        </>
+        </div>
     );
 };
 

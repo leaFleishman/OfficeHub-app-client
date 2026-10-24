@@ -25,18 +25,12 @@ const AllBookings = () => {
 
     return (
         <main dir="rtl">
-            <p>סה״כ {data.total} הזמנות</p>
+            <p className="chart-sub" style={{ marginBottom: "1rem" }}>סה״כ {data.total} הזמנות</p>
             <Bookings bookings={data.items} title="כל ההזמנות" />
             {pageCount > 1 && (
                 <nav
                     aria-label="דפדוף בין עמודי ההזמנות"
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: "1rem",
-                        margin: "1rem 0",
-                    }}
+                    className="pager"
                 >
                     <button
                         type="button"

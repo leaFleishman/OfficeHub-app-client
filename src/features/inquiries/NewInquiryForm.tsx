@@ -37,7 +37,12 @@ const NewInquiryForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className="card form-card">
+        <div className="page-head" style={{ marginBottom: "1.5rem" }}>
+            <span className="eyebrow">NEW INQUIRY</span>
+            <h1 className="page-title">פנייה חדשה</h1>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="form-stack" dir="rtl">
             <FormField
                 id="sub"
                 label="נושא"
@@ -55,15 +60,16 @@ const NewInquiryForm = () => {
             <button
                 type="submit"
                 disabled={mutation.isPending}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-white disabled:opacity-50"
+                className="btn btn-primary btn-lg btn-block"
             >
                 {mutation.isPending ? "שולח..." : "שליחת פנייה"}
             </button>
 
             {mutation.isError && (
-                <p className="text-red-600">שליחת הפנייה נכשלה</p>
+                <p className="alert-error">שליחת הפנייה נכשלה</p>
             )}
         </form>
+        </div>
     );
 };
 

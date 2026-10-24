@@ -27,7 +27,9 @@ export interface User {
 export type CreateEmployeeInput = Pick<
     User,
     "name" | "email" | "phone" | "address" | "role"
->;
+> & {
+    password: string;
+};
 
 export interface LoginResponse {
     token: string;

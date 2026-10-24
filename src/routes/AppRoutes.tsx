@@ -22,63 +22,70 @@ import RoomManagement from "../features/rooms/RoomManagement";
 import { AllCompanies } from "../components/Company";
 import RootLayout from "./RootLayout";
 import CompaniesAdmin from "../pages/CompaniesAdmin";
+import MyCompany from "../components/myCompany";
 
 
 export const router = createBrowserRouter([
-  {
-    element: <RootLayout />,
-    children: [
     {
-        path: "/",
-        element: <App />,
+        element: <RootLayout />,
         children: [
-
             {
-                //admin only-------------------
-                element: <ProtectedRoute allowedRoles={["Admin"]}></ProtectedRoute>, children: [
-                    { path: "CreateRoom", element: <CreateRoom /> },
-                    { path: "EditRoom/:id", element: <EditRoom /> },
-                    { path: "RoomManagement", element: <RoomManagement></RoomManagement> },
-                    { path: "AllCompanies", element: <AllCompanies></AllCompanies> },
-                    { path: "CompanyForm", element: <CompanyForm></CompanyForm> },
-                    { path: "AllInquires", element: <AllInquiries></AllInquiries> },
-                    {path:"CompaniesAdmin",element:<CompaniesAdmin></CompaniesAdmin>}
+                path: "/",
+                element: <App />,
+                children: [
 
-                ]
+                    {
+                        //admin only-------------------
+                        element: <ProtectedRoute allowedRoles={["Admin"]}></ProtectedRoute>, children: [
+                            { path: "CreateRoom", element: <CreateRoom /> },
+                            { path: "EditRoom/:id", element: <EditRoom /> },
+                            { path: "RoomManagement", element: <RoomManagement></RoomManagement> },
+                            { path: "AllCompanies", element: <AllCompanies></AllCompanies> },
+                            { path: "AllInquires", element: <AllInquiries></AllInquiries> },
+                            { path: "CompaniesAdmin", element: <CompaniesAdmin></CompaniesAdmin> }
+
+                        ]
+                    },
+
+                    //admin and manager------------
+                    {
+                        element: <ProtectedRoute allowedRoles={["Admin", "Manager"]} ></ProtectedRoute>, children: [
+
+                            { path: "employees/new", element: <EmployeeForm /> },
+                            { path: "admin", element: <Admin></Admin> },
+                            { path: "CompanyForm", element: <CompanyForm></CompanyForm> },
+
+
+                        ]
+
+                    },
+                    {
+                        element: <ProtectedRoute allowedRoles={["Manager"]}></ProtectedRoute>, children: [
+
+                            { path: "MyCompany", element: <MyCompany></MyCompany> }
+                        ]
+                    }
+                    ,
+                    { path: "CreateBooking", element: <CreateBooking></CreateBooking> },
+                    { path: "home", element: <Home />, },
+                    { path: "inquiries", element: <MyInquiries></MyInquiries> },
+                    { path: "bookings", element: <Bookings></Bookings> },
+                    { path: "NewBookingForm", element: <CreateBooking ></CreateBooking> },
+                    { path: "dashboard", element: <Dashboard></Dashboard> },
+                    { path: "profile", element: <Profile ></Profile> },
+
+                    { path: "InquiryManagement/:id", element: <InquiryManagement></InquiryManagement> },
+                    { path: "NewInquiryForm", element: <NewInquiryForm></NewInquiryForm> },
+                    { path: "MyBookings", element: <MyBookings /> },
+                    { path: "Meetings", element: <Meetings></Meetings> },
+                    { path: "InquiriesPage", element: <InquiriesPage></InquiriesPage> },
+
+                ],
             },
 
-            //admin and manager------------
-            {
-                element: <ProtectedRoute allowedRoles={["Admin", "Manager"]} ></ProtectedRoute>, children: [
+            { path: "/login", element: <Login />, },
+            { path: "*", element: <p className="alert-error" style={{ margin: "2rem" }}>not found</p>, },
 
-                    { path: "employees/new", element: <EmployeeForm /> },
-                    { path: "admin", element: <Admin></Admin> },
-
-                ]
-
-            },
-
-
-            { path: "CreateBooking", element: <CreateBooking></CreateBooking> },
-            { path: "home", element: <Home />, },
-            { path: "inquiries", element: <MyInquiries></MyInquiries> },
-            { path: "bookings", element: <Bookings></Bookings> },
-            { path: "NewBookingForm", element: <CreateBooking ></CreateBooking> },
-            { path: "dashboard", element: <Dashboard></Dashboard> },
-            { path: "profile", element: <Profile ></Profile> },
-
-            { path: "InquiryManagement/:id", element: <InquiryManagement></InquiryManagement> },
-            { path: "NewInquiryForm", element: <NewInquiryForm></NewInquiryForm> },
-            { path: "MyBookings", element: <MyBookings /> },
-            { path: "Meetings", element: <Meetings></Meetings> },
-            { path: "InquiriesPage", element: <InquiriesPage></InquiriesPage> },
-           
         ],
     },
-
-    { path: "/login", element: <Login />, },
-    { path: "*", element: <p style={{ color: "red" }}>not found</p>, },
-
-    ],
-  },
 ]);

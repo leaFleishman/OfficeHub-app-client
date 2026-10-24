@@ -12,6 +12,7 @@ const schema = z.object({
         .string()
         .regex(/^\d{7,10}$/, "יש להזין מספר טלפון בן 7 עד 10 ספרות"),
     address: z.string().trim().min(3, "הכתובת חייבת להכיל לפחות 3 תווים"),
+    password: z.string().min(4, "הסיסמה חייבת להכיל לפחות 4 תווים"),
     role: z.enum(["Employee", "Manager", "Admin"], {
         error: "יש לבחור תפקיד",
     }),
@@ -37,6 +38,7 @@ const EmployeeForm = () => {
             phone: "",
             address: "",
             role: "Employee",
+            password: "",
         },
     });
 
@@ -45,54 +47,80 @@ const EmployeeForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} dir="rtl">
-            <label htmlFor="name">שם העובד</label>
+        <div className="card form-card">
+        <div className="page-head" style={{ marginBottom: "1.5rem" }}>
+            <span className="eyebrow">NEW EMPLOYEE</span>
+            <h1 className="page-title">הוספת עובד</h1>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} dir="rtl" className="form-stack">
+            <div className="field">
+            <label htmlFor="name" className="field-label">שם העובד</label>
             <input id="name" autoComplete="name" {...register("name")} />
-            {errors.name && <p role="alert">{errors.name.message}</p>}
+            {errors.name && <p role="alert" className="field-error">{errors.name.message}</p>}
+            </div>
 
-            <label htmlFor="email">אימייל</label>
+            <div className="field">
+            <label htmlFor="email" className="field-label">אימייל</label>
             <input
                 id="email"
                 type="email"
                 autoComplete="email"
                 {...register("email")}
             />
-            {errors.email && <p role="alert">{errors.email.message}</p>}
+            {errors.email && <p role="alert" className="field-error">{errors.email.message}</p>}
+            </div>
 
-            <label htmlFor="phone">מספר טלפון</label>
+            <div className="field">
+            <label htmlFor="phone" className="field-label">מספר טלפון</label>
             <input
                 id="phone"
                 type="tel"
                 autoComplete="tel"
                 {...register("phone")}
             />
-            {errors.phone && <p role="alert">{errors.phone.message}</p>}
+            {errors.phone && <p role="alert" className="field-error">{errors.phone.message}</p>}
+            </div>
 
-            <label htmlFor="address">כתובת</label>
+            <div className="field">
+            <label htmlFor="address" className="field-label">כתובת</label>
             <input
                 id="address"
                 autoComplete="street-address"
                 {...register("address")}
             />
-            {errors.address && <p role="alert">{errors.address.message}</p>}
+            {errors.address && <p role="alert" className="field-error">{errors.address.message}</p>}
+            </div>
 
-            <label htmlFor="role">תפקיד</label>
+            <div className="field">
+            <label htmlFor="password" className="field-label">סיסמה</label>
+            <input
+                id="password"
+                type="password"
+                autoComplete="new-password"
+                {...register("password")}
+            />
+            {errors.password && <p role="alert" className="field-error">{errors.password.message}</p>}
+            </div>
+
+            <div className="field">
+            <label htmlFor="role" className="field-label">תפקיד</label>
             <select id="role" {...register("role")}>
                 <option value="Employee">עובד</option>
                 <option value="Manager">מנהל חברה</option>
-                <option value="Admin">מנהל מערכת</option>
             </select>
-            {errors.role && <p role="alert">{errors.role.message}</p>}
+            {errors.role && <p role="alert" className="field-error">{errors.role.message}</p>}
+            </div>
 
-            <button type="submit" disabled={mutation.isPending}>
+            <button type="submit" disabled={mutation.isPending} className="btn btn-primary btn-lg btn-block">
                 {mutation.isPending ? "מוסיף עובד..." : "הוספת עובד"}
             </button>
 
             {mutation.isError && (
-                <p role="alert">הוספת העובד נכשלה: {mutation.error.message}</p>
+                <p role="alert" className="alert-error">הוספת העובד נכשלה: {mutation.error.message}</p>
             )}
-            {mutation.isSuccess && <p role="status">העובד נוסף בהצלחה.</p>}
+            {mutation.isSuccess && <p role="status" className="alert-success">העובד נוסף בהצלחה.</p>}
         </form>
+        </div>
     );
 };
 

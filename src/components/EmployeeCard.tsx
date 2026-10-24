@@ -5,7 +5,7 @@ import type { User } from "../types/domain";
 import { useApiMutation } from "../hooks/useApiMutation";
 import ConfirmDialog from "./ConfirmDialog";
 
-const Employee = (user: User) => {
+const EmployeeCard = (user: User) => {
     const { id, isBlocked, phone, email, name } = user;
     const [showDetails, setShowDetails] = useState(false);
     const [isBlockDialogOpen, setIsBlockDialogOpen] = useState(false);
@@ -27,59 +27,57 @@ const Employee = (user: User) => {
     const details = employee ?? user;
 
     return (
-        <div className="w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md" dir="rtl">
+        <div className="card card-hover" dir="rtl">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex items-start gap-3">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-lg font-bold text-blue-700">
+                    <div className="avatar avatar-md">
                         {name?.charAt(0)}
                     </div>
 
                     <div className="min-w-0">
-                        <h3 className="truncate text-lg font-bold text-slate-800">
+                        <h3 className="card-heading truncate">
                             {name}
                         </h3>
-                        <p className="mt-1 text-sm text-slate-500">
+                        <p className="card-caption mt-1">
                             מזהה עובד: {id}
                         </p>
                     </div>
                 </div>
 
                 <span
-                    className={`inline-flex w-fit items-center gap-2 rounded-full px-3 py-1 text-sm font-medium ${
+                    className={`badge ${
                         isBlocked
-                            ? "bg-red-50 text-red-700"
-                            : "bg-emerald-50 text-emerald-700"
+                            ? "badge-danger"
+                            : "badge-ok"
                     }`}
                 >
-                    <span className={`h-2 w-2 rounded-full ${
-                        isBlocked ? "bg-red-500" : "bg-emerald-500"
-                    }`} />
+                    <span className="badge-dot" />
                     {isBlocked ? "חסום" : "פעיל"}
                 </span>
             </div>
 
-            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div className="rounded-xl bg-slate-50 p-3">
-                    <p className="mb-1 text-xs font-medium text-slate-500">טלפון</p>
-                    <p dir="ltr" className="break-words text-sm text-slate-800 text-right">
+            <div className="info-grid mt-5">
+                <div className="info-tile">
+                    <p className="info-label">טלפון</p>
+                    <p dir="ltr" className="info-value ltr-value">
                         {phone ?? "לא צוין"}
                     </p>
                 </div>
 
-                <div className="rounded-xl bg-slate-50 p-3">
-                    <p className="mb-1 text-xs font-medium text-slate-500">אימייל</p>
-                    <p dir="ltr" className="break-all text-sm text-slate-800 text-right">
+                <div className="info-tile">
+                    <p className="info-label">אימייל</p>
+                    <p dir="ltr" className="info-value ltr-value">
                         {email}
                     </p>
                 </div>
             </div>
 
-            <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-slate-100 pt-4">
+            <div className="row-actions divider">
                 <button
                     type="button"
                     aria-expanded={showDetails}
                     onClick={() => setShowDetails((current) => !current)}
-                    className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="btn btn-sm"
                 >
                     {showDetails ? "סגירת פרטים" : "הצגת פרטים"}
                 </button>
@@ -89,7 +87,7 @@ const Employee = (user: User) => {
                         type="button"
                         onClick={() => setIsBlockDialogOpen(true)}
                         disabled={mutation.isPending}
-                        className="rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="btn btn-danger btn-sm"
                     >
                         {mutation.isPending ? "חוסם..." : "חסימת עובד"}
                     </button>
@@ -97,73 +95,73 @@ const Employee = (user: User) => {
             </div>
 
             {showDetails && (
-                <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50/70 p-4">
-                    <h4 className="mb-4 text-base font-bold text-slate-800">
+                <div className="info-tile mt-5" style={{ padding: "1.1rem" }}>
+                    <h4 className="card-heading mb-4">
                         פרטי העובד
                     </h4>
 
                     {isLoading && (
-                        <p className="py-2 text-sm text-slate-500">
+                        <p className="card-caption py-2">
                             טוען פרטי עובד...
                         </p>
                     )}
 
                     {isError && (
-                        <p role="alert" className="mb-3 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+                        <p role="alert" className="alert-error mb-3">
                             טעינת פרטי העובד נכשלה
                             {error instanceof Error ? `: ${error.message}` : ""}
                         </p>
                     )}
 
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        <div className="rounded-lg bg-white p-3">
-                            <p className="text-xs text-slate-500">שם</p>
-                            <p className="mt-1 font-medium text-slate-800">{details.name}</p>
+                    <div className="info-grid">
+                        <div className="info-tile">
+                            <p className="info-label">שם</p>
+                            <p className="info-value">{details.name}</p>
                         </div>
 
-                        <div className="rounded-lg bg-white p-3">
-                            <p className="text-xs text-slate-500">מזהה</p>
-                            <p className="mt-1 font-medium text-slate-800">{details.id}</p>
+                        <div className="info-tile">
+                            <p className="info-label">מזהה</p>
+                            <p className="info-value">{details.id}</p>
                         </div>
 
-                        <div className="rounded-lg bg-white p-3">
-                            <p className="text-xs text-slate-500">חברה</p>
-                            <p className="mt-1 font-medium text-slate-800">
+                        <div className="info-tile">
+                            <p className="info-label">חברה</p>
+                            <p className="info-value">
                                 {details.companyId ?? "לא משויך"}
                             </p>
                         </div>
 
-                        <div className="rounded-lg bg-white p-3">
-                            <p className="text-xs text-slate-500">תאריך יצירה</p>
-                            <p className="mt-1 break-words font-medium text-slate-800">
+                        <div className="info-tile">
+                            <p className="info-label">תאריך יצירה</p>
+                            <p className="info-value">
                                 {details.createdAt}
                             </p>
                         </div>
 
-                        <div className="rounded-lg bg-white p-3">
-                            <p className="text-xs text-slate-500">תפקיד</p>
-                            <p className="mt-1 font-medium text-slate-800">{details.role}</p>
+                        <div className="info-tile">
+                            <p className="info-label">תפקיד</p>
+                            <p className="info-value">{details.role}</p>
                         </div>
 
-                        <div className="rounded-lg bg-white p-3">
-                            <p className="text-xs text-slate-500">טלפון</p>
-                            <p dir="ltr" className="mt-1 break-words font-medium text-slate-800 text-right">
+                        <div className="info-tile">
+                            <p className="info-label">טלפון</p>
+                            <p dir="ltr" className="info-value ltr-value">
                                 {details.phone ?? "לא צוין"}
                             </p>
                         </div>
 
-                        <div className="rounded-lg bg-white p-3 sm:col-span-2">
-                            <p className="text-xs text-slate-500">אימייל</p>
-                            <p dir="ltr" className="mt-1 break-all font-medium text-slate-800 text-right">
+                        <div className="info-tile span-2">
+                            <p className="info-label">אימייל</p>
+                            <p dir="ltr" className="info-value ltr-value">
                                 {details.email}
                             </p>
                         </div>
 
-                        <div className="rounded-lg bg-white p-3 sm:col-span-2">
-                            <p className="text-xs text-slate-500">סטטוס</p>
-                            <p className={`mt-1 font-semibold ${
-                                details.isBlocked ? "text-red-600" : "text-emerald-700"
-                            }`}>
+                        <div className="info-tile span-2">
+                            <p className="info-label">סטטוס</p>
+                            <p className={`info-value ${
+                                details.isBlocked ? "badge-danger" : "badge-ok"
+                            }`} style={{ background: "none", border: 0, padding: 0 }}>
                                 {details.isBlocked ? "חסום" : "פעיל"}
                             </p>
                         </div>
@@ -172,7 +170,7 @@ const Employee = (user: User) => {
             )}
 
             {mutation.isError && (
-                <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                <p role="alert" className="alert-error mt-4">
                     חסימת העובד נכשלה: {mutation.error.message}
                 </p>
             )}
@@ -195,4 +193,4 @@ const Employee = (user: User) => {
     );
 };
 
-export default Employee;
+export default EmployeeCard;

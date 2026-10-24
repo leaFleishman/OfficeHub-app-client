@@ -21,11 +21,16 @@ const AllInquiries = () => {
     }
 
     return (
-        <main>
-            <h1>כל הפניות</h1>
+        <main className="stack-y">
+            <div className="page-head">
+                <span className="eyebrow">ALL INQUIRIES</span>
+                <h1 className="page-title">כל הפניות</h1>
+            </div>
+            <div className="card-grid">
             {inquiries.map((inquiry) => (
                 <InqueryCard key={inquiry.id} inquery={inquiry} />
             ))}
+            </div>
         </main>
     )
 }

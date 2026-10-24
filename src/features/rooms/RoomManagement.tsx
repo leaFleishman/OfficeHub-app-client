@@ -8,7 +8,13 @@ const RoomManagement = () => {
 
 
     return (<>
-        <button type="button" onClick={() => navigate("/createRoom")}>הוסף חדר</button>
+        <div className="page-head">
+            <span className="eyebrow">ROOMS</span>
+            <h1 className="page-title">ניהול חדרים</h1>
+        </div>
+        <div className="row-actions">
+            <button type="button" className="btn btn-primary" onClick={() => navigate("/createRoom")}>הוסף חדר</button>
+        </div>
         <RoomsList></RoomsList>
     </>)
 }

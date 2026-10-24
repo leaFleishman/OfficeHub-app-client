@@ -59,31 +59,43 @@ const RoomForm = ({ room }: { room?: Room }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="name">שם החדר</label>
+    <div className="card form-card">
+    <div className="page-head" style={{ marginBottom: "1.5rem" }}>
+      <span className="eyebrow">{room ? "EDIT ROOM" : "NEW ROOM"}</span>
+      <h1 className="page-title">{room ? "עריכת חדר" : "יצירת חדר"}</h1>
+    </div>
+    <form onSubmit={handleSubmit(onSubmit)} dir="rtl" className="form-stack">
+      <div className="field">
+      <label htmlFor="name" className="field-label">שם החדר</label>
       <input id="name" {...register("name")} />
-      {errors.name && <p>{errors.name.message}</p>}
+      {errors.name && <p className="field-error">{errors.name.message}</p>}
+      </div>
 
-      <label htmlFor="capacity">מספר מקומות</label>
+      <div className="field">
+      <label htmlFor="capacity" className="field-label">מספר מקומות</label>
       <input
         id="capacity"
         type="number"
         {...register("capacity", { valueAsNumber: true })}
       />
-      {errors.capacity && <p>{errors.capacity.message}</p>}
+      {errors.capacity && <p className="field-error">{errors.capacity.message}</p>}
+      </div>
 
-      <label htmlFor="floor">קומה</label>
+      <div className="field">
+      <label htmlFor="floor" className="field-label">קומה</label>
       <input
         id="floor"
         type="number"
         {...register("floor", { valueAsNumber: true })}
       />
-      {errors.floor && <p>{errors.floor.message}</p>}
+      {errors.floor && <p className="field-error">{errors.floor.message}</p>}
+      </div>
 
       <fieldset>
-        <legend>ציוד</legend>
+        <legend className="field-label">ציוד</legend>
 
-        <label>
+        <div className="check-group">
+        <label className="check-pill">
           <input
             type="checkbox"
             value="Projector"
@@ -92,7 +104,7 @@ const RoomForm = ({ room }: { room?: Room }) => {
           מקרן
         </label>
 
-        <label>
+        <label className="check-pill">
           <input
             type="checkbox"
             value="Whiteboard"
@@ -101,7 +113,7 @@ const RoomForm = ({ room }: { room?: Room }) => {
           לוח
         </label>
 
-        <label>
+        <label className="check-pill">
           <input
             type="checkbox"
             value="VideoConference"
@@ -109,24 +121,26 @@ const RoomForm = ({ room }: { room?: Room }) => {
           />
           ציוד לשיחות וידאו
         </label>
+        </div>
 
-        {errors.equipment && <p>{errors.equipment.message}</p>}
+        {errors.equipment && <p className="field-error">{errors.equipment.message}</p>}
       </fieldset>
 
-      <button type="submit" disabled={roomMutation.isPending}>
+      <button type="submit" disabled={roomMutation.isPending} className="btn btn-primary btn-lg btn-block">
         {roomMutation.isPending
           ? room ? "מעדכן חדר..." : "יוצר חדר..."
           : room ? "שמירת שינויים" : "יצירת חדר"}
       </button>
 
       {roomMutation.isError && (
-        <p role="alert">שמירת החדר נכשלה: {roomMutation.error.message}</p>
+        <p role="alert" className="alert-error">שמירת החדר נכשלה: {roomMutation.error.message}</p>
       )}
 
       {roomMutation.isSuccess && (
-        <p role="status">{room ? "החדר עודכן בהצלחה!" : "החדר נוצר בהצלחה!"}</p>
+        <p role="status" className="alert-success">{room ? "החדר עודכן בהצלחה!" : "החדר נוצר בהצלחה!"}</p>
       )}
     </form>
+    </div>
   );
 };
 

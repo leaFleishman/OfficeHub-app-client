@@ -28,10 +28,10 @@ const RoomCard = ({ room }: RoomCardProps) => {
         <>
             <div
                 dir="rtl"
-                className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg"
+                className="card card-hover"
             >
-                <div className="mb-5 flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700">
+                <div className="card-title-row">
+                    <div className="card-icon">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -49,38 +49,40 @@ const RoomCard = ({ room }: RoomCardProps) => {
                     </div>
 
                     <div>
-                        <h3 className="text-lg font-bold text-gray-900">
+                        <h3 className="card-heading">
                             {room.name}
                         </h3>
-                        <p className="text-sm text-gray-500">
+                        <p className="card-caption">
                             קומה {room.floor}
                         </p>
                     </div>
                 </div>
 
-                <div className="mb-5 grid grid-cols-2 gap-3">
-                    <div className="rounded-xl bg-gray-50 p-3">
-                        <p className="mb-1 text-sm text-gray-500">
+                <div className="info-grid mb-5">
+                    <div className="info-tile">
+                        <p className="info-label">
                             קומה
                         </p>
-                        <p className="text-lg font-semibold text-gray-800">
+                        <p className="info-value info-value--big">
                             {room.floor}
                         </p>
                     </div>
 
-                    <div className="rounded-xl bg-indigo-50 p-3">
-                        <p className="mb-1 text-sm text-indigo-600">
+                    <div className="info-tile info-tile--accent">
+                        <p className="info-label">
                             כמות מושבים
                         </p>
-                        <p className="text-lg font-semibold text-indigo-700">
+                        <p className="info-value info-value--big">
                             {room.capacity}
                         </p>
+                        <div className="cap-meter" aria-hidden="true">
+                            <span style={{ width: `${Math.min(100, (room.capacity / 30) * 100)}%` }}></span>
+                        </div>
                     </div>
                 </div>
 
                 <div>
-                    <h4 className="mb-3 flex items-center gap-2 font-semibold text-gray-800">
-                        <span className="h-5 w-1 rounded-full bg-indigo-500" />
+                    <h4 className="equip-title">
                         ציוד בחדר
                     </h4>
 
@@ -88,56 +90,56 @@ const RoomCard = ({ room }: RoomCardProps) => {
                         {room.equipment.map((equipment) => (
                             <p
                                 key={equipment}
-                                className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm text-gray-700"
+                                className="tag"
                             >
                                 {equipmentLabels[equipment] ?? equipment}
                             </p>
                         ))}
                     </div>
 
-                    <div className="mt-4 flex gap-2">
+                    <div className="row-actions divider">
                         <button
                             type="button"
                             onClick={() => navigate(`/EditRoom/${room.id}`)}
-                            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                            className="btn btn-primary btn-sm"
                         >
                             ערוך חדר
                         </button>
                         <button
                             type="button"
                             onClick={() => setShowDeleteDialog(true)}
-                            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
+                            className="btn btn-danger btn-sm"
                         >
                             מחק חדר
                         </button>
                     </div>
 
                     {showDeleteDialog && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                        <div className="modal-backdrop">
                             <div
                                 dir="rtl"
-                                className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
+                                className="modal"
                             >
-                                <h2 className="mb-3 text-xl font-bold text-gray-900">
+                                <h2 className="modal-title">
                                     אישור מחיקת חדר
                                 </h2>
 
-                                <p className="mb-6 text-gray-600">
+                                <p className="modal-text">
                                     האם את בטוחה שברצונך למחוק את החדר {room.name}?
                                     פעולה זו אינה ניתנת לביטול.
                                 </p>
 
                                 {mutation.isError && (
-                                    <p className="mb-4 text-sm text-red-600">
+                                    <p className="alert-error mt-4">
                                         אירעה שגיאה במחיקת החדר. נסי שוב.
                                     </p>
                                 )}
 
-                                <div className="flex gap-3">
+                                <div className="modal-actions modal-actions--split">
                                     <button
                                         type="button"
                                         onClick={() => setShowDeleteDialog(false)}
-                                        className="flex-1 rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 hover:bg-gray-100"
+                                        className="btn btn-ghost"
                                     >
                                         ביטול
                                     </button>
@@ -146,7 +148,7 @@ const RoomCard = ({ room }: RoomCardProps) => {
                                         type="button"
                                         onClick={handleDelete}
                                         disabled={mutation.isPending}
-                                        className="flex-1 rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                        className="btn btn-danger"
                                     >
                                         {mutation.isPending ? "מוחק..." : "כן, מחק"}
                                     </button>

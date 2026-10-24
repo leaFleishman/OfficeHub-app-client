@@ -1,23 +1,31 @@
+import { useState } from "react";
 import { getCompanies } from "../api/companies";
 import { useApiQuery } from "../hooks/useApiQuery";
 import type { Company } from "../types/domain";
-import Message from "./message";
+import ConfirmDialog from "./ConfirmDialog";
 import QueryMessage from "./QueryMessage ";
+import { deleteCompany } from "../api/companies";
+import { useApiMutation } from "../hooks/useApiMutation";
+import { useNavigate } from "react-router-dom";
 
 interface CompanyProps {
     company: Company
 }
 
 const Company = ({ company }: CompanyProps) => {
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+const navigate=useNavigate()
+
+    const mutate=useApiMutation((id:number)=>deleteCompany(id),[["companies"]])
 
 return (
     <>
         <div
             dir="rtl"
-            className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg"
+            className="card card-hover"
         >
-            <div className="mb-5 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700">
+            <div className="card-title-row">
+                <div className="card-icon">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -35,44 +43,59 @@ return (
                 </div>
 
                 <div>
-                    <h2 className="text-xl font-bold text-gray-900">
+                    <h2 className="card-heading">
                         {company.name}
                     </h2>
-                    <p className="text-sm text-gray-500">
+                    <p className="card-caption">
                         פרטי החברה
                     </p>
                 </div>
             </div>
 
-            <div className="space-y-3">
-                <div className="rounded-xl bg-gray-50 p-4">
-                    <p className="mb-1 text-sm text-gray-500">
+            <div className="stack-y" style={{ gap: "0.75rem" }}>
+                <div className="info-tile">
+                    <p className="info-label">
                         תאריך הקמה
                     </p>
-                    <p className="font-semibold text-gray-800">
+                    <p className="info-value">
                         {company.createdAt}
                     </p>
                 </div>
 
-                <div className="rounded-xl bg-gray-50 p-4">
-                    <p className="mb-1 text-sm text-gray-500">
+                <div className="info-tile">
+                    <p className="info-label">
                         טלפון מנהל
                     </p>
-                    <p className="font-semibold text-gray-800">
+                    <p className="info-value">
                         {company.phone}
                     </p>
                 </div>
 
-                <div className="rounded-xl bg-gray-50 p-4">
-                    <p className="mb-1 text-sm text-gray-500">
+                <div className="info-tile info-tile--accent">
+                    <p className="info-label">
                         קומה
                     </p>
-                    <p className="font-semibold text-gray-800">
+                    <p className="info-value info-value--big">
                         {company.floor}
                     </p>
                 </div>
             </div>
+            <button onClick={() => setIsDeleteDialogOpen(true)}>מחיקת החברה</button>
         </div>
+        <ConfirmDialog
+            isOpen={isDeleteDialogOpen}
+            title="מחיקת חברה"
+            message={`האם אתה בטוח שברצונך למחוק את החברה ${company.name}?`}
+            onConfirm={() =>
+                mutate.mutate(company.id, {
+                    onSuccess: () => {
+                        setIsDeleteDialogOpen(false);
+                        navigate("/CompaniesAdmin");
+                    },
+                })
+            }
+            onCancel={() => setIsDeleteDialogOpen(false)}
+        />
     </>
 );
 
@@ -84,7 +107,7 @@ export default Company
 
 export const AllCompanies=()=>{
 
-    const{isError,isPending,data}=useApiQuery([["companies"]],getCompanies)
+    const{isError,isPending,data}=useApiQuery(["companies"],getCompanies)
     
    
 const queryMessage =(<QueryMessage errorMessage="טעינת חברות נכשלה" loadingMessage="טוען חברות..."  isError={isError} isPending={isPending}></QueryMessage>)
@@ -93,7 +116,7 @@ const queryMessage =(<QueryMessage errorMessage="טעינת חברות נכשל�
     return queryMessage
     return (
         
-        <div>
+        <div className="card-grid">
             {data.map((company: Company) => (
                 <div key={company.id}>
                     <Company company={company} />

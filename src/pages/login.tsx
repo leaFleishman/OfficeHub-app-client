@@ -38,32 +38,39 @@ export default function LoginForm() {
   };
 
   return (
-    <div
-      dir="rtl"
-      className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10"
-    >
-      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-xl sm:p-10">
+    <div dir="rtl" className="auth-page">
+      <aside className="auth-aside" aria-hidden="true">
+        <span className="orb orb-1"></span>
+        <span className="orb orb-2"></span>
+        <div className="skyline">
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </aside>
+
+      <div className="auth-main">
+      <div className="auth-card">
         {/* כותרת */}
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-600 text-2xl font-bold text-white shadow-lg shadow-blue-200">
+          <div className="auth-logo">
             O
           </div>
 
-          <h1 className="text-3xl font-bold text-slate-800">
+          <h1 className="page-title">
             ברוכים הבאים
           </h1>
 
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="page-sub mt-2">
             התחברי לחשבון שלך כדי להמשיך
           </p>
         </div>
 
         {/* טופס */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div>
+        <form onSubmit={handleSubmit(onSubmit)} className="form-stack">
+          <div className="field">
             <label
               htmlFor="email"
-              className="mb-2 block text-sm font-semibold text-slate-700"
+              className="field-label"
             >
               כתובת מייל
             </label>
@@ -74,24 +81,20 @@ export default function LoginForm() {
               placeholder="name@example.com"
               autoComplete="email"
               {...register("email")}
-              className={`w-full rounded-xl border bg-white px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:ring-4 ${
-                errors.email
-                  ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-                  : "border-slate-200 focus:border-blue-500 focus:ring-blue-100"
-              }`}
+              className={`input ${errors.email ? "input-error" : ""}`}
             />
 
             {errors.email && (
-              <p className="mt-2 text-sm text-red-600">
+              <p className="field-error">
                 {errors.email.message}
               </p>
             )}
           </div>
 
-          <div>
+          <div className="field">
             <label
               htmlFor="password"
-              className="mb-2 block text-sm font-semibold text-slate-700"
+              className="field-label"
             >
               סיסמה
             </label>
@@ -102,15 +105,11 @@ export default function LoginForm() {
               placeholder="הזיני את הסיסמה שלך"
               autoComplete="current-password"
               {...register("password")}
-              className={`w-full rounded-xl border bg-white px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:ring-4 ${
-                errors.password
-                  ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-                  : "border-slate-200 focus:border-blue-500 focus:ring-blue-100"
-              }`}
+              className={`input ${errors.password ? "input-error" : ""}`}
             />
 
             {errors.password && (
-              <p className="mt-2 text-sm text-red-600">
+              <p className="field-error">
                 {errors.password.message}
               </p>
             )}
@@ -120,7 +119,7 @@ export default function LoginForm() {
           {isError && (
             <div
               role="alert"
-              className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-700"
+              className="alert-error"
             >
               ההתחברות נכשלה. בדקי את כתובת המייל והסיסמה ונסי שוב.
             </div>
@@ -129,11 +128,12 @@ export default function LoginForm() {
           {/* כפתור */}
           <button
             type="submit"
-            className="w-full rounded-xl bg-blue-600 px-4 py-3.5 font-semibold text-white shadow-md shadow-blue-200 transition hover:bg-blue-700 active:scale-[0.99]"
+            className="btn btn-primary btn-lg btn-block"
           >
             התחברות
           </button>
         </form>
+      </div>
       </div>
     </div>
   );

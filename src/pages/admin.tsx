@@ -10,15 +10,30 @@ const Admin = () => {
 
     return (
         <>
-            <p>admin</p>
+            <div className="page-head">
+                <span className="eyebrow">ADMIN</span>
+                <h1 className="page-title">ניהול</h1>
+            </div>
+
+            <div className="row-actions">
+                <button type="button" className="btn btn-primary" onClick={() => navigate("/CreateBooking")}>
+                    הוסף הזמנה
+                </button>
+                {user?.role==="Admin"&&(<><Link to={"/RoomManagement"} className="btn">ניהול חדרים</Link>
+                <Link to={"/CompaniesAdmin"} className="btn">ניהול חברות</Link></>)}
+                
+            </div>
 
             {user?.role === "Manager" && (
                 <>
-                    <EmployeeManagement />
-
-                    <button type="button" onClick={() => navigate("/employees/new")}>
+                 <div className="row-actions">
+                    <button type="button" className="btn btn-primary" onClick={() => navigate("/employees/new")}>
                         הוסף עובד
                     </button>
+                    </div>
+                    <EmployeeManagement />
+
+                   
                 </>
             )}
 
@@ -27,11 +42,6 @@ const Admin = () => {
               </>
             )}
 
-            <button type="button" onClick={() => navigate("/CreateBooking")}>
-                הוסף הזמנה
-            </button>
-            <Link to={"/RoomManagement"}>ניהול חדרים</Link>
-            <Link to={"/CompaniesAdmin"}>ניהול חברות</Link>
         </>
     );
 };

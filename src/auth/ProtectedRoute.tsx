@@ -9,7 +9,7 @@ const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div className="notice">Loading...</div>;
     }
 
     if (!user) {

@@ -25,11 +25,14 @@ const queryMessage =(<QueryMessage errorMessage="טעינת פניות נכשל�
   }
 
   return (
-    <main dir="rtl">
-      <h1>הפניות שלי</h1>
+    <main dir="rtl" className="stack-y">
+      <div className="page-head">
+        <span className="eyebrow">INQUIRIES</span>
+        <h1 className="page-title">הפניות שלי</h1>
+      </div>
 
 
-      <div>
+      <div className="card-grid">
         {inquiries.map((i: Inquiry) => (
           <InquiryCard key={i.id} inquery={i} />
 

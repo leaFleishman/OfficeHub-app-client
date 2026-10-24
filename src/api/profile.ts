@@ -1,6 +1,6 @@
 
 import { api } from "./client"
-import type { User } from "../types/domain"
+import type {  User } from "../types/domain"
 
 export const getProfile = async () => {
     const res = await api.get("profile")
@@ -12,7 +12,10 @@ export const updateProfile = async (name: string, email: string, phone: string |
     return res.data
 }
 
-export const changePassword = async (cur: string,newPass: string) => {
-    const res = await api.put("profile/password",{cur,newPass})
+
+
+export const changePassword = async (  currentPassword: string,
+    newPassword: string) => {
+    const res = await api.put("profile/password",{currentPassword,newPassword})
     return res.data
 }

@@ -43,19 +43,22 @@ export const CompanyBookings = ({
     }
 
     return (
-        <main dir="rtl">
-            <h1>הזמנות החברה</h1>
-            <ul>
+        <main dir="rtl" className="stack-y">
+            <div className="page-head">
+                <span className="eyebrow">COMPANY BOOKINGS</span>
+                <h1 className="page-title">הזמנות החברה</h1>
+            </div>
+            <ul className="card-grid">
                 {data.items.map((booking) => (
-                    <li key={booking.id}>
-                        <h2>פגישה בחדר {booking.roomName}</h2>
-                        <p>נקבעה עבור: {booking.userName ?? "לא צוין"}</p>
-                        <p>תאריך: {booking.date}</p>
-                        <p>נושא: {booking.subject ?? "לא צוין"}</p>
-                        <p>
+                    <li key={booking.id} className="card card-hover booking-card">
+                        <h2 className="booking-room">פגישה בחדר {booking.roomName}</h2>
+                        <p className="meta-value">נקבעה עבור: {booking.userName ?? "לא צוין"}</p>
+                        <p className="meta-value">תאריך: {booking.date}</p>
+                        <p className="meta-value">נושא: {booking.subject ?? "לא צוין"}</p>
+                        <p className="meta-value">
                             שעות: {booking.startTime}–{booking.endTime}
                         </p>
-                        <p>
+                        <p className="meta-value">
                             סטטוס: {booking.status === "Active" ? "פעילה" : "בוטלה"}
                         </p>
                     </li>

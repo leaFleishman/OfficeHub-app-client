@@ -5,12 +5,12 @@ export type StatCardProps = {
 
 const StatCard = ({ title, value }: StatCardProps) => {
     return (
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
-            <h2 className="text-sm font-medium text-slate-500">
+        <div className="stat-card">
+            <h2 className="stat-label">
                 {title}
             </h2>
 
-            <p className="mt-3 text-3xl font-bold tracking-tight text-slate-800">
+            <p className={typeof value === "string" ? "stat-value stat-value--text" : "stat-value"}>
                 {value}
             </p>
         </div>

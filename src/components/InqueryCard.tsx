@@ -10,40 +10,41 @@ const InquiryCard = ({ inquery }: InquiryCardProps) => {
     const { user } = useAuth();
 
     return (
-        <div className="w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
-            <p className="mb-4 text-sm text-slate-500">
+        <div className="card card-hover inquiry-card">
+            <p className="inquiry-by">
                 הפנייה נוצרה ע"י{" "}
-                <span className="font-semibold text-slate-700">
+                <strong>
                     {inquery.userName}
-                </span>{" "}
+                </strong>{" "}
                 בתאריך {inquery.createdAt}
             </p>
 
-            <div className="space-y-4">
+            <div className="stack-y">
                 <div>
-                    <h2 className="mb-2 text-lg font-bold text-slate-800">
+                    <h2 className="inquiry-subject">
                         נושא הפנייה: {inquery.subject}
                     </h2>
-                    <p className="whitespace-pre-wrap leading-7 text-slate-600">
+                    <p className="inquiry-body">
                         {inquery.content}
                     </p>
-                    <p>הערות:{inquery.reply}</p>
+                    <p className="inquiry-note">הערות:{inquery.reply}</p>
 
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-sm font-medium text-slate-600">
+                <div className="row-actions">
+                    <span className="info-label">
                         סטטוס:
                     </span>
 
                     <span
-                        className={`rounded-full px-3 py-1 text-xs font-semibold ${inquery.status === "Open"
-                                ? "bg-amber-100 text-amber-800"
+                        className={`badge ${inquery.status === "Open"
+                                ? "badge-warn"
                                 : inquery.status === "InProgress"
-                                    ? "bg-blue-100 text-blue-800"
-                                    : "bg-emerald-100 text-emerald-800"
+                                    ? "badge-info"
+                                    : "badge-ok"
                             }`}
                     >
+                        <span className="badge-dot"></span>
                         {inquery.status === "Open"
                             ? "פתוח"
                             : inquery.status === "InProgress"
@@ -56,18 +57,18 @@ const InquiryCard = ({ inquery }: InquiryCardProps) => {
                 </div>
 
                 {inquery.status === "Closed" && (
-                    <p className="rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
+                    <p className="inquiry-footer">
                         טופל על ידי{" "}
-                        <span className="font-semibold text-slate-800">
+                        <strong>
                             {inquery.handledBy}
-                        </span>{" "}
+                        </strong>{" "}
                         בתאריך {inquery.updatedAt}
                     </p>
                 )}
 
                 {user?.role === "Admin" && inquery.status !== "Closed" && (
                     <Link
-                        className="w-full rounded-xl bg-indigo-600 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                        className="btn btn-primary"
                         to={`/InquiryManagement/${inquery.id}`}
                     >
                         {inquery.status === "Open"

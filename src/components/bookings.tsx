@@ -54,13 +54,14 @@ const Bookings = ({
     return (
         <main
             dir="rtl"
-            className="mx-auto min-h-screen w-full max-w-5xl bg-slate-50 px-4 py-8 text-slate-800 sm:px-6"
+            className="stack-y"
         >
-            <header className="mb-8 border-b border-slate-200 pb-5">
-                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            <header className="page-head">
+                <span className="eyebrow">BOOKINGS</span>
+                <h1 className="page-title">
                     {title}
                 </h1>
-                <p className="mt-2 text-sm text-slate-500">
+                <p className="page-sub">
                     {title === "הפגישות שלי"
                         ? "צפייה בפרטי הפגישות וניהול ההזמנות שלך"
                         : "צפייה בפרטי כל ההזמנות במערכת"}
@@ -70,121 +71,181 @@ const Bookings = ({
             {cancelMutation.isError && (
                 <div
                     role="alert"
-                    className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                    className="alert-error"
                 >
                     ביטול הפגישה נכשל: {cancelMutation.error.message}
                 </div>
             )}
 
+            {bookings.length > 0 && (
+                <section className="card chart-card">
+                    <div className="chart-head">
+                        <h2 className="chart-title">סטטוס הזמנות</h2>
+                        <span className="chart-sub">{bookings.length} הזמנות בתצוגה</span>
+                    </div>
+
+                    <div className="donut-wrap">
+                        <div className="donut">
+                            <svg viewBox="0 0 100 100" aria-hidden="true">
+                                <circle className="donut-track" cx="50" cy="50" r="40" strokeWidth="9" />
+                                <circle
+                                    className="donut-arc"
+                                    cx="50"
+                                    cy="50"
+                                    r="40"
+                                    strokeWidth="9"
+                                    pathLength={100}
+                                    stroke="#c9486f"
+                                    strokeDasharray={`${(bookings.filter((b) => b.status === "Active").length / bookings.length) * 100} 100`}
+                                />
+                            </svg>
+                            <div className="donut-center">
+                                <span className="donut-number">
+                                    {Math.round((bookings.filter((b) => b.status === "Active").length / bookings.length) * 100)}%
+                                </span>
+                                <span className="donut-caption">פעילות</span>
+                            </div>
+                        </div>
+
+                        <div className="legend">
+                            <div className="legend-item">
+                                <span className="legend-dot"></span>
+                                פעילות
+                                <b>{bookings.filter((b) => b.status === "Active").length}</b>
+                            </div>
+                            <div className="legend-item">
+                                <span className="legend-dot legend-dot--muted"></span>
+                                בוטלו
+                                <b>{bookings.filter((b) => b.status !== "Active").length}</b>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {bookings.length === 0 ? (
-                <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center">
-                    <p className="text-lg font-semibold text-slate-700">
+                <div className="empty-state">
+                    <p className="empty-title">
                         {title === "הפגישות שלי"
                             ? "אין לך פגישות להצגה"
                             : "לא נמצאו הזמנות."}
                     </p>
-                    <p className="mt-2 text-sm text-slate-500">
+                    <p className="empty-sub">
                         {title === "הפגישות שלי"
                             ? "ההזמנות שלך יופיעו כאן לאחר יצירתן."
                             : "ההזמנות יופיעו כאן לאחר יצירתן."}
                     </p>
                 </div>
             ) : (
-                <ul className="grid grid-cols-1 gap-5 p-0 md:grid-cols-2">
+                <ul className="card-grid">
                     {bookings.map((booking) => {
                         const isActive = booking.status === "Active";
 
                         return (
                             <li
                                 key={booking.id}
-                                className="list-none rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow duration-200 hover:shadow-md"
+                                className="card card-hover booking-card"
                             >
-                                <div className="mb-4 flex items-start justify-between gap-3">
+                                <div className="booking-top">
                                     <div>
-                                        <p className="text-xs font-medium text-slate-500">
+                                        <p className="meta-label">
                                             חדר ישיבות
                                         </p>
-                                        <h2 className="mt-1 text-lg font-bold text-slate-800">
+                                        <h2 className="booking-room">
                                             {booking.roomName}
                                         </h2>
                                     </div>
 
                                     <span
-                                        className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
+                                        className={`badge ${
                                             isActive
-                                                ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200"
-                                                : "bg-slate-100 text-slate-500 ring-1 ring-slate-200"
+                                                ? "badge-ok"
+                                                : "badge-muted"
                                         }`}
                                     >
+                                        <span className="badge-dot"></span>
                                         {isActive ? "פעילה" : "בוטלה"}
                                     </span>
                                 </div>
 
-                                <div className="space-y-3 border-t border-slate-100 pt-4 text-sm">
-                                    <div>
-                                        <p className="text-xs text-slate-500">
+                                <div>
+                                    <div className="time-track" aria-hidden="true">
+                                        <span
+                                            className={`time-block ${isActive ? "" : "time-block--off"}`}
+                                            style={{
+                                                left: `${((Number(booking.startTime.slice(0, 2)) * 60 + Number(booking.startTime.slice(3, 5))) / 1440) * 100 || 0}%`,
+                                                width: `${(((Number(booking.endTime.slice(0, 2)) * 60 + Number(booking.endTime.slice(3, 5))) - (Number(booking.startTime.slice(0, 2)) * 60 + Number(booking.startTime.slice(3, 5)))) / 1440) * 100 || 0}%`,
+                                            }}
+                                        ></span>
+                                    </div>
+                                    <div className="time-scale" aria-hidden="true">
+                                        <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+                                    </div>
+                                </div>
+
+                                <div className="booking-meta">
+                                    <div className="span-2">
+                                        <p className="meta-label">
                                             נושא הפגישה
                                         </p>
-                                        <p className="mt-1 font-medium text-slate-800">
+                                        <p className="meta-value">
                                             {booking.subject || "לא צוין"}
                                         </p>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <p className="text-xs text-slate-500">
-                                                תאריך
-                                            </p>
-                                            <p className="mt-1 font-medium">
-                                                {booking.date}
-                                            </p>
-                                        </div>
-
-                                        <div>
-                                            <p className="text-xs text-slate-500">
-                                                שעות הפגישה
-                                            </p>
-                                            <p className="mt-1 font-medium">
-                                                {booking.startTime}–{booking.endTime}
-                                            </p>
-                                        </div>
+                                    <div>
+                                        <p className="meta-label">
+                                            תאריך
+                                        </p>
+                                        <p className="meta-value">
+                                            {booking.date}
+                                        </p>
                                     </div>
 
                                     <div>
-                                        <p className="text-xs text-slate-500">
+                                        <p className="meta-label">
+                                            שעות הפגישה
+                                        </p>
+                                        <p className="meta-value">
+                                            {booking.startTime}–{booking.endTime}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <p className="meta-label">
                                             הוזמנה עבור
                                         </p>
-                                        <p className="mt-1 font-medium">
+                                        <p className="meta-value">
                                             {booking.userName || "לא צוין"}
                                         </p>
                                     </div>
 
                                     <div>
-                                        <p className="text-xs text-slate-500">
+                                        <p className="meta-label">
                                             מספר חדר
                                         </p>
-                                        <p className="mt-1 font-medium">
+                                        <p className="meta-value">
                                             {booking.roomId}
                                         </p>
                                     </div>
 
-                                    <div>
-                                        <p className="text-xs text-slate-500">
+                                    <div className="span-2">
+                                        <p className="meta-label">
                                             משתתפים
                                         </p>
 
                                         {booking.participants?.length ? (
-                                            <ul className="mt-1 list-inside list-disc">
+                                            <ul className="participants">
                                                 {booking.participants.map(
                                                     (participant) => (
-                                                        <li key={participant.id}>
+                                                        <li key={participant.id} className="tag">
                                                             {participant.name}
                                                         </li>
                                                     )
                                                 )}
                                             </ul>
                                         ) : (
-                                            <p className="mt-1 text-slate-500">
+                                            <p className="meta-value badge-muted">
                                                 אין מידע על משתתפים.
                                             </p>
                                         )}
@@ -194,7 +255,7 @@ const Bookings = ({
                                 {isActive&&user?.role!=="Employee"&& (
                                     <button
                                         type="button"
-                                        className="mt-5 w-full rounded-xl border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-300 disabled:cursor-not-allowed disabled:opacity-50"
+                                        className="btn btn-danger btn-block"
                                         onClick={() =>
                                             setBookingToCancel(booking)
                                         }

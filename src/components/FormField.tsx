@@ -20,10 +20,10 @@ const FormField = ({
     ...inputProps
 }: FormFieldProps) => {
     return (
-        <div className="mb-4 flex flex-col gap-1.5">
+        <div className="field">
             <label
                 htmlFor={id}
-                className="text-sm font-medium text-slate-700"
+                className="field-label"
             >
                 {label}
             </label>
@@ -31,10 +31,10 @@ const FormField = ({
             {children ?? (
                 <input
                     id={id}
-                    className={`rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-blue-200 ${
+                    className={`input ${
                         error
-                            ? "border-red-500"
-                            : "border-slate-300 focus:border-blue-500"
+                            ? "input-error"
+                            : ""
                     } ${className}`}
                     aria-invalid={Boolean(error)}
                     aria-describedby={error ? `${id}-error` : undefined}
@@ -46,7 +46,7 @@ const FormField = ({
                 <p
                     id={`${id}-error`}
                     role="alert"
-                    className="text-sm text-red-600"
+                    className="field-error"
                 >
                     {error}
                 </p>

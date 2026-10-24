@@ -6,21 +6,20 @@ const Navbar = () => {
     const { user } = useAuth()
 
     return (<>
-        <div>
-            {user?.role !== "Admin" && (
-                <>
-                    <div><button onClick={() => navigate("/inquiries")}>פניות</button></div>
-                    <div><button onClick={() => navigate("/bookings")}>פגישות</button></div>
-                    <div> <button onClick={() => navigate("/CreateBooking")}>הזמנת חדר לפגישה</button></div>
-
-                </>
+        <section className="stack-y">
+        <h2 className="section-title">קיצורי דרך</h2>
+        <div className="quick-actions">
+           
+            {user?.role==="Manager"&&(
+               <div> <button className="action-tile" onClick={()=>navigate("/MyCompany")}>החברה שלי</button></div>
             )}
 
-            <div> <button onClick={() => navigate("/profile")}>עריכת פרופיל</button></div>
-            {user?.role !== "Employee" && <div><button onClick={() => navigate("/admin")}>ניהול</button></div>}
-            {user?.role === "Admin" && (<div> <button onClick={() => navigate("/allInquires")}> טיפול פניות</button></div>)}
+            <div> <button className="action-tile" onClick={() => navigate("/profile")}>עריכת פרופיל</button></div>
+            {user?.role !== "Employee" && <div><button className="action-tile" onClick={() => navigate("/admin")}>ניהול</button></div>}
+            {user?.role === "Admin" && (<div> <button className="action-tile" onClick={() => navigate("/allInquires")}> טיפול פניות</button></div>)}
 
         </div>
+        </section>
 
     </>)
 }
