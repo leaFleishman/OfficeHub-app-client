@@ -1,5 +1,4 @@
 import { useAuth } from "../../auth/useAuth";
-import Navbar from "../../components/Navbar";
 import Message from "../../components/message";
 import AdminDashboard from "./AdminDashboard";
 import EmployeeDashboard from "./EmployeeDashboard";
@@ -19,11 +18,11 @@ const Dashboard = () => {
 
     if (user.role === "Admin") {
 
-        return(<><AdminDashboard /><Navbar></Navbar></>) 
+        return(<><AdminDashboard /></>) 
     }
 
     if (user.role === "Manager") {
-        return(<><ManagerDashboard /><Navbar></Navbar>
+        return(<><ManagerDashboard />
         </>) 
     }
 

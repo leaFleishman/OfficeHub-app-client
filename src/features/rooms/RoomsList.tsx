@@ -23,7 +23,7 @@ const RoomsList = () => {
 
     return (
         <>
-            <p>חיפוד לפי קומה</p>
+            <p>חיפוש לפי קומה</p>
             <Search search={search} onSearchChange={setSearch}></Search>
             <div className="card-grid">{data.filter(r => {
 

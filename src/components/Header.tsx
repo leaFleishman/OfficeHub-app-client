@@ -33,6 +33,16 @@ const Header = () => {
                     >
                         פגישות 
                     </Link>
+{user?.role==="Manager"&&(<>
+<Link to="/myCompany" className="nav-link">החברה שלי</Link>
+
+</>
+
+)}
+
+{(user?.role=="Admin"||user?.role==="Manager")&&(<Link to="/admin" className="nav-link">ניהול</Link>
+)}
+{user?.role==="Admin"&&(<><Link to="/allInquires"  className="nav-link">טיפול בפניות</Link></>)}
 
                    
                 </div>

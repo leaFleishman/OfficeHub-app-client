@@ -10,7 +10,7 @@ const Search = ({ search, onSearchChange }: SearchProps) => {
         <div className="search-box">
             <FormField
                 id="search"
-                label="חיפוש לפי מזהה עובד"
+                label="חיפוש   "
                 placeholder="הקלד מזהה..."
                 value={search}
                 onChange={(e) => onSearchChange(e.target.value)}

@@ -90,6 +90,7 @@ const MyCompany = () => {
                 {editMode && (<CompanyForm company={myCompany}></CompanyForm>)}
             </div>
             <h2 className="section-title">העובדים שלנו</h2>
+            <p>חיפוד לפי מזהה עובד</p>
             <Search search={search} onSearchChange={setSearh}></Search>
             <div className="card-grid">
                 {

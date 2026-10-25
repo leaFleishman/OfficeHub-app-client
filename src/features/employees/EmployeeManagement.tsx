@@ -1,11 +1,13 @@
 // ניהול עובדים - רשימה, הוספה, חסימה / ביטול חסימה
 
+import { useState } from "react";
 import { getEmployees } from "../../api/employees";
 import EmployeeCard from "../../components/EmployeeCard";
 import Message from "../../components/message";
 import type { User } from "../../types/domain";
 import { useApiQuery } from "../../hooks/useApiQuery";
 import QueryMessage from "../../components/QueryMessage ";
+import Search from "../../components/search";
 
 const EmployeeManagement = () => {
     const {
@@ -14,12 +16,25 @@ const EmployeeManagement = () => {
         isPending,
     } = useApiQuery<User[]>(["employees"], getEmployees);
 
-   const queryMessage =(<QueryMessage errorMessage="טעינת עובדים נכשלה" loadingMessage="טוען הזמנות..."  isError={isError} isPending={isPending}></QueryMessage>)
+    const [search, setSearch] = useState("");
 
-   if (isPending || isError)
-    return queryMessage
+    const queryMessage = (
+        <QueryMessage
+            errorMessage="טעינת עובדים נכשלה"
+            loadingMessage="טוען עובדים..."
+            isError={isError}
+            isPending={isPending}
+        />
+    );
 
-  
+    if (isPending || isError) {
+        return queryMessage;
+    }
+
+    const filteredEmployees = employees.filter((employee) => {
+        const searchText = search.trim().toLowerCase();
+        return String(employee.id).includes(searchText);
+    });
 
     return (
         <main dir="rtl" className="stack-y">
@@ -27,18 +42,33 @@ const EmployeeManagement = () => {
                 <span className="eyebrow">TEAM</span>
                 <h1 className="page-title">ניהול עובדים</h1>
             </div>
+
             {employees.length === 0 ? (
                 <Message message="לא נמצאו עובדים." />
             ) : (
-                <div className="card-grid">
-                    {employees.map((employee: User) => (
-                        <EmployeeCard key={employee.id} {...employee} />
-                    ))}
-                </div>
+                <>
+                <p>חיפוש לפי מזהה עובד</p>
+                    <Search
+                        search={search}
+                        onSearchChange={setSearch}
+                    />
+
+                    {filteredEmployees.length === 0 ? (
+                        <Message message="לא נמצאו עובדים התואמים לחיפוש." />
+                    ) : (
+                        <div className="card-grid">
+                            {filteredEmployees.map((employee: User) => (
+                                <EmployeeCard
+                                    key={employee.id}
+                                    {...employee}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </>
             )}
         </main>
     );
-
 };
 
 export default EmployeeManagement;
