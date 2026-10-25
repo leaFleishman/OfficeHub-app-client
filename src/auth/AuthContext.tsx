@@ -37,15 +37,21 @@ export const AuthProvider = ({
             .finally(() => setIsLoading(false))
     }, [])
 
-    const userLogin = async (user: loginModel) => {
-        const res = await login(user)
-        const tokenRes: string = res.token
-        if (tokenRes) {
-            localStorage.setItem('token', tokenRes)
-            setUser(res.user)
-        }
-    }
+   const userLogin = async (user: loginModel) => {
+    const res = await login(user);
 
+    console.log("תשובת השרת:", res);
+    console.log("הטוקן שהתקבל:", res.token);
+
+    if (res.token) {
+        localStorage.setItem("token", res.token);
+        console.log("הטוקן שנשמר:", localStorage.getItem("token"));
+
+        setUser(res.user);
+    } else {
+        console.error("לא נמצא token בתשובת השרת");
+    }
+};
 
     return (
         <AuthContext.Provider value={{ user, userLogin, logout, updateUser: setUser, isLoading }}>
