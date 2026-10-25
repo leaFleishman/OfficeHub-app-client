@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,6 +14,9 @@ const schema = z.object({
     phone: z
         .string()
         .regex(/^\d{7,10}$/, "יש להזין מספר טלפון בן 7 עד 10 ספרות"),
+    managerName: z.string().trim().min(2, "יש להזין שם מנהל"),
+    managerEmail: z.string().email("כתובת אימייל לא תקינה"),
+    managerPassword: z.string().min(8, "הסיסמה חייבת להכיל לפחות 8 תווים")
 });
 
 type FormData = z.infer<typeof schema>;
@@ -37,6 +40,11 @@ const CompanyForm = ({ company }: CompanyFormProps) => {
                 data.name,
                 data.floor,
                 data.phone
+                , {
+                    name: data.managerName,
+                    email: data.managerEmail,
+                    password: data.managerPassword,
+                }
             );
         },
         [["companies"]]
@@ -45,30 +53,15 @@ const CompanyForm = ({ company }: CompanyFormProps) => {
     const {
         register,
         handleSubmit,
-        reset,
         formState: { errors },
     } = useForm<FormData>({
         resolver: zodResolver(schema),
         defaultValues: {
-            name: "",
-            floor: 0,
-            phone: "",
-        },
-    });
-
-    useEffect(() => {
-        reset({
             name: company?.name ?? "",
             floor: company?.floor ?? 0,
             phone: company?.phone ?? "",
-        });
-    }, [
-        company?.id,
-        company?.name,
-        company?.floor,
-        company?.phone,
-        reset,
-    ]);
+        },
+    });
 
     const onSubmit = (data: FormData) => {
         mutation.mutate(data);
@@ -86,7 +79,10 @@ const CompanyForm = ({ company }: CompanyFormProps) => {
                 </h1>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="form-stack">
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="form-stack"
+            >
                 <FormField
                     id="company-name"
                     label="שם החברה"
@@ -113,6 +109,12 @@ const CompanyForm = ({ company }: CompanyFormProps) => {
                     error={errors.phone?.message}
                     {...register("phone")}
                 />
+                {!company&&<>
+
+                <FormField id="managerName" label="שם מנהל חברה" type="text" autoComplete="managerName" error={errors.managerName?.message} {...register("managerName")}></FormField>
+                <FormField id="managerEmail" label="מייל מנהל החברה" type="email" autoComplete="email" error={errors.managerEmail?.message} {...register("managerEmail")}></FormField>
+                <FormField id="managerPassword" label="text" type="password" autoComplete="password" error={errors.managerPassword?.message} {...register("managerPassword")}></FormField>
+                </>}
 
                 <button
                     type="submit"

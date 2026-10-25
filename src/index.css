@@ -939,8 +939,13 @@ a:hover > .avatar { transform: scale(1.08); }
    Bookings / inquiries / rooms
    ========================================================================== */
 .booking-card { display: flex; flex-direction: column; gap: 1.1rem; }
+.booking-card > .btn-block { margin-top: auto; }
 .booking-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
 .booking-room { margin-top: 0.15rem; font-size: 1.35rem; }
+.company-form { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; }
+.company-form > .btn { white-space: nowrap; }
+.company-form > [role="alert"],
+.company-form > [role="status"] { grid-column: 1 / -1; }
 .booking-meta {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1170,6 +1175,8 @@ a:hover > .avatar { transform: scale(1.08); }
   .app-content { padding: 1.5rem 1rem 4rem; }
   .site-nav { padding: 0.7rem 1rem; flex-wrap: wrap; }
   .user-meta { display: none; }
+  .company-form { grid-template-columns: 1fr; }
+  .company-form > .btn { width: 100%; }
   .form-grid, .info-grid, .booking-meta { grid-template-columns: 1fr; }
   .info-grid .span-2, .booking-meta .span-2 { grid-column: auto; }
   .bar-row { grid-template-columns: 5.5rem 1fr 2.2rem; }

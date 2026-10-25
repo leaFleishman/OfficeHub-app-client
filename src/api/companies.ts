@@ -12,8 +12,8 @@ export const getMyCompany = async () => {
     return res.data
 }
 
-export const createCompany = async (name:string,floor:number,phone:string) => {
-    const res = await api.post("/companies",{name,floor,phone})
+export const createCompany = async (name:string,floor:number,phone:string,manager:{name:string,email:string,password:string}) => {
+    const res = await api.post("/companies",{name,floor,phone,manager})
     return res.data
 }
 

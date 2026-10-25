@@ -7,7 +7,7 @@ const Header = () => {
     return (
         <header className="site-header">
             <nav className="site-nav">
-                {/* ניווט */}
+              
                 <div className="nav-links">
                     <Link to="/home" className="brand-mark" aria-label="דף הבית">
                         O
@@ -47,7 +47,7 @@ const Header = () => {
                    
                 </div>
 
-                {/* פרטי המשתמש */}
+            
                 <div className="user-chip">
                     <div className="user-meta">
                         <p className="user-name">
@@ -58,7 +58,6 @@ const Header = () => {
                         </p>
                     </div>
 
-                    {/* עיגול עם האות הראשונה */}
                     <Link to={"/profile"}>
                         <div className="avatar">
                             {user?.name?.charAt(0)?.toUpperCase() ?? "?"}
