@@ -126,7 +126,7 @@ export default function LoginForm() {
           {/* כפתור */}
           <button
             type="submit"
-            className="btn btn-primary btn-lg btn-block"
+            className="btn btn-primary btn-lg btn-block" 
           >
             התחברות
           </button>

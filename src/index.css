@@ -959,6 +959,8 @@ a:hover > .avatar { transform: scale(1.08); }
 .participants { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.4rem; }
 
 .inquiry-card { display: flex; flex-direction: column; gap: 1.1rem; }
+.inquiry-card > .stack-y { flex: 1; }
+.inquiry-card > .stack-y > .btn { margin-top: auto; }
 .inquiry-by { font-size: 0.85rem; color: var(--tx2); }
 .inquiry-by strong { color: var(--tx1); font-weight: 600; }
 .inquiry-subject { font-size: 1.3rem; line-height: 1.3; }
