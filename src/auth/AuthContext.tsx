@@ -23,19 +23,39 @@ export const AuthProvider = ({
     const logout = (): void => {
         localStorage.removeItem("token");
         setUser(null);
-        navigate("/login")
+        setIsLoading(false);
+        navigate("/login", { replace: true });
     };
 
     useEffect(() => {
-        if (!localStorage.getItem('token')) {
+        const token = localStorage.getItem("token");
+        if (!token) {
             setIsLoading(false)
             return;
         }
+
+        let isCurrent = true;
         getMe()
-            .then((data) => setUser(data))
-            .catch(() => logout())
-            .finally(() => setIsLoading(false))
-    }, [])
+            .then((data) => {
+                if (isCurrent && localStorage.getItem("token") === token) {
+                    setUser(data);
+                }
+            })
+            .catch(() => {
+                if (isCurrent && localStorage.getItem("token") === token) {
+                    logout();
+                }
+            })
+            .finally(() => {
+                if (isCurrent) {
+                    setIsLoading(false);
+                }
+            });
+
+        return () => {
+            isCurrent = false;
+        };
+    }, []);
 
     const userLogin = async (user: loginModel) => {
         const res = await login(user)
