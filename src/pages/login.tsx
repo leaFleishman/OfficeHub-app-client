@@ -5,6 +5,7 @@ import { useAuth } from "../auth/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import LogoAnimation from "../components/LogoAnimation";
+import FormField from "../components/FormField";
 
 const schema = z.object({
   email: z.string().email("מייל לא תקין"),
@@ -20,7 +21,7 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors,isSubmitting},
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -65,53 +66,25 @@ export default function LoginForm() {
 
         {/* טופס */}
         <form onSubmit={handleSubmit(onSubmit)} className="form-stack">
-          <div className="field">
-            <label
-              htmlFor="email"
-              className="field-label"
-            >
-              כתובת מייל
-            </label>
+          <FormField
+            id="email"
+            label="כתובת מייל"
+            type="email"
+            placeholder="name@example.com"
+            autoComplete="email"
+            error={errors.email?.message}
+            {...register("email")}
+          />
 
-            <input
-              id="email"
-              type="email"
-              placeholder="name@example.com"
-              autoComplete="email"
-              {...register("email")}
-              className={`input ${errors.email ? "input-error" : ""}`}
-            />
-
-            {errors.email && (
-              <p className="field-error">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-
-          <div className="field">
-            <label
-              htmlFor="password"
-              className="field-label"
-            >
-              סיסמה
-            </label>
-
-            <input
-              id="password"
-              type="password"
-              placeholder="הזיני את הסיסמה שלך"
-              autoComplete="current-password"
-              {...register("password")}
-              className={`input ${errors.password ? "input-error" : ""}`}
-            />
-
-            {errors.password && (
-              <p className="field-error">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
+          <FormField
+            id="password"
+            label="סיסמה"
+            type="password"
+            placeholder="הזיני את הסיסמה שלך"
+            autoComplete="current-password"
+            error={errors.password?.message}
+            {...register("password")}
+          />
 
           {/* שגיאת התחברות */}
           {isError && (
@@ -126,7 +99,8 @@ export default function LoginForm() {
           {/* כפתור */}
           <button
             type="submit"
-            className="btn btn-primary btn-lg btn-block" 
+            className="btn btn-primary btn-lg btn-block" disabled={isSubmitting}
+
           >
             התחברות
           </button>
