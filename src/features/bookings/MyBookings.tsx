@@ -1,6 +1,5 @@
 import { getMyBookings } from "../../api/bookings";
 import Bookings from "../../components/bookings";
-import Message from "../../components/message";
 import QueryMessage from "../../components/QueryMessage ";
 import { useApiQuery } from "../../hooks/useApiQuery";
 

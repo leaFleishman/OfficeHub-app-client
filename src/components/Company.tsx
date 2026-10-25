@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getCompanies } from "../api/companies";
 import { useApiQuery } from "../hooks/useApiQuery";
-import type { Company } from "../types/domain";
+import type { Company as CompanyData } from "../types/domain";
 import ConfirmDialog from "./ConfirmDialog";
 import QueryMessage from "./QueryMessage ";
 import { deleteCompany } from "../api/companies";
@@ -9,7 +9,7 @@ import { useApiMutation } from "../hooks/useApiMutation";
 import { useNavigate } from "react-router-dom";
 
 interface CompanyProps {
-    company: Company
+    company: CompanyData
 }
 
 const Company = ({ company }: CompanyProps) => {
@@ -125,7 +125,7 @@ const queryMessage =(<QueryMessage errorMessage="טעינת חברות נכשל�
     return (
         
         <div className="card-grid">
-            {data.map((company: Company) => (
+            {data.map((company: CompanyData) => (
                 <div key={company.id}>
                     <Company company={company} />
                 </div>
