@@ -28,7 +28,6 @@ const RoomsList = () => {
             <div className="card-grid">{data.filter(r => {
 
                 const searchText = search.trim().toLowerCase();
-
                 return String(r.floor).includes(searchText)
             }).map((room: Room) => <RoomCard room={room} key={room.id} />)}</div>
         </>)

@@ -9,16 +9,7 @@ type ConfirmDialogProps = {
   isLoading?: boolean;
 };
 
-const ConfirmDialog = ({
-  isOpen,
-  title,
-  message,
-  confirmText = "אישור",
-  cancelText = "ביטול",
-  onConfirm,
-  onCancel,
-  isLoading = false,
-}: ConfirmDialogProps) => {
+const ConfirmDialog = ({ isOpen, title, message, confirmText = "אישור", cancelText = "ביטול", onConfirm, onCancel, isLoading = false }: ConfirmDialogProps) => {
   if (!isOpen) return null;
 return (
   <div
@@ -34,7 +25,7 @@ return (
       className="modal"
       onClick={(e) => e.stopPropagation()}
     >
-      {/* כותרת */}
+      
       <h2
         id="confirm-dialog-title"
         className="modal-title"
@@ -42,12 +33,12 @@ return (
         {title}
       </h2>
 
-      {/* הודעה */}
+     
       <p className="modal-text">
         {message}
       </p>
 
-      {/* כפתורים */}
+     
       <div className="modal-actions">
         <button
           type="button"

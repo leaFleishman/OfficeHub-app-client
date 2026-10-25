@@ -4,6 +4,7 @@ import { z } from "zod";
 import { createEmployee } from "../api/employees";
 import { useApiMutation } from "../hooks/useApiMutation";
 import type { CreateEmployeeInput } from "../types/domain";
+import FormField from "./FormField";
 
 const schema = z.object({
     name: z.string().trim().min(3, "השם חייב להכיל לפחות 3 תווים"),
@@ -53,63 +54,59 @@ const EmployeeForm = () => {
             <h1 className="page-title">הוספת עובד</h1>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} dir="rtl" className="form-stack">
-            <div className="field">
-            <label htmlFor="name" className="field-label">שם העובד</label>
-            <input id="name" autoComplete="name" {...register("name")} />
-            {errors.name && <p role="alert" className="field-error">{errors.name.message}</p>}
-            </div>
+            <FormField
+                id="name"
+                label="שם העובד"
+                autoComplete="name"
+                error={errors.name?.message}
+                {...register("name")}
+            />
 
-            <div className="field">
-            <label htmlFor="email" className="field-label">אימייל</label>
-            <input
+            <FormField
                 id="email"
+                label="אימייל"
                 type="email"
                 autoComplete="email"
+                error={errors.email?.message}
                 {...register("email")}
             />
-            {errors.email && <p role="alert" className="field-error">{errors.email.message}</p>}
-            </div>
 
-            <div className="field">
-            <label htmlFor="phone" className="field-label">מספר טלפון</label>
-            <input
+            <FormField
                 id="phone"
+                label="מספר טלפון"
                 type="tel"
                 autoComplete="tel"
+                error={errors.phone?.message}
                 {...register("phone")}
             />
-            {errors.phone && <p role="alert" className="field-error">{errors.phone.message}</p>}
-            </div>
 
-            <div className="field">
-            <label htmlFor="address" className="field-label">כתובת</label>
-            <input
+            <FormField
                 id="address"
+                label="כתובת"
                 autoComplete="street-address"
+                error={errors.address?.message}
                 {...register("address")}
             />
-            {errors.address && <p role="alert" className="field-error">{errors.address.message}</p>}
-            </div>
 
-            <div className="field">
-            <label htmlFor="password" className="field-label">סיסמה</label>
-            <input
+            <FormField
                 id="password"
+                label="סיסמה"
                 type="password"
                 autoComplete="new-password"
+                error={errors.password?.message}
                 {...register("password")}
             />
-            {errors.password && <p role="alert" className="field-error">{errors.password.message}</p>}
-            </div>
 
-            <div className="field">
-            <label htmlFor="role" className="field-label">תפקיד</label>
-            <select id="role" {...register("role")}>
-                <option value="Employee">עובד</option>
-                <option value="Manager">מנהל חברה</option>
-            </select>
-            {errors.role && <p role="alert" className="field-error">{errors.role.message}</p>}
-            </div>
+            <FormField
+                id="role"
+                label="תפקיד"
+                error={errors.role?.message}
+            >
+                <select id="role" {...register("role")}>
+                    <option value="Employee">עובד</option>
+                    <option value="Manager">מנהל חברה</option>
+                </select>
+            </FormField>
 
             <button type="submit" disabled={mutation.isPending} className="btn btn-primary btn-lg btn-block">
                 {mutation.isPending ? "מוסיף עובד..." : "הוספת עובד"}

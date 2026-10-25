@@ -3,12 +3,12 @@ import {  getEmployees } from "../api/employees";
 import { useAuth } from "../auth/useAuth";
 import { useApiQuery } from "../hooks/useApiQuery";
 import type { User } from "../types/domain";
-import Company from "./Company";
 import CompanyForm from "./CompanyForm";
 import EmployeeCard from "./EmployeeCard";
 import QueryMessage from "./QueryMessage ";
 import { useState } from "react";
 import Search from "./search";
+import Company from "./Company";
 
 const MyCompany = () => {
     const { user } = useAuth()
@@ -90,7 +90,7 @@ const MyCompany = () => {
                 {editMode && (<CompanyForm company={myCompany}></CompanyForm>)}
             </div>
             <h2 className="section-title">העובדים שלנו</h2>
-            <p>חיפוד לפי מזהה עובד</p>
+            <p>חיפוש לפי מזהה עובד</p>
             <Search search={search} onSearchChange={setSearh}></Search>
             <div className="card-grid">
                 {
