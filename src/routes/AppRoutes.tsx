@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import Login from "../pages/login";
 import Home from "../pages/home";
@@ -23,7 +23,27 @@ import { AllCompanies } from "../components/Company";
 import RootLayout from "./RootLayout";
 import CompaniesAdmin from "../pages/CompaniesAdmin";
 import MyCompany from "../components/myCompany";
+import { useAuth } from "../auth/useAuth";
 
+const EntryRedirect = () => {
+    const { user, isLoading } = useAuth();
+
+    if (isLoading) {
+        return <div className="notice">טוען...</div>;
+    }
+
+    return <Navigate to={user ? "/home" : "/login"} replace />;
+};
+
+const LoginRoute = () => {
+    const { user, isLoading } = useAuth();
+
+    if (isLoading) {
+        return <div className="notice">טוען...</div>;
+    }
+
+    return user ? <Navigate to="/home" replace /> : <Login />;
+};
 
 export const router = createBrowserRouter([
     {
@@ -31,8 +51,18 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <App />,
+                element: <EntryRedirect />,
+            },
+            {
+                path: "/login",
+                element: <LoginRoute />,
+            },
+            {
+                element: <ProtectedRoute />,
                 children: [
+                    {
+                        element: <App />,
+                        children: [
 
                     {
                         //admin only-------------------
@@ -80,10 +110,11 @@ export const router = createBrowserRouter([
                     { path: "Meetings", element: <Meetings></Meetings> },
                     { path: "InquiriesPage", element: <InquiriesPage></InquiriesPage> },
 
+                        ],
+                    },
                 ],
             },
 
-            { path: "/", element: <Login />, },
             { path: "*", element: <p className="alert-error" style={{ margin: "2rem" }}>not found</p>, },
 
         ],
