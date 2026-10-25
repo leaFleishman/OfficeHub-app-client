@@ -83,7 +83,7 @@ export const router = createBrowserRouter([
                 ],
             },
 
-            { path: "/login", element: <Login />, },
+            { path: "/", element: <Login />, },
             { path: "*", element: <p className="alert-error" style={{ margin: "2rem" }}>not found</p>, },
 
         ],
