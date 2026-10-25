@@ -1,12 +1,22 @@
 import FormField from "./FormField"
+
 type SearchProps = {
     search: string;
     onSearchChange: (value: string) => void;
 };
+
 const Search = ({ search, onSearchChange }: SearchProps) => {
-    return (<>
-        <FormField onChange={(e) => onSearchChange(e.target.value)
-        } value={search} id="search" error="  " label="חיפוש" placeholder="חיפוש "></FormField>
-    </>)
+    return (
+        <div className="search-box">
+            <FormField
+                id="search"
+                label="חיפוש לפי מזהה עובד"
+                placeholder="הקלד מזהה..."
+                value={search}
+                onChange={(e) => onSearchChange(e.target.value)}
+            />
+        </div>
+    )
 }
+
 export default Search

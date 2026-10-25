@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useApiMutation } from "../hooks/useApiMutation";
 import { cancelBooking, getMyBookings } from "../api/bookings";
 import type { Booking } from "../types/domain";
-import Message from "./message";
 import { useApiQuery } from "../hooks/useApiQuery";
 import ConfirmDialog from "./ConfirmDialog";
 import { useAuth } from "../auth/useAuth";
@@ -27,7 +26,6 @@ const Bookings = ({
         data: myBookings = [],
         isPending,
         isError,
-        error,
     } = useApiQuery<Booking[]>(["bookings"], getMyBookings, {
         enabled: providedBookings === undefined,
     });

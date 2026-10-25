@@ -80,7 +80,15 @@ return (
                     </p>
                 </div>
             </div>
-            <button onClick={() => setIsDeleteDialogOpen(true)}>מחיקת החברה</button>
+            <div className="row-actions divider">
+                <button
+                    type="button"
+                    onClick={() => setIsDeleteDialogOpen(true)}
+                    className="btn btn-danger btn-sm"
+                >
+                    מחיקת החברה
+                </button>
+            </div>
         </div>
         <ConfirmDialog
             isOpen={isDeleteDialogOpen}

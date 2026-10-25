@@ -4,6 +4,7 @@ import { z } from "zod";
 import { useAuth } from "../auth/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import LogoAnimation from "../components/LogoAnimation";
 
 const schema = z.object({
   email: z.string().email("מייל לא תקין"),
@@ -39,7 +40,8 @@ export default function LoginForm() {
 
   return (
     <div dir="rtl" className="auth-page">
-      <aside className="auth-aside" aria-hidden="true">
+      <aside className="auth-aside">
+        <LogoAnimation />
         <span className="orb orb-1"></span>
         <span className="orb orb-2"></span>
         <div className="skyline">
@@ -52,10 +54,6 @@ export default function LoginForm() {
       <div className="auth-card">
         {/* כותרת */}
         <div className="mb-8 text-center">
-          <div className="auth-logo">
-            O
-          </div>
-
           <h1 className="page-title">
             ברוכים הבאים
           </h1>

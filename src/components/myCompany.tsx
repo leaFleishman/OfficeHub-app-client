@@ -1,5 +1,5 @@
 import { getMyCompany } from "../api/companies";
-import { getEmployeeById, getEmployees } from "../api/employees";
+import {  getEmployees } from "../api/employees";
 import { useAuth } from "../auth/useAuth";
 import { useApiQuery } from "../hooks/useApiQuery";
 import type { User } from "../types/domain";
@@ -8,7 +8,6 @@ import CompanyForm from "./CompanyForm";
 import EmployeeCard from "./EmployeeCard";
 import QueryMessage from "./QueryMessage ";
 import { useState } from "react";
-import { useApiMutation } from "../hooks/useApiMutation";
 import Search from "./search";
 
 const MyCompany = () => {
@@ -77,13 +76,20 @@ const MyCompany = () => {
     return (
         <div dir="rtl" className="stack-y">
             <h2 className="section-title">החברה שלי</h2>
-            <div>
+            <div className="stack-y">
                 <Company company={myCompany} />
-                <button onClick={() => setEditMode(true)}>ערכת פרטי החברה</button>
+                <div className="row-actions">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => setEditMode((current) => !current)}
+                    >
+                        {editMode ? "סגירת עריכה" : "עריכת פרטי החברה"}
+                    </button>
+                </div>
                 {editMode && (<CompanyForm company={myCompany}></CompanyForm>)}
             </div>
             <h2 className="section-title">העובדים שלנו</h2>
-            <p>חיפוד לפי מזהה</p>
             <Search search={search} onSearchChange={setSearh}></Search>
             <div className="card-grid">
                 {

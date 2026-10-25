@@ -12,7 +12,6 @@ const EmployeeManagement = () => {
         data: employees = [],
         isError,
         isPending,
-        error,
     } = useApiQuery<User[]>(["employees"], getEmployees);
 
    const queryMessage =(<QueryMessage errorMessage="טעינת עובדים נכשלה" loadingMessage="טוען הזמנות..."  isError={isError} isPending={isPending}></QueryMessage>)
