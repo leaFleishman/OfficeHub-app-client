@@ -40,12 +40,8 @@ export const AuthProvider = ({
    const userLogin = async (user: loginModel) => {
     const res = await login(user);
 
-    console.log("תשובת השרת:", res);
-    console.log("הטוקן שהתקבל:", res.token);
-
     if (res.token) {
         localStorage.setItem("token", res.token);
-        console.log("הטוקן שנשמר:", localStorage.getItem("token"));
 
         setUser(res.user);
     } else {

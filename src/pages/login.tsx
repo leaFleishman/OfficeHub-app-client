@@ -21,7 +21,7 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors,isSubmitting},
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -52,60 +52,61 @@ export default function LoginForm() {
       </aside>
 
       <div className="auth-main">
-      <div className="auth-card">
-        {/* כותרת */}
-        <div className="mb-8 text-center">
-          <h1 className="page-title">
-            ברוכים הבאים
-          </h1>
+        <div className="auth-card">
+          {/* כותרת */}
+          <div className="mb-8 text-center">
+            <h1 className="page-title">
+              ברוכים הבאים
+            </h1>
 
-          <p className="page-sub mt-2">
-            התחברי לחשבון שלך כדי להמשיך
-          </p>
-        </div>
+            <p className="page-sub mt-2">
+              התחברי לחשבון שלך כדי להמשיך
+            </p>
+          </div>
 
-        {/* טופס */}
-        <form onSubmit={handleSubmit(onSubmit)} className="form-stack">
-          <FormField
-            id="email"
-            label="כתובת מייל"
-            type="email"
-            placeholder="name@example.com"
-            autoComplete="email"
-            error={errors.email?.message}
-            {...register("email")}
-          />
+          {/* טופס */}
+          <form onSubmit={handleSubmit(onSubmit)} className="form-stack">
+            <FormField
+              id="email"
+              label="כתובת מייל"
+              type="email"
+              placeholder="name@example.com"
+              autoComplete="email"
+              error={errors.email?.message}
+              {...register("email")}
+            />
 
-          <FormField
-            id="password"
-            label="סיסמה"
-            type="password"
-            placeholder="הזיני את הסיסמה שלך"
-            autoComplete="current-password"
-            error={errors.password?.message}
-            {...register("password")}
-          />
+            <FormField
+              id="password"
+              label="סיסמה"
+              type="password"
+              placeholder="הזיני את הסיסמה שלך"
+              autoComplete="current-password"
+              error={errors.password?.message}
+              {...register("password")}
+            />
 
-          {/* שגיאת התחברות */}
-          {isError && (
-            <div
-              role="alert"
-              className="alert-error"
+            {/* שגיאת התחברות */}
+            {isError && (
+              <div
+                role="alert"
+                className="alert-error"
+              >
+                ההתחברות נכשלה. בדקי את כתובת המייל והסיסמה ונסי שוב.
+              </div>
+            )}
+
+            {/* כפתור */}
+            <button
+              type="submit"
+              className="btn btn-primary btn-lg btn-block"
+              disabled={isSubmitting}
+
             >
-              ההתחברות נכשלה. בדקי את כתובת המייל והסיסמה ונסי שוב.
-            </div>
-          )}
-
-          {/* כפתור */}
-          <button
-            type="submit"
-            className="btn btn-primary btn-lg btn-block" disabled={isSubmitting}
-
-          >
-            התחברות
-          </button>
-        </form>
-      </div>
+              {isSubmitting ? "מתחברת..." : "התחברות"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

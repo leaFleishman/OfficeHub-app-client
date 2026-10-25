@@ -6,7 +6,6 @@ import { api } from "./client";
 
 export const login = async ({ email, password }: loginModel): Promise<LoginResponse> => {
     const res = await api.post("/auth/login", { email, password })
-        console.log("תשובת השרת:", res.data);
 
     return res.data
 
