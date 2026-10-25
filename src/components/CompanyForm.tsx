@@ -113,7 +113,7 @@ const CompanyForm = ({ company }: CompanyFormProps) => {
 
                 <FormField id="managerName" label="שם מנהל חברה" type="text" autoComplete="managerName" error={errors.managerName?.message} {...register("managerName")}></FormField>
                 <FormField id="managerEmail" label="מייל מנהל החברה" type="email" autoComplete="email" error={errors.managerEmail?.message} {...register("managerEmail")}></FormField>
-                <FormField id="managerPassword" label="text" type="password" autoComplete="password" error={errors.managerPassword?.message} {...register("managerPassword")}></FormField>
+                <FormField id="managerPassword" label="סיסמה מנהל החברה" type="password" autoComplete="password" error={errors.managerPassword?.message} {...register("managerPassword")}></FormField>
                 </>}
 
                 <button
