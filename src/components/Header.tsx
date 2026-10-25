@@ -65,7 +65,6 @@ const Header = () => {
                         </div>
                     </Link>
                     <button
-                        type="button"
                         onClick={logout}
                         className="btn btn-danger btn-sm"
                     >

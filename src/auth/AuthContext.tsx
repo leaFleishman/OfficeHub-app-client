@@ -23,39 +23,19 @@ export const AuthProvider = ({
     const logout = (): void => {
         localStorage.removeItem("token");
         setUser(null);
-        setIsLoading(false);
-        navigate("/login", { replace: true });
+        navigate("/login")
     };
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (!token) {
+        if (!localStorage.getItem('token')) {
             setIsLoading(false)
             return;
         }
-
-        let isCurrent = true;
         getMe()
-            .then((data) => {
-                if (isCurrent && localStorage.getItem("token") === token) {
-                    setUser(data);
-                }
-            })
-            .catch(() => {
-                if (isCurrent && localStorage.getItem("token") === token) {
-                    logout();
-                }
-            })
-            .finally(() => {
-                if (isCurrent) {
-                    setIsLoading(false);
-                }
-            });
-
-        return () => {
-            isCurrent = false;
-        };
-    }, []);
+            .then((data) => setUser(data))
+            .catch(() => logout())
+            .finally(() => setIsLoading(false))
+    }, [])
 
     const userLogin = async (user: loginModel) => {
         const res = await login(user)

@@ -23,100 +23,87 @@ import { AllCompanies } from "../components/Company";
 import RootLayout from "./RootLayout";
 import CompaniesAdmin from "../pages/CompaniesAdmin";
 import MyCompany from "../components/myCompany";
-import { useAuth } from "../auth/useAuth";
-
-const EntryRedirect = () => {
-    const { user, isLoading } = useAuth();
-
-    if (isLoading) {
-        return <div className="notice">טוען...</div>;
-    }
-
-    return <Navigate to={user ? "/home" : "/login"} replace />;
-};
-
-const LoginRoute = () => {
-    const { user, isLoading } = useAuth();
-
-    if (isLoading) {
-        return <div className="notice">טוען...</div>;
-    }
-
-    return user ? <Navigate to="/home" replace /> : <Login />;
-};
 
 export const router = createBrowserRouter([
     {
         element: <RootLayout />,
         children: [
             {
-                path: "/",
-                element: <EntryRedirect />,
+                path: "login",
+                element: <Login />,
             },
             {
-                path: "/login",
-                element: <LoginRoute />,
+                index: true,
+                element: <Navigate to="/login" replace />,
             },
             {
-                element: <ProtectedRoute />,
+                element: <App />,
                 children: [
+                    // Admin only
                     {
-                        element: <App />,
+                        element: <ProtectedRoute allowedRoles={["Admin"]} />,
                         children: [
-
-                    {
-                        //admin only-------------------
-                        element: <ProtectedRoute allowedRoles={["Admin"]}></ProtectedRoute>, children: [
                             { path: "CreateRoom", element: <CreateRoom /> },
                             { path: "EditRoom/:id", element: <EditRoom /> },
-                            { path: "RoomManagement", element: <RoomManagement></RoomManagement> },
-                            { path: "AllCompanies", element: <AllCompanies></AllCompanies> },
-                            { path: "AllInquires", element: <AllInquiries></AllInquiries> },
-                            { path: "CompaniesAdmin", element: <CompaniesAdmin></CompaniesAdmin> }
-
-                        ]
-                    },
-
-                    //admin and manager------------
-                    {
-                        element: <ProtectedRoute allowedRoles={["Admin", "Manager"]} ></ProtectedRoute>, children: [
-
-                            { path: "employees/new", element: <EmployeeForm /> },
-                            { path: "admin", element: <Admin></Admin> },
-                            { path: "CompanyForm", element: <CompanyForm></CompanyForm> },
-
-
-                        ]
-
-                    },
-                    {
-                        element: <ProtectedRoute allowedRoles={["Manager"]}></ProtectedRoute>, children: [
-
-                            { path: "MyCompany", element: <MyCompany></MyCompany> }
-                        ]
-                    }
-                    ,
-                    { path: "CreateBooking", element: <CreateBooking></CreateBooking> },
-                    { path: "home", element: <Home />, },
-                    { path: "inquiries", element: <MyInquiries></MyInquiries> },
-                    { path: "bookings", element: <Bookings></Bookings> },
-                    { path: "NewBookingForm", element: <CreateBooking ></CreateBooking> },
-                    { path: "dashboard", element: <Dashboard></Dashboard> },
-                    { path: "profile", element: <Profile ></Profile> },
-
-                    { path: "InquiryManagement/:id", element: <InquiryManagement></InquiryManagement> },
-                    { path: "NewInquiryForm", element: <NewInquiryForm></NewInquiryForm> },
-                    { path: "MyBookings", element: <MyBookings /> },
-                    { path: "Meetings", element: <Meetings></Meetings> },
-                    { path: "InquiriesPage", element: <InquiriesPage></InquiriesPage> },
-
+                            { path: "RoomManagement", element: <RoomManagement /> },
+                            { path: "AllCompanies", element: <AllCompanies /> },
+                            { path: "AllInquires", element: <AllInquiries /> },
+                            { path: "CompaniesAdmin", element: <CompaniesAdmin /> },
                         ],
                     },
+
+                    // Admin and Manager
+                    {
+                        element: (
+                            <ProtectedRoute
+                                allowedRoles={["Admin", "Manager"]}
+                            />
+                        ),
+                        children: [
+                            { path: "employees/new", element: <EmployeeForm /> },
+                            { path: "admin", element: <Admin /> },
+                            { path: "CompanyForm", element: <CompanyForm /> },
+                        ],
+                    },
+
+                    // Manager only
+                    {
+                        element: <ProtectedRoute allowedRoles={["Manager"]} />,
+                        children: [
+                            { path: "MyCompany", element: <MyCompany /> },
+                        ],
+                    },
+
+                    // Other routes
+                    { path: "CreateBooking", element: <CreateBooking /> },
+                    { path: "home", element: <Home /> },
+                    { path: "inquiries", element: <MyInquiries /> },
+                    { path: "bookings", element: <Bookings /> },
+                    { path: "NewBookingForm", element: <CreateBooking /> },
+                    { path: "dashboard", element: <Dashboard /> },
+                    { path: "profile", element: <Profile /> },
+                    {
+                        path: "InquiryManagement/:id",
+                        element: <InquiryManagement />,
+                    },
+                    { path: "NewInquiryForm", element: <NewInquiryForm /> },
+                    { path: "MyBookings", element: <MyBookings /> },
+                    { path: "Meetings", element: <Meetings /> },
+                    { path: "InquiriesPage", element: <InquiriesPage /> },
                 ],
             },
-
-            { path: "*", element: <p className="alert-error" style={{ margin: "2rem" }}>not found</p>, },
-
+            {
+                path: "*",
+                element: (
+                    <p
+                        className="alert-error"
+                        style={{ margin: "2rem" }}
+                    >
+                        not found
+                    </p>
+                ),
+            },
         ],
     },
 ]);
+
