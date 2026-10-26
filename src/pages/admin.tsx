@@ -20,9 +20,9 @@ const Admin = () => {
                     הוסף הזמנה
                 </Link>
                 {user?.role === "Admin" && (<>
-                    <Link to={"/RoomManagement"} className="btn">ניהול חדרים</Link>
-                    <Link to={"/CompaniesAdmin"} className="btn">ניהול חברות</Link>
-                    <Link to={"/allbookings"} className="btn">כל ההזמנות</Link>
+                    <Link to={"/RoomManagement"} className="btn btn-primary">ניהול חדרים</Link>
+                    <Link to={"/CompaniesAdmin"} className="btn btn-primary">ניהול חברות</Link>
+                    <Link to={"/allbookings"} className="btn btn-primary">כל ההזמנות</Link>
                 </>)}
 
             </div>
