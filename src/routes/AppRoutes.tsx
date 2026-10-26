@@ -21,8 +21,10 @@ import RoomManagement from "../features/rooms/RoomManagement";
 import { AllCompanies } from "../components/Company";
 import RootLayout from "./RootLayout";
 import CompaniesAdmin from "../pages/CompaniesAdmin";
-import MyCompany from "../components/myCompany";
 import GenaralDashboard from "../features/dashboard/GenaralDashboard";
+import AllBookings from "../features/bookings/allBookings";
+import Employees from "../components/Employees";
+import MyCompany from "../components/myCompany";
 
 export const router = createBrowserRouter([
     {
@@ -63,6 +65,7 @@ export const router = createBrowserRouter([
                             { path: "employees/new", element: <EmployeeForm /> },
                             { path: "admin", element: <Admin /> },
                             { path: "CompanyForm", element: <CompanyForm /> },
+                            {path:"allBookings",element:<AllBookings></AllBookings>}
                         ],
                     },
 
@@ -70,7 +73,8 @@ export const router = createBrowserRouter([
                     {
                         element: <ProtectedRoute allowedRoles={["Manager"]} />,
                         children: [
-                            { path: "MyCompany", element: <MyCompany /> },
+                            { path: "Employees", element: <Employees /> },
+                            {path:"mayCompany",element:<MyCompany></MyCompany>}
                         ],
                     },
 

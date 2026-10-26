@@ -1,15 +1,12 @@
-import { getCompanyBookings } from "../../api/bookings";
+import { getAllCompanyBookings } from "../../api/bookings";
 import Message from "../../components/message";
 import QueryMessage from "../../components/QueryMessage ";
 import { useApiQuery } from "../../hooks/useApiQuery";
 import type { Booking } from "../../types/domain";
 
 type CompanyBookingsProps = {
-    empId: number;
-    roomId: number;
-    companyId: number;
-    from: string;
-    to: string;
+    compId: number;
+   
 };
 
 type CompanyBookingsResponse = {
@@ -17,19 +14,16 @@ type CompanyBookingsResponse = {
 };
 
 export const CompanyBookings = ({
-    empId,
-    roomId,
-    companyId,
-    from,
-    to,
+    compId,
+   
 }: CompanyBookingsProps) => {
     const {
         data,
         isError,
         isPending,
     } = useApiQuery<CompanyBookingsResponse>(
-        ["company-bookings", empId, roomId, companyId, from, to],
-        () => getCompanyBookings(empId, roomId, companyId, from, to)
+        ["company-bookings", compId],
+        () => getAllCompanyBookings(compId)
     );
     const queryMessage = (<QueryMessage errorMessage="טעינת ההזמנות נכשלה" loadingMessage="טוען הזמנות..." isError={isError} isPending={isPending}></QueryMessage>)
 

@@ -19,27 +19,32 @@ const Admin = () => {
                 <button type="button" className="btn btn-primary" onClick={() => navigate("/CreateBooking")}>
                     הוסף הזמנה
                 </button>
-                {user?.role==="Admin"&&(<><Link to={"/RoomManagement"} className="btn">ניהול חדרים</Link>
-                <Link to={"/CompaniesAdmin"} className="btn">ניהול חברות</Link></>)}
-                
+                {user?.role === "Admin" && (<><Link to={"/RoomManagement"} className="btn">ניהול חדרים</Link>
+                    <Link to={"/CompaniesAdmin"} className="btn">ניהול חברות</Link></>)}
+
             </div>
 
             {user?.role === "Manager" && (
                 <>
-                 <div className="row-actions">
-                    <button type="button" className="btn btn-primary" onClick={() => navigate("/employees/new")}>
-                        הוסף עובד
-                    </button>
+                    <div className="row-actions">
+                        <button type="button" className="btn btn-primary" onClick={() => navigate("/employees/new")}>
+                            הוסף עובד
+                        </button>
+
+                        <button type="button" className="btn btn-primary" onClick={() => navigate("/Employees")}> ניהול עובדים</button>
+
                     </div>
                     <EmployeeManagement />
 
-                   
+
                 </>
             )}
 
             {user?.role === "Admin" && (<>
+                <button type="button" className="btn btn-primary" onClick={() => navigate("/allbookings")}> כל ההזמנות</button>
+
                 <RoomsList></RoomsList>
-              </>
+            </>
             )}
 
         </>

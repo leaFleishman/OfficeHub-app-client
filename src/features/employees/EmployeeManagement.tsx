@@ -42,6 +42,8 @@ const EmployeeManagement = () => {
                 <h1 className="page-title">ניהול עובדים</h1>
             </div>
 
+            
+
             {employees.length === 0 ? (
                 <Message message="לא נמצאו עובדים." />
             ) : (

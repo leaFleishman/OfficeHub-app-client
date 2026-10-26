@@ -14,6 +14,7 @@ const RoomManagement = () => {
         <div className="row-actions">
             <button type="button" className="btn btn-primary" onClick={() => navigate("/createRoom")}>הוסף חדר</button>
         </div>
+
         <RoomsList></RoomsList>
     </>)
 }

@@ -1,4 +1,3 @@
-// אנימציית לוגו OfficeHub - מוצגת מעל הגרפים בלוחות הבקרה
 
 const LETTERS = "OfficeHub".split("");
 

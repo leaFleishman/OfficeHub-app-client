@@ -1,26 +1,18 @@
 import { getMyCompany } from "../api/companies";
-import { getEmployees } from "../api/employees";
 import { useAuth } from "../auth/useAuth";
 import { useApiQuery } from "../hooks/useApiQuery";
-import type { User } from "../types/domain";
 import CompanyForm from "./CompanyForm";
-import EmployeeCard from "./EmployeeCard";
 import QueryMessage from "./QueryMessage ";
 import { useState } from "react";
-import Search from "./search";
 import Company from "./Company";
+import { CompanyBookings } from "../features/bookings/CompanyBookings";
 
 const MyCompany = () => {
     const { user } = useAuth()
     const companyId = user?.companyId
     const [editMode, setEditMode] = useState(false)
-    const [search, setSearch] = useState("");
     const { isError: companyIsError, isPending: companyIsPending, data: myCompany } = useApiQuery(["companies", companyId], () => getMyCompany());
-    const {
-        data: employees = [],
-        isError: employeesIsError,
-        isPending: employeesIsPending,
-    } = useApiQuery<User[]>(["employees"], getEmployees);
+    
 
     if (companyIsPending) {
         return (
@@ -34,17 +26,8 @@ const MyCompany = () => {
         );
     }
 
-    if (employeesIsPending) {
-        return (
-            <QueryMessage errorMessage="טעינת עובדים נכשלה" loadingMessage="טוען עובדים..." isError={employeesIsError} isPending={employeesIsPending} />
-        );
-    }
+   
 
-    if (employeesIsError) {
-        return (
-            <QueryMessage errorMessage="טעינת עובדים נכשלה" loadingMessage="טוען עובדים..." isError={true} isPending={false} />
-        );
-    }
     return (
         <div dir="rtl" className="stack-y">
             <h2 className="section-title">החברה שלי</h2>
@@ -55,14 +38,9 @@ const MyCompany = () => {
                 </div>
                 {editMode && <CompanyForm company={myCompany} />}
             </div>
-            <h2 className="section-title">העובדים שלנו</h2>
-            <p>חיפוש לפי מזהה עובד</p>
-            <Search search={search} onSearchChange={setSearch} />
-            <div className="card-grid">
-                {employees
-                    .filter((employee) => String(employee.id).includes(search.trim()))
-                    .map((employee: User) => <EmployeeCard key={employee.id} {...employee} />)}
-            </div>
+
+            {user?.companyId!=null && <CompanyBookings compId={user?.companyId} ></CompanyBookings>}
+          
         </div>
     );
 };

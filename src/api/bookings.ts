@@ -12,6 +12,13 @@ export const getCompanyBookings = async (empId: number, roomIs: number, compId: 
     return res.data
 }
 
+export const getAllCompanyBookings = async ( compId: number, page = 1, pageSize = 20) => {
+    const res = await api.get("bookings/company", {
+        params: { compId,  page, pageSize },
+    })
+    return res.data
+}
+
 export const cancelBooking = async (booking: Booking) => { const res = await api.delete(`bookings/${booking.id}`); return res.data }
 
 

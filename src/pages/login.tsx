@@ -86,7 +86,6 @@ export default function LoginForm() {
               {...register("password")}
             />
 
-            {/* שגיאת התחברות */}
             {isError && (
               <div
                 role="alert"
@@ -96,7 +95,6 @@ export default function LoginForm() {
               </div>
             )}
 
-            {/* כפתור */}
             <button
               type="submit"
               className="btn btn-primary btn-lg btn-block"

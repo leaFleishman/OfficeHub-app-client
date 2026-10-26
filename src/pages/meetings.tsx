@@ -3,12 +3,12 @@ import CreateBooking from "../features/bookings/createBooking"
 import { MyBookings } from "../features/bookings/MyBookings"
 
 const Meetings = () => {
-    const { user } = useAuth()
+  const { user } = useAuth()
 
-    return (<>
-        {user?.role !== "Employee" && (<CreateBooking></CreateBooking>)}
-      <MyBookings></MyBookings>
-    </>)
+  return (<>
+    {user?.role !== "Employee" && (<CreateBooking></CreateBooking>)}
+    <MyBookings></MyBookings>
+  </>)
 
 }
 export default Meetings
