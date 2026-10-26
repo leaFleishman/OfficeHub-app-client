@@ -103,7 +103,7 @@ export default function LoginForm() {
               disabled={isSubmitting}
 
             >
-              {isSubmitting ? "מתחברת..." : "התחברות"}
+              {isSubmitting ? "מתחבר..." : "התחברות"}
             </button>
           </form>
         </div>
