@@ -5,7 +5,7 @@ import EmployeeDashboard from "./EmployeeDashboard";
 import ManagerDashboard from "./ManagerDashboard";
 
 
-const Dashboard = () => {
+const GenaralDashboard = () => {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
@@ -30,4 +30,4 @@ const Dashboard = () => {
     </>) 
 };
 
-export default Dashboard;
+export default GenaralDashboard;

@@ -1,10 +1,9 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import Login from "../pages/login";
-import Home from "../pages/home";
+import Dashboard from "../pages/Dashboard";
 import Bookings from "../components/bookings";
 import { CreateRoom, EditRoom } from "../features/rooms/createRoom";
-import Dashboard from "../features/dashboard/Dashboard";
 import Profile from "../pages/profile";
 import CreateBooking from "../features/bookings/createBooking";
 import Admin from "../pages/admin";
@@ -23,6 +22,7 @@ import { AllCompanies } from "../components/Company";
 import RootLayout from "./RootLayout";
 import CompaniesAdmin from "../pages/CompaniesAdmin";
 import MyCompany from "../components/myCompany";
+import GenaralDashboard from "../features/dashboard/GenaralDashboard";
 
 export const router = createBrowserRouter([
     {
@@ -76,11 +76,11 @@ export const router = createBrowserRouter([
 
                     // Other routes
                     { path: "CreateBooking", element: <CreateBooking /> },
-                    { path: "home", element: <Home /> },
+                    { path: "home", element: <Dashboard /> },
                     { path: "inquiries", element: <MyInquiries /> },
                     { path: "bookings", element: <Bookings /> },
                     { path: "NewBookingForm", element: <CreateBooking /> },
-                    { path: "dashboard", element: <Dashboard /> },
+                    { path: "dashboard", element: <GenaralDashboard /> },
                     { path: "profile", element: <Profile /> },
                     {
                         path: "InquiryManagement/:id",

@@ -1,11 +1,11 @@
 import { MyBookings } from "../features/bookings/MyBookings"
-import Dashboard from "../features/dashboard/Dashboard"
+import GenaralDashboard from "../features/dashboard/GenaralDashboard"
 
-const Home = () => {
+const Dashboard = () => {
 
     return (
         <>
-            <Dashboard />
+            <GenaralDashboard />
 
 
             <h2 className="section-title">הזמנות חדרי הישיבות שלי החודש</h2>
@@ -15,4 +15,4 @@ const Home = () => {
     );
 }
 
-export default Home
+export default Dashboard

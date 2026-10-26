@@ -7,7 +7,7 @@ const Header = () => {
     return (
         <header className="site-header">
             <nav className="site-nav">
-              
+
                 <div className="nav-links">
                     <Link to="/home" className="brand-mark" aria-label="דף הבית">
                         O
@@ -17,37 +17,37 @@ const Header = () => {
                         to="/home"
                         className="nav-link"
                     >
-                        דף הבית
+                        לוח בקרה
                     </Link>
 
                     <Link
                         to="/InquiriesPage"
                         className="nav-link"
                     >
-                        פניות 
+                        פניות
                     </Link>
 
-                     <Link
+                    <Link
                         to="/Meetings"
                         className="nav-link"
                     >
-                        פגישות 
+                        פגישות
                     </Link>
-{user?.role==="Manager"&&(<>
-<Link to="/myCompany" className="nav-link">החברה שלי</Link>
+                    {user?.role === "Manager" && (<>
+                        <Link to="/myCompany" className="nav-link">החברה שלי</Link>
 
-</>
+                    </>
 
-)}
+                    )}
 
-{(user?.role=="Admin"||user?.role==="Manager")&&(<Link to="/admin" className="nav-link">ניהול</Link>
-)}
-{user?.role==="Admin"&&(<><Link to="/allInquires"  className="nav-link">טיפול בפניות</Link></>)}
+                    {(user?.role == "Admin" || user?.role === "Manager") && (<Link to="/admin" className="nav-link">ניהול</Link>
+                    )}
+                    {user?.role === "Admin" && (<><Link to="/allInquires" className="nav-link">טיפול בפניות</Link></>)}
 
-                   
+
                 </div>
 
-            
+
                 <div className="user-chip">
                     <div className="user-meta">
                         <p className="user-name">
