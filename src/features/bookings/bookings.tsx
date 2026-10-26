@@ -46,7 +46,7 @@ const Bookings = ({
 
     const queryMessage =(<QueryMessage errorMessage="טעינת הזמנות נכשלה" loadingMessage="טוען הזמנות..."  isError={isError} isPending={isPending}></QueryMessage>)
 
-   if (isPending || isError)
+   if (providedBookings === undefined && (isPending || isError))
     return queryMessage
 
     return (
