@@ -3,10 +3,7 @@ import type { InquiryStatus } from "../types/domain";
 import { api } from "./client";
 
 
-export const getAllInquiries = async () => {
-    const res = await api.get("inquiries");
-    return res.data.items
-}
+export const getAllInquiries = async () => { const res = await api.get("inquiries"); return res.data.items }
 
 export const getMyInquiries = async (status: InquiryStatus, page: number, pageSize: number) => {
     const res = await api.get("inquiries/mine", {
@@ -19,15 +16,9 @@ export const getMyInquiries = async (status: InquiryStatus, page: number, pageSi
     return res.data.items
 }
 
-export const getInquiriesById = async (id: number) => {
-    const res = await api.get(`inquiries/${id}`);
-    return res.data
-}
+export const getInquiriesById = async (id: number) => { const res = await api.get(`inquiries/${id}`); return res.data }
 
-export const AddInquiries = async (subject: string, content: string) => {
-    const res = await api.post("inquiries", { subject, content })
-    return res.data
-}
+export const AddInquiries = async (subject: string, content: string) => { const res = await api.post("inquiries", { subject, content }); return res.data }
 
 export const updateInquiry = async (id: number, status: string, reply: string) => {
     const res = await api.patch(`inquiries/${id}`, { status, reply })

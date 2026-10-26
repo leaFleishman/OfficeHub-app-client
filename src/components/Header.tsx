@@ -9,41 +9,16 @@ const Header = () => {
             <nav className="site-nav">
 
                 <div className="nav-links">
-                    <Link to="/home" className="brand-mark" aria-label="דף הבית">
-                        O
-                    </Link>
-
-                    <Link
-                        to="/home"
-                        className="nav-link"
-                    >
-                        לוח בקרה
-                    </Link>
-
-                    <Link
-                        to="/InquiriesPage"
-                        className="nav-link"
-                    >
-                        פניות
-                    </Link>
-
-                    <Link
-                        to="/Meetings"
-                        className="nav-link"
-                    >
-                        פגישות
-                    </Link>
+                    <Link to="/home" className="brand-mark" aria-label="דף הבית">O</Link>
+                    <Link to="/home" className="nav-link">לוח בקרה</Link>
+                {user?.role!=="Admin"&&(<Link to="/InquiriesPage" className="nav-link">פניות</Link>)}
+                    <Link to="/Meetings" className="nav-link">פגישות</Link>
                     {user?.role === "Manager" && (<>
                         <Link to="/myCompany" className="nav-link">החברה שלי</Link>
-
                     </>
-
                     )}
-
-                    {(user?.role == "Admin" || user?.role === "Manager") && (<Link to="/admin" className="nav-link">ניהול</Link>
-                    )}
+                    {(user?.role == "Admin" || user?.role === "Manager") && (<Link to="/admin" className="nav-link">ניהול</Link>)}
                     {user?.role === "Admin" && (<><Link to="/allInquires" className="nav-link">טיפול בפניות</Link></>)}
-
 
                 </div>
 
@@ -58,12 +33,7 @@ const Header = () => {
                         </p>
                     </div>
 
-                    <Link to={"/profile"}>
-                        <div className="avatar">
-                            {user?.name?.charAt(0)?.toUpperCase() ?? "?"}
-
-                        </div>
-                    </Link>
+                    <Link to={"/profile"}><div className="avatar">{user?.name?.charAt(0)?.toUpperCase() ?? "?"}</div></Link>
                     <button
                         onClick={logout}
                         className="btn btn-danger btn-sm"
