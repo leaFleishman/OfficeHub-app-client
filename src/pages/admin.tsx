@@ -16,14 +16,13 @@ const Admin = () => {
             </div>
 
             <div className="row-actions">
-                <button type="button" className="btn btn-primary" onClick={() => navigate("/CreateBooking")}>
+                <Link to="/CreateBooking" className="btn btn-primary">
                     הוסף הזמנה
-                </button>
+                </Link>
                 {user?.role === "Admin" && (<>
                     <Link to={"/RoomManagement"} className="btn">ניהול חדרים</Link>
                     <Link to={"/CompaniesAdmin"} className="btn">ניהול חברות</Link>
-                    <button type="button" className="btn btn-primary" onClick={() => navigate("/allbookings")}> כל ההזמנות</button>
-
+                    <Link to={"/allbookings"} className="btn">כל ההזמנות</Link>
                 </>)}
 
             </div>
