@@ -31,7 +31,6 @@ const Admin = () => {
                             הוסף עובד
                         </button>
 
-                        <button type="button" className="btn btn-primary" onClick={() => navigate("/Employees")}> ניהול עובדים</button>
 
                     </div>
                     <EmployeeManagement />
