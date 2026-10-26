@@ -8,24 +8,43 @@ import { useApiMutation } from "../hooks/useApiMutation";
 import type { Company } from "../types/domain";
 import FormField from "./FormField";
 
-const schema = z.object({
+const schemaFields = {
     name: z.string().trim().min(3, "שם החברה חייב להכיל לפחות 3 תווים"),
     floor: z.number().int("יש להזין מספר קומה שלם"),
-    phone: z
-        .string()
-        .regex(/^\d{7,10}$/, "יש להזין מספר טלפון בן 7 עד 10 ספרות"),
-    managerName: z.string().trim().min(2, "יש להזין שם מנהל"),
-    managerEmail: z.string().email("כתובת אימייל לא תקינה"),
-    managerPassword: z.string().min(8, "הסיסמה חייבת להכיל לפחות 8 תווים")
-});
+    phone: z.string().regex(/^\d{7,10}$/, "יש להזין מספר טלפון בן 7 עד 10 ספרות"),
+    managerName: z.string().trim().min(2, "יש להזין שם מנהל").optional(),
+    managerEmail: z.string().email("כתובת אימייל לא תקינה").optional(),
+    managerPassword: z.string().min(8, "הסיסמה חייבת להכיל לפחות 8 תווים").optional(),
+};
 
-type FormData = z.infer<typeof schema>;
+type FormData = {
+    name: string;
+    floor: number;
+    phone: string;
+    managerName?: string;
+    managerEmail?: string;
+    managerPassword?: string;
+};
 
 type CompanyFormProps = {
     company?: Company;
 };
 
 const CompanyForm = ({ company }: CompanyFormProps) => {
+    const schema = z.object(schemaFields).superRefine((data, context) => {
+        if (!company) {
+            if (!data.managerName) {
+                context.addIssue({ code: "custom", path: ["managerName"], message: "יש להזין שם מנהל" });
+            }
+            if (!data.managerEmail) {
+                context.addIssue({ code: "custom", path: ["managerEmail"], message: "יש להזין כתובת אימייל תקינה" });
+            }
+            if (!data.managerPassword) {
+                context.addIssue({ code: "custom", path: ["managerPassword"], message: "הסיסמה חייבת להכיל לפחות 8 תווים" });
+            }
+        }
+    });
+
     const mutation = useApiMutation(
         (data: FormData) => {
             if (company) {
@@ -34,6 +53,10 @@ const CompanyForm = ({ company }: CompanyFormProps) => {
                     data.floor,
                     data.phone
                 );
+            }
+
+            if (!data.managerName || !data.managerEmail || !data.managerPassword) {
+                throw new Error("יש להזין את פרטי מנהל החברה");
             }
 
             return createCompany(

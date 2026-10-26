@@ -23,7 +23,7 @@ const Company = ({ company }: CompanyProps) => {
         <>
             <div
                 dir="rtl"
-                className="card card-hover"
+                className="card card-hover company-card"
             >
                 <div className="card-title-row">
                     <div className="card-icon">
@@ -120,7 +120,7 @@ export const AllCompanies = () => {
                 const searchText = search.trim().toLowerCase();
                 return company.name.toLowerCase().includes(searchText);
             }).map((company: CompanyData) => (
-                <div key={company.id}>
+                <div key={company.id} className="company-card-item">
                     <Company company={company} />
                 </div>
             ))}
