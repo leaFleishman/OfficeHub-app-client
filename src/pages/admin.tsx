@@ -19,8 +19,12 @@ const Admin = () => {
                 <button type="button" className="btn btn-primary" onClick={() => navigate("/CreateBooking")}>
                     הוסף הזמנה
                 </button>
-                {user?.role === "Admin" && (<><Link to={"/RoomManagement"} className="btn">ניהול חדרים</Link>
-                    <Link to={"/CompaniesAdmin"} className="btn">ניהול חברות</Link></>)}
+                {user?.role === "Admin" && (<>
+                    <Link to={"/RoomManagement"} className="btn">ניהול חדרים</Link>
+                    <Link to={"/CompaniesAdmin"} className="btn">ניהול חברות</Link>
+                    <button type="button" className="btn btn-primary" onClick={() => navigate("/allbookings")}> כל ההזמנות</button>
+
+                </>)}
 
             </div>
 
@@ -40,7 +44,6 @@ const Admin = () => {
             )}
 
             {user?.role === "Admin" && (<>
-                <button type="button" className="btn btn-primary" onClick={() => navigate("/allbookings")}> כל ההזמנות</button>
 
                 <RoomsList></RoomsList>
             </>
