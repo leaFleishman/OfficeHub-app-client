@@ -74,7 +74,7 @@ export const router = createBrowserRouter([
                         element: <ProtectedRoute allowedRoles={["Manager"]} />,
                         children: [
                             { path: "Employees", element: <Employees /> },
-                            {path:"mayCompany",element:<MyCompany></MyCompany>}
+                            { path: "myCompany", element: <MyCompany /> }
                         ],
                     },
 
@@ -110,4 +110,3 @@ export const router = createBrowserRouter([
         ],
     },
 ]);
-
