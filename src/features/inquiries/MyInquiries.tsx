@@ -1,7 +1,7 @@
 // הפניות שלי - GET /inquiries/mine
 
 import { getMyInquiries } from "../../api/inquiries";
-import InquiryCard from "../../components/InqueryCard";
+import InquiryCard from "./InqueryCard";
 import Message from "../../components/message";
 import QueryMessage from "../../components/QueryMessage ";
 import { useApiQuery } from "../../hooks/useApiQuery";

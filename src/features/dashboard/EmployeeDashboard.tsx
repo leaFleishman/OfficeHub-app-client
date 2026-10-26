@@ -8,7 +8,6 @@ import type { Booking } from "../../types/domain";
 import QueryMessage from "../../components/QueryMessage ";
 
 const EmployeeDashboard = () => {
-    // נתוני לוח הבקרה
     const {
         data: dashboard,
         isPending: dashboardIsPending,
@@ -32,8 +31,8 @@ const EmployeeDashboard = () => {
             <QueryMessage
                 errorMessage="טעינה נכשלה"
                 loadingMessage="טוען..."
-                isError={false}
-                isPending={true}
+                isError={dashboardIsError || bookingsIsError}
+                isPending={dashboardIsPending || bookingsIsPending}
             />
         );
     }
@@ -49,12 +48,10 @@ const EmployeeDashboard = () => {
         );
     }
 
-    // מספר הפגישות הפעילות
     const activeBookings = bookings.filter(
         (booking) => booking.status === "Active"
     ).length;
 
-    // מספר הפגישות שאינן פעילות
     const inactiveBookings = bookings.filter(
         (booking) => booking.status !== "Active"
     ).length;
@@ -66,7 +63,6 @@ const EmployeeDashboard = () => {
                 <h1 className="page-title">לוח עובד משרד</h1>
             </div>
 
-            {/* כרטיסי נתונים */}
             <div className="stat-grid">
                 <StatCard
                     title="פגישות"
@@ -87,7 +83,6 @@ const EmployeeDashboard = () => {
                 />
             </div>
 
-            {/* גרף הפגישות */}
             {bookings.length > 0 && (
                 <section className="card chart-card">
                     <div className="chart-head">

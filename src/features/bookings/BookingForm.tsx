@@ -6,13 +6,13 @@ import type {
     UseFormSetValue,
 } from "react-hook-form";
 
-import type { BookingFormValues } from "../features/bookings/bookingFormSchema";
-import type { Room, User } from "../types/domain";
+import type { BookingFormValues } from "./bookingFormSchema";
+import type { Room, User } from "../../types/domain";
 
-import FormField from "./FormField";
-import Message from "./message";
-import BookingParticipants from "../features/bookings/BookingParticipants ";
-import AvailableRooms from "../features/bookings/AvailableRooms";
+import FormField from "../../components/FormField";
+import Message from "../../components/message";
+import BookingParticipants from "./BookingParticipants ";
+import AvailableRooms from "./AvailableRooms";
 
 
 type Props = {

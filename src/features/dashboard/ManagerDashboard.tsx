@@ -2,24 +2,22 @@
 
 
 import { getCompanyDashboard } from "../../api/dashboard";
-import Message from "../../components/message";
+import QueryMessage from "../../components/QueryMessage ";
 import StatCard from "../../components/StatCard";
 import { useApiQuery } from "../../hooks/useApiQuery";
 
 const ManagerDashboard = () => {
     const { data, isLoading, isError } = useApiQuery([["employees", "bookings", "inquiries"]], getCompanyDashboard);
 
-   
-   
-
-    {
-    }
-    if (isLoading) {
-        return <Message message=">בטעינה..."></Message>
-    }
-
-    if (isError||!data) {
-        return <Message message="שגיאה"></Message>
+    if (isLoading || isError || !data) {
+        return (
+            <QueryMessage
+                errorMessage="טעינת לוח הבקרה נכשלה"
+                loadingMessage="טוען..."
+                isError={isError || !data}
+                isPending={isLoading}
+            />
+        );
     }
     const details = data.nextMeeting
   ? `${data.nextMeeting.subject} - ${data.nextMeeting.roomName} - ${data.nextMeeting.date}`

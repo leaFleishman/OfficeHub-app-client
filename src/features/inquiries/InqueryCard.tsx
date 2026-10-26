@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../auth/useAuth";
-import type { Inquiry } from "../types/domain";
+import { useAuth } from "../../auth/useAuth";
+import type { Inquiry } from "../../types/domain";
 
 type InquiryCardProps = {
     inquery: Inquiry;

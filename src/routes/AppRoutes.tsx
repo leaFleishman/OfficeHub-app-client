@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import Login from "../pages/login";
 import Dashboard from "../pages/Dashboard";
-import Bookings from "../components/bookings";
+import Bookings from "../features/bookings/bookings";
 import { CreateRoom, EditRoom } from "../features/rooms/createRoom";
 import Profile from "../pages/profile";
 import CreateBooking from "../features/bookings/createBooking";

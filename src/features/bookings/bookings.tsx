@@ -1,12 +1,12 @@
 
 import { useState } from "react";
-import { useApiMutation } from "../hooks/useApiMutation";
-import { cancelBooking, getMyBookings } from "../api/bookings";
-import type { Booking } from "../types/domain";
-import { useApiQuery } from "../hooks/useApiQuery";
-import ConfirmDialog from "./ConfirmDialog";
-import { useAuth } from "../auth/useAuth";
-import QueryMessage from "./QueryMessage ";
+import { useApiMutation } from "../../hooks/useApiMutation";
+import { cancelBooking, getMyBookings } from "../../api/bookings";
+import type { Booking } from "../../types/domain";
+import { useApiQuery } from "../../hooks/useApiQuery";
+import ConfirmDialog from "../../components/ConfirmDialog";
+import { useAuth } from "../../auth/useAuth";
+import QueryMessage from "../../components/QueryMessage ";
 
 type BookingsProps = {
     bookings?: Booking[];

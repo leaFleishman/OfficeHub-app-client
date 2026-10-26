@@ -21,12 +21,7 @@ const FormField = ({
 }: FormFieldProps) => {
     return (
         <div className="field">
-            <label
-                htmlFor={id}
-                className="field-label"
-            >
-                {label}
-            </label>
+            <label htmlFor={id} className="field-label">{label}</label>
 
             {children ?? (
                 <input
@@ -43,13 +38,7 @@ const FormField = ({
             )}
 
             {error && (
-                <p
-                    id={`${id}-error`}
-                    role="alert"
-                    className="field-error"
-                >
-                    {error}
-                </p>
+                <p id={`${id}-error`} role="alert" className="field-error">{error}</p>
             )}
         </div>
     );

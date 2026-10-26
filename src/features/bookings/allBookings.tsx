@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { getAllBookings } from "../../api/bookings";
 import Message from "../../components/message";
-import Bookings from "../../components/bookings";
+import Bookings from "./bookings";
 import { useApiQuery } from "../../hooks/useApiQuery";
 import type { Booking, Page } from "../../types/domain";
 import QueryMessage from "../../components/QueryMessage ";
 
 const AllBookings = () => {
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState<number>(1);
     const { isError, isPending, data } = useApiQuery<Page<Booking>>(
         ["bookings", "all", page],
         () => getAllBookings(page)
     );
-    const queryMessage = (<QueryMessage errorMessage="טעינת הזמנות נכשלה" loadingMessage="טוען הזמנות..." isError={isError} isPending={isPending}></QueryMessage>)
+    const queryMessage = (<QueryMessage errorMessage="טעינת הזמנות נכשלה" loadingMessage="טוען הזמנות..." isError={isError} isPending={isPending} ></QueryMessage>)
 
     if (isPending || isError)
         return queryMessage

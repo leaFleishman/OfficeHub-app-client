@@ -1,4 +1,4 @@
-import Bookings from "../../components/bookings";
+import Bookings from "./bookings";
 
 // הפגישות שלי - GET /bookings/mine, ביטול פגישה
 

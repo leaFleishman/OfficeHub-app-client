@@ -1,5 +1,5 @@
 import { getAllInquiries } from "../../api/inquiries"
-import InqueryCard from "../../components/InqueryCard"
+import InqueryCard from "./InqueryCard"
 import Message from "../../components/message"
 import QueryMessage from "../../components/QueryMessage "
 import { useApiQuery } from "../../hooks/useApiQuery"

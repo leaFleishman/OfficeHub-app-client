@@ -8,7 +8,7 @@ import { getAvailableRooms } from "../../api/rooms";
 import { useApiMutation } from "../../hooks/useApiMutation";
 import { useApiQuery } from "../../hooks/useApiQuery";
 import type { CreateBookingInput, Room, User } from "../../types/domain";
-import BookingForm from "../../components/BookingForm";
+import BookingForm from "./BookingForm";
 import { bookingFormSchema } from "./bookingFormSchema";
 import type { BookingFormValues } from "./bookingFormSchema";
 

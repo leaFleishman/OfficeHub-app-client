@@ -27,13 +27,12 @@ const EmployeeManagement = () => {
         />
     );
 
-    if (isPending || isError) {
+    if (isPending || isError||!employees) {
         return queryMessage;
     }
 
     const filteredEmployees = employees.filter((employee) => {
-        const searchText = search.trim().toLowerCase();
-        return String(employee.id).includes(searchText);
+        return String(employee.id).includes(search.trim());
     });
 
     return (

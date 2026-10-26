@@ -1,9 +1,9 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteRoom } from "../api/rooms";
-import { useApiMutation } from "../hooks/useApiMutation";
-import type { Room } from "../types/domain";
+import { deleteRoom } from "../../api/rooms";
+import { useApiMutation } from "../../hooks/useApiMutation";
+import type { Room } from "../../types/domain";
 
 const equipmentLabels: Record<string, string> = {
     Projector: "מקרן",
