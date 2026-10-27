@@ -23,6 +23,19 @@ export const AuthProvider = ({
     };
 
     useEffect(() => {
+        const handleUnauthorized = () => {
+            setUser(null);
+            setIsLoading(false);
+            navigate("/login", { replace: true });
+        };
+
+        window.addEventListener("auth:unauthorized", handleUnauthorized);
+        return () => {
+            window.removeEventListener("auth:unauthorized", handleUnauthorized);
+        };
+    }, [navigate]);
+
+    useEffect(() => {
         if (!localStorage.getItem('token')) {
             setIsLoading(false)
             return;
