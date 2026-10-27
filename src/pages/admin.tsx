@@ -6,7 +6,6 @@ import RoomsList from "../features/rooms/RoomsList";
 
 const Admin = () => {
     const { user } = useAuth();
-    const navigate = useNavigate();
 
     return (
         <>
