@@ -19,6 +19,15 @@ const Admin = () => {
                 <Link to="/CreateBooking" className="btn btn-primary">
                     הוסף הזמנה
                 </Link>
+                {user?.role === "Admin" && (
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => navigate("/employees/new")}
+                    >
+                        הוסף עובד
+                    </button>
+                )}
                 {user?.role === "Admin" && (<>
                     <Link to={"/RoomManagement"} className="btn btn-primary">ניהול חדרים</Link>
                     <Link to={"/CompaniesAdmin"} className="btn btn-primary">ניהול חברות</Link>
