@@ -19,15 +19,15 @@ const Admin = () => {
                 <Link to="/CreateBooking" className="btn btn-primary">
                     הוסף הזמנה
                 </Link>
-                {user?.role === "Admin" && (
+                {/* {user?.role === "Admin" && (
                     <button
                         type="button"
                         className="btn btn-primary"
-                        onClick={() => navigate("/employees/new")}
+                        onClick={() => navigate("")}
                     >
                         הוסף עובד
                     </button>
-                )}
+                )} */}
                 {user?.role === "Admin" && (<>
                     <Link to={"/RoomManagement"} className="btn btn-primary">ניהול חדרים</Link>
                     <Link to={"/CompaniesAdmin"} className="btn btn-primary">ניהול חברות</Link>
@@ -39,9 +39,8 @@ const Admin = () => {
             {user?.role === "Manager" && (
                 <>
                     <div className="row-actions">
-                        <button type="button" className="btn btn-primary" onClick={() => navigate("/employees/new")}>
-                            הוסף עובד
-                        </button>
+                       
+                       <Link className="btn btn-primary" to={"/employees/new"}>הוסף עובד</Link>
 
 
                     </div>
